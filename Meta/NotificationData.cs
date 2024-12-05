@@ -6,7 +6,7 @@ namespace ClinicalXPDataConnections.Meta
 {
     public interface INotificationData
     {
-        public string GetMessage();
+        public string GetMessage(string messageCode);
     }
     public class NotificationData : INotificationData
     {        
@@ -18,11 +18,11 @@ namespace ClinicalXPDataConnections.Meta
         }        
        
 
-        public string GetMessage()
+        public string GetMessage(string messageCode)
         {
             string message = ""; 
 
-            IQueryable<Notification> messageNotifications = _context.Notifications.Where(n => n.MessageCode == "ClinicalXPDataConnectionsOutage" && n.IsActive == true);
+            IQueryable<Notification> messageNotifications = _context.Notifications.Where(n => n.MessageCode == messageCode && n.IsActive == true);
 
             if (messageNotifications.Count() > 0) 
             { 

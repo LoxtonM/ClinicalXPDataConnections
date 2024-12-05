@@ -17,7 +17,8 @@ namespace ClinicalXPDataConnections.Meta
         public string GetStaffCode(string userName);
         public string GetStaffName(string userName);
         public string GetStaffNameFromStaffCode(string staffCode);
-
+        public StaffMember GetStaffMemberDetailsByStaffCode(string staffCode);
+        public List<StaffMember> GetStaffMemberListByRole(string jobRole);
     }
     public class StaffUserData : IStaffUserData
     {
@@ -111,7 +112,21 @@ namespace ClinicalXPDataConnections.Meta
             return staffName;
         }
 
-        
+        public StaffMember GetStaffMemberDetailsByStaffCode(string staffCode)
+        {
+            var staffUser = _clinContext.StaffMembers.FirstOrDefault(s => s.STAFF_CODE == staffCode);
+
+            return staffUser;
+        }
+
+        public List<StaffMember> GetStaffMemberListByRole(string jobRole)
+        {
+            var staffList = _clinContext.StaffMembers.Where(s => s.CLINIC_SCHEDULER_GROUPS == jobRole && s.InPost == true).OrderBy(s => s.NAME).ToList();
+
+            return staffList;
+        }
+
+
 
     }
 }
