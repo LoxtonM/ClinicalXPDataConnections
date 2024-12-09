@@ -9,6 +9,7 @@ namespace CPTest.Connections
         public List<WaitingList> GetWaitingListByCGUNo(string searchTerm);
         public WaitingList GetWaitingListEntry(int intID, string clinicianID, string clinicID);
         public WaitingList GetWaitingListEntryByID(int id);
+        public WaitingList GetFirstEntry();
     }
     public class WaitingListData : IWaitingListData
     {
@@ -60,6 +61,13 @@ namespace CPTest.Connections
         {
             WaitingList waitingList = _context.WaitingList.FirstOrDefault(w => w.ID == id);
             
+
+            return waitingList;
+        }
+
+        public WaitingList GetFirstEntry() //literally just get anything - because the "remove from waiting list" function won't work without it!!
+        {
+            WaitingList waitingList = _context.WaitingList.FirstOrDefault();
 
             return waitingList;
         }
