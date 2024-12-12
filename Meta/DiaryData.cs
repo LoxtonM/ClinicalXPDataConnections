@@ -10,6 +10,7 @@ namespace ClinicalXPDataConnections.Meta
         public List<Diary> GetDiaryList(int id);
         public List<Diary> GetDiaryListByRefID(int refID);
         public Diary GetLatestDiaryByRefID(int refID, string? docCode = "");
+        public Diary GetDiaryEntry(int diaryID);
     }
     public class DiaryData : IDiaryData
     {
@@ -42,6 +43,13 @@ namespace ClinicalXPDataConnections.Meta
         public Diary GetLatestDiaryByRefID(int refID, string? docCode = "")
         {
             Diary diary = _clinContext.Diary.FirstOrDefault(d => d.RefID == refID && d.DocCode == docCode);
+
+            return diary;
+        }
+
+        public Diary GetDiaryEntry(int diaryID)
+        {
+            Diary diary = _clinContext.Diary.FirstOrDefault(d => d.DiaryID == diaryID);
 
             return diary;
         }

@@ -1,6 +1,5 @@
 ﻿using ClinicalXPDataConnections.Data;
 using ClinicalXPDataConnections.Models;
-using Microsoft.EntityFrameworkCore;
 using System.Data;
 
 namespace ClinicalXPDataConnections.Meta
