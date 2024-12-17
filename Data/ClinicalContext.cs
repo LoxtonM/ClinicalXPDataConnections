@@ -55,5 +55,7 @@ namespace ClinicalXPDataConnections.Data
         public DbSet<ICPCancerReviewAction> ICPCancerReviewActionsList { get; set; }
         public DbSet<ClinicSlot> ClinicSlots { get; set; }
         public DbSet<WaitingList> WaitingList { get; set; }
+        public DbSet<Supervisors> Supervisors { get; set; }
+        public DbSet<AreaNames> AreaNames { get; set; }
     }
 }

@@ -52,7 +52,17 @@ namespace ClinicalXPDataConnections.Meta
             Diagnosis diagnosis = _clinContext.Diagnosis.FirstOrDefault(i => i.ID == id);
 
             return diagnosis;
-        }  
+        }
+        
+        public List<Disease> GetClinicalIndicationsList()
+        {
+            IQueryable<Disease> items = from i in _clinContext.Diseases
+                                        where i.EXCLUDE_CLINIC == 0
+                                        orderby i.DESCRIPTION
+                                        select i;
+
+            return items.ToList();
+        }
 
     }
 }

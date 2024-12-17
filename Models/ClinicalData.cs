@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -245,6 +246,22 @@ namespace ClinicalXPDataConnections.Models
         public DateTime? BreachDate { get; set; }
         public string? Status_Admin {  get; set; }
         public string? Clics {  get; set; }
+        public string? PREGNANCY { get; set; }
+        public string? UBRN { get; set; }
+        public string? RefReasonCode { get; set; }
+        public string? OthReason1 { get; set; }
+        public string? OthReason2 { get; set; }
+        public string? OthReason3 { get; set; }
+        public string? OthReason4 { get; set; }
+        public int? RefReasonAff { get; set; }
+        public int? OthReason1Aff { get; set; }
+        public int? OthReason2Aff { get; set; }
+        public int? OthReason3Aff { get; set; }
+        public int? OthReason4Aff { get; set; }
+        public int? RefFHF { get; set; }
+        public int? RefSympt { get; set; }
+        public string? PtAreaCode { get; set; }
+        public string? PtAreaName { get; set; }
     }
 
     [Table("MasterActivityTable", Schema="dbo")] //Any activity
@@ -473,6 +490,7 @@ namespace ClinicalXPDataConnections.Models
         [Key]
         public string DISEASE_CODE { get; set; }
         public string DESCRIPTION { get; set; }
+        public Int16 EXCLUDE_CLINIC { get; set; }
     }
 
     [Table("DISEASE_STATUS", Schema = "dbo")] //List of all statuses for diagnoses
@@ -793,5 +811,31 @@ namespace ClinicalXPDataConnections.Models
         public int PriorityLevel { get; set; }
         public string Priority { get; set; }
         public string? Comment { get; set; }
+    }
+
+    [Table("ListSupervisors", Schema = "dbo")]
+    public class Supervisors
+    {
+        [Key]
+        public int ID { get; set; }
+        public string StaffCode { get; set; }
+        public bool isGCSupervisor { get; set; }
+        public bool isConsSupervisor { get; set; }
+    }
+
+    [Table("ListAreaNames", Schema = "dbo")]
+    public class AreaNames
+    {
+        [Key]
+        public int AreaID { get; set; }
+        public string AreaCode { get; set; }
+        public string AreaName { get; set; }
+        public string? FHCStaffCode { get; set; }
+        public string? ConsCode { get; set; }
+        public string? GC { get; set; }
+        public string? GenCons { get; set; }
+        public string? GenGC { get; set; }
+        public string? GenAdmin { get; set; }
+        public bool InUse { get; set; }
     }
 }
