@@ -490,7 +490,7 @@ namespace ClinicalXPDataConnections.Models
         [Key]
         public string DISEASE_CODE { get; set; }
         public string DESCRIPTION { get; set; }
-        public Int16 EXCLUDE_CLINIC { get; set; }
+        public Int16? EXCLUDE_CLINIC { get; set; }
     }
 
     [Table("DISEASE_STATUS", Schema = "dbo")] //List of all statuses for diagnoses
