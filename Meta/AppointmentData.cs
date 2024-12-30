@@ -14,8 +14,8 @@ namespace ClinicalXPDataConnections.Meta
         public List<Appointment> GetMDC(string staffCode, DateTime? startDate, DateTime? endDate);
         public List<Appointment> GetAppointmentsByClinic(string staffCode, string clinic, DateTime? startDate, DateTime? endDate);
         public List<Appointment> GetAppointmentsByMonth(string staffCode, int month, int year);
-
         public List<Appointment> GetAppointmentListByReferral(int refID);
+        public List<Appointment> GetAppointmentListByPatient(int mpi);
 
     }
     public class AppointmentData : IAppointmentData
@@ -97,7 +97,7 @@ namespace ClinicalXPDataConnections.Meta
             var apt = _context.Clinics.Where(a => (a.STAFF_CODE_1 == staffCode ||
                                                     a.STAFF_CODE_2 == staffCode ||
                                                     a.STAFF_CODE_3 == staffCode)
-                                                    & a.AppType.Contains("app"));
+                                                    & !a.AppType.Contains("MD"));
 
             apt = apt.Where(a => a.BOOKED_DATE > startDate);
             apt = apt.Where(a => a.BOOKED_DATE < endDate);
@@ -122,8 +122,7 @@ namespace ClinicalXPDataConnections.Meta
         {
             var apt = _context.Clinics.Where(a => (a.STAFF_CODE_1 == staffCode ||
                                                     a.STAFF_CODE_2 == staffCode ||
-                                                    a.STAFF_CODE_3 == staffCode)
-                                                    & (a.AppType.Contains("app") || a.AppType.Contains("MD"))
+                                                    a.STAFF_CODE_3 == staffCode                                                    )
                                                     & a.Clinic == clinic);
 
             apt = apt.Where(a => a.BOOKED_DATE > startDate);
@@ -136,8 +135,7 @@ namespace ClinicalXPDataConnections.Meta
         {
             var apt = _context.Clinics.Where(a => (a.STAFF_CODE_1 == staffCode ||
                                                     a.STAFF_CODE_2 == staffCode ||
-                                                    a.STAFF_CODE_3 == staffCode)
-                                                    & (a.AppType.Contains("app") || a.AppType.Contains("MD")));
+                                                    a.STAFF_CODE_3 == staffCode));
 
             DateTime startDate = DateTime.Parse(year + "-" + month + "-" + 1);
             DateTime endDate = DateTime.Parse(year + "-" + (month + 1) + "-" + 1);
@@ -151,6 +149,13 @@ namespace ClinicalXPDataConnections.Meta
         public List<Appointment> GetAppointmentListByReferral(int refID)
         {
             var apt = _context.Clinics.Where(a => a.ReferralRefID == refID);
+
+            return apt.ToList();
+        }
+
+        public List<Appointment> GetAppointmentListByPatient(int mpi)
+        {
+            var apt = _context.Clinics.Where(a => a.MPI == mpi);
 
             return apt.ToList();
         }

@@ -43,7 +43,7 @@ namespace ClinicalXPDataConnections.Meta
 
         public List<Relative> GetRelativeDetailsByName(string forename, string surname)
         {
-            List<Relative> rels = _clinContext.Relatives.Where(r => r.RelForename1 == forename && r.RelSurname == surname).ToList();
+            List<Relative> rels = _clinContext.Relatives.Where(r => r.RelForename1.Contains(forename) && r.RelSurname.Contains(surname)).ToList();
 
             return rels;
         }

@@ -10,6 +10,7 @@ namespace ClinicalXPDataConnections.Meta
         public List<Patient> GetPatientsListByName(string? firstname, string? lastname);
         public List<Patient> GetPatientsListByNHS(string? nhsNo);
         public List<Patient> GetPatientsListByDOB(DateTime dob);
+        public List<Patient> GetPatientsListByPostCode(string postCode);
         //the reason for multiple "GetPatientsLists", and not one with multiple parameters, is because in order to do that,
         //the "patients" list would have to be created first and then narrowed by criteria.
         //This would result in very long loading times, as there are a LOT of patients, and I don't really want to select them all
@@ -48,6 +49,13 @@ namespace ClinicalXPDataConnections.Meta
         public List<Patient> GetPatientsListByDOB(DateTime dob)        
         {
             IQueryable<Patient> patients = _clinContext.Patients.Where(p => p.DOB == dob);
+
+            return patients.ToList();
+        }
+
+        public List<Patient> GetPatientsListByPostCode(string postCode)
+        {
+            IQueryable<Patient> patients = _clinContext.Patients.Where(p => p.POSTCODE.Contains(postCode));
 
             return patients.ToList();
         }

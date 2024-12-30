@@ -9,6 +9,7 @@ namespace ClinicalXPDataConnections.Meta
         public List<Appointment> GetClinicList(string username);
         public List<Appointment> GetClinicListByDate(DateTime dateFrom, DateTime dateTo);
         public List<Appointment> GetClinicByPatientsList(int mpi);
+        public List<Appointment> GetAllOutstandingClinics();
         public Appointment GetClinicDetails(int refID);
         public List<Outcome> GetOutcomesList();
         public List<Ethnicity> GetEthnicitiesList();
@@ -54,6 +55,16 @@ namespace ClinicalXPDataConnections.Meta
                         where c.MPI.Equals(mpi)
                         orderby c.BOOKED_DATE descending
                         select c;
+
+            return appts.ToList();
+        }
+
+        public List<Appointment> GetAllOutstandingClinics()
+        {
+            IQueryable<Appointment> appts = from c in _clinContext.Clinics
+                                            where c.BOOKED_DATE != null && c.BOOKED_TIME != null && c.Attendance == "NOT RECORDED"
+                                            orderby c.BOOKED_DATE descending, c.BOOKED_TIME 
+                                            select c; 
 
             return appts.ToList();
         }

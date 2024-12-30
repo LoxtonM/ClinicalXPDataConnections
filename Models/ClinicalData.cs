@@ -262,6 +262,8 @@ namespace ClinicalXPDataConnections.Models
         public int? RefSympt { get; set; }
         public string? PtAreaCode { get; set; }
         public string? PtAreaName { get; set; }
+        public string? Pathway_Subset { get; set; }
+        public string? REASON_FOR_BREACH { get; set; }
     }
 
     [Table("MasterActivityTable", Schema="dbo")] //Any activity
@@ -309,7 +311,7 @@ namespace ClinicalXPDataConnections.Models
         public string? REASON_FOR_REFERRAL { get; set; }
     }
 
-    [Table("PatientDiary", Schema = "dbo")]
+    [Table("ViewPatientDiaryDetails", Schema = "dbo")]
     public class Diary
     {
         [Key]
@@ -317,10 +319,15 @@ namespace ClinicalXPDataConnections.Models
         public int WMFACSID { get; set; }
         public DateTime? DiaryDate { get; set; }
         public string? DiaryWith { get; set; }
+        public string? DiaryWithName { get; set; }
+        public string? DiaryCons { get; set; }
+        public string? DiaryConsName { get; set; }
         public string? DiaryAction { get; set; }
         public string? DiaryText { get; set; }
         public string? DocCode { get; set; }
         public int? RefID { get; set; }
+        public string? LetterFrom { get; set; }
+        public string? LetterTo { get; set; }
     }
 
     [Table("ViewTriageDetails", Schema = "dbo")] //Cases to be triaged
