@@ -78,7 +78,18 @@ namespace ClinicalXPDataConnections.Models
         public string? Ethnic { get; set; }
         public string? EthnicCode { get; set; }
         public string? DCTM_Folder_ID { get; set; }
-    }   
+        public int Patient_Dctm_Sts { get; set; }
+    }
+
+    [Table("PEDIGREE", Schema = "dbo")]
+    public class Pedigree
+    {
+        [Key]
+        public string PEDNO { get; set; }
+        public string? PEDIGREE_NAME { get; set; }
+        public int File_Dctm_Sts {  get; set; }
+        public string? DCTM_Folder_ID { get; set; }
+    }
 
     [Table("ViewPatientRelativeDetails", Schema = "dbo")] //Patients' relatives
     public class Relative

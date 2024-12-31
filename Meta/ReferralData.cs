@@ -27,10 +27,10 @@ namespace ClinicalXPDataConnections.Meta
             return referral;
         } 
                 
-        public List<Referral> GetReferralsList(int id) //Get list of active referrals for patient by MPI
+        public List<Referral> GetReferralsList(int id) //Get list of referrals for patient by MPI
         {
             IQueryable<Referral> referrals = from r in _clinContext.Referrals
-                           where r.MPI == id & r.RefType.Contains("Referral") & r.COMPLETE != "Complete"
+                           where r.MPI == id & r.RefType.Contains("Referral")
                            orderby r.RefDate
                            select r;            
 

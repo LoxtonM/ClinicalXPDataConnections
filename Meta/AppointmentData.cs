@@ -37,7 +37,7 @@ namespace ClinicalXPDataConnections.Meta
         {            
             IQueryable<Appointment> appts = _context.Clinics.Where(a => a.BOOKED_DATE >= dFrom & 
                     a.BOOKED_DATE <= dTo & a.Attendance != "Declined" & a.Attendance != "Cancelled by professional" 
-                    & a.Attendance != "Cancelled by patient");
+                    & a.Attendance != "Cancelled by patient" && a.MPI != 67066);
 
             if (clinician != null)
             {
@@ -97,7 +97,8 @@ namespace ClinicalXPDataConnections.Meta
             var apt = _context.Clinics.Where(a => (a.STAFF_CODE_1 == staffCode ||
                                                     a.STAFF_CODE_2 == staffCode ||
                                                     a.STAFF_CODE_3 == staffCode)
-                                                    & !a.AppType.Contains("MD"));
+                                                    & !a.AppType.Contains("MD")
+                                                    & !a.AppType.Contains("Admin"));
 
             apt = apt.Where(a => a.BOOKED_DATE > startDate);
             apt = apt.Where(a => a.BOOKED_DATE < endDate);

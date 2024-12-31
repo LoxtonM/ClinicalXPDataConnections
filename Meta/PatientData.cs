@@ -11,8 +11,8 @@ namespace ClinicalXPDataConnections.Meta
         public Patient GetPatientDetailsByDemographicData(string firstname, string lastname, string nhsno, DateTime dob);
         public Patient GetPatientDetailsByIntID(int intID);
         public Patient GetPatientDetailsByCGUNo(string cguNo);
-        public List<Patient> GetFamilyMembers(int mpi);       
-
+        public List<Patient> GetFamilyMembers(int mpi);
+        public List<Patient> GetPatientsInPedigree(string pedno);
     }
     public class PatientData : IPatientData 
     {
@@ -61,6 +61,10 @@ namespace ClinicalXPDataConnections.Meta
             return pts.ToList();
         }
 
-                
+        public List<Patient> GetPatientsInPedigree(string pedno)
+        {
+            IQueryable<Patient> pts = _clinContext.Patients.Where(p => p.PEDNO == pedno).OrderBy(p => p.MPI);
+            return pts.ToList();
+        }
     }
 }

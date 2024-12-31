@@ -15,6 +15,7 @@ namespace ClinicalXPDataConnections.Data
         }
 
         public DbSet<Patient> Patients { get; set; }
+        public DbSet<Pedigree> Pedigrees { get; set; }
         public DbSet<PatientPathway> PatientPathway { get; set; }
         public DbSet<Ethnicity> Ethnicity { get; set; }
         public DbSet<Relative> Relatives { get; set; }    
