@@ -392,6 +392,8 @@ namespace ClinicalXPDataConnections.Models
         public string? Review_Status { get; set; }
         public string? Review_Recipient { get; set; }
         public string? RecipientLogin { get; set; }
+        public int? Parent_RefID { get; set; }
+        public int? Child_RefID { get; set; }
     }
 
     [Table("ICP", Schema = "dbo")]
@@ -465,21 +467,23 @@ namespace ClinicalXPDataConnections.Models
     {
         [Key]
         public string STAFF_CODE { get; set; }
-        public string EMPLOYEE_NUMBER { get; set; }
-        public string NAME { get; set; }
+        public string? EMPLOYEE_NUMBER { get; set; }
+        public string? NAME { get; set; }
         public string? StaffTitle { get; set; }
         public string? StaffForename { get; set; }
         public string? StaffSurname { get; set; }
-        public string CLINIC_SCHEDULER_GROUPS { get; set; }
+        public string? CLINIC_SCHEDULER_GROUPS { get; set; }
         public string? BILL_ID { get; set; }
         public string? TELEPHONE { get; set; }
-        public string POSITION { get; set; }
+        public string? POSITION { get; set; }
         public bool Clinical { get; set; }
         public bool InPost { get; set; }
         public DateTime? EMPLOYMENT_START_DATE { get; set; }
+        public DateTime? EMPLOYMENT_END_DATE { get; set; }
         public string? EMAIL { get; set; }
         public string PASSWORD { get; set; }
         public string? GMCNumber { get; set; }
+        public Int16? SYSTEM_ADMINISTRATOR { get; set; }
     }
 
     [Table("ViewPatientDiagnosisDetails", Schema = "dbo")] //Patients' diagnoses
@@ -551,8 +555,8 @@ namespace ClinicalXPDataConnections.Models
         public string? CITY { get; set; }
         public string? STATE { get; set; }
         public string? ZIP { get; set; }
-        public Int16 NONACTIVE { get; set; }
-        public Int16 IS_GP_SURGERY { get; set; }
+        public Int16? NONACTIVE { get; set; }
+        public Int16? IS_GP_SURGERY { get; set; }
     }
 
     [Table("MasterClinicianTable", Schema = "dbo")] //External clinicians
@@ -566,8 +570,8 @@ namespace ClinicalXPDataConnections.Models
         public string? SPECIALITY { get; set; }
         public string? POSITION { get; set; }
         public string? FACILITY { get; set; }
-        public Int16 NON_ACTIVE { get; set; }
-        public Int16 Is_Gp { get; set; }
+        public Int16? NON_ACTIVE { get; set; }
+        public Int16? Is_Gp { get; set; }
     }    
 
     [Table("ListRelation", Schema = "dbo")]
@@ -855,5 +859,25 @@ namespace ClinicalXPDataConnections.Models
         public string? GenGC { get; set; }
         public string? GenAdmin { get; set; }
         public bool InUse { get; set; }
+    }
+
+    [Table("Clinicians_Clinics", Schema = "dbo")]
+    public class ClinicDetails
+    {
+        [Key]
+        public string Facility { get; set; }
+        public string? Addressee { get; set; }
+        public string? Position { get; set; }
+        public string? A_Address { get; set; }
+        public string? A_Town { get; set; }
+        public string? A_PostCode { get; set; }
+        public string? A_Salutation { get; set; }
+        public string? Preamble { get; set; }
+        public string? Postlude { get; set; }
+        public string? Copies_To { get; set; }
+        public string? ClinicSite { get; set; }
+        public string? TelNo { get; set; }
+        public string? Initials { get; set; }
+        public string? Secretary { get; set; }
     }
 }

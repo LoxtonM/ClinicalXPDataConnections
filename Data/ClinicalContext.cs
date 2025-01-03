@@ -58,5 +58,6 @@ namespace ClinicalXPDataConnections.Data
         public DbSet<WaitingList> WaitingList { get; set; }
         public DbSet<Supervisors> Supervisors { get; set; }
         public DbSet<AreaNames> AreaNames { get; set; }
+        public DbSet<ClinicDetails> ClinicDetails { get; set; }
     }
 }

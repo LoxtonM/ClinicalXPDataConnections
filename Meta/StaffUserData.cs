@@ -10,6 +10,7 @@ namespace ClinicalXPDataConnections.Meta
         public StaffMember GetStaffMemberDetails(string suser);
         public List<StaffMember> GetClinicalStaffList();
         public List<StaffMember> GetStaffMemberList();
+        public List<StaffMember> GetStaffMemberListAll();
         public List<StaffMember> GetConsultantsList();
         public List<StaffMember> GetGCList();
         public List<StaffMember> GetAdminList();
@@ -51,6 +52,15 @@ namespace ClinicalXPDataConnections.Meta
                      where s.InPost.Equals(true)
                      orderby s.NAME
                      select s;
+
+            return sm.ToList();
+        }
+
+        public List<StaffMember> GetStaffMemberListAll() //Get list of all staff members currently in post 
+        {
+            IQueryable<StaffMember> sm = from s in _clinContext.StaffMembers                                         
+                                         orderby s.NAME
+                                         select s;
 
             return sm.ToList();
         }

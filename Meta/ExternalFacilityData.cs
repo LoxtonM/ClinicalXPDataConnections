@@ -8,6 +8,7 @@ namespace ClinicalXPDataConnections.Meta
     {
         public ExternalFacility GetFacilityDetails(string sref);
         public List<ExternalFacility> GetFacilityList();
+        public List<ExternalFacility> GetFacilityListAll();
         public List<ExternalFacility> GetGPPracticeList();
     }
     public class ExternalFacilityData : IExternalFacilityData
@@ -26,12 +27,21 @@ namespace ClinicalXPDataConnections.Meta
             return item;
         }        
 
-        public List<ExternalFacility> GetFacilityList() //Get list of all external/referring facilities
+        public List<ExternalFacility> GetFacilityList() //Get list of all active external/referring facilities
         {
             IQueryable<ExternalFacility> facilities = from rf in _clinContext.ExternalFacility
                              where rf.NONACTIVE == 0
                              orderby rf.NAME
                              select rf;
+
+            return facilities.ToList();
+        }
+
+        public List<ExternalFacility> GetFacilityListAll() //Get list of all external/referring facilities
+        {
+            IQueryable<ExternalFacility> facilities = from rf in _clinContext.ExternalFacility                                                      
+                                                      orderby rf.NAME
+                                                      select rf;
 
             return facilities.ToList();
         }

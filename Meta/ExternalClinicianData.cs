@@ -9,6 +9,7 @@ namespace ClinicalXPDataConnections.Meta
         public string GetCCDetails(ExternalClinician referrer);
         public ExternalClinician GetClinicianDetails(string sref);
         public List<ExternalCliniciansAndFacilities> GetClinicianList();
+        public List<ExternalClinician> GetAllCliniciansList();
         public List<ExternalClinician> GetGPList();
         public List<string> GetClinicianTypeList();
     }
@@ -40,13 +41,23 @@ namespace ClinicalXPDataConnections.Meta
             return item;
         }
 
-        public List<ExternalCliniciansAndFacilities> GetClinicianList() //Get list of all external/referring clinicians
+        public List<ExternalCliniciansAndFacilities> GetClinicianList() //Get list of all external/referring clinicians with their facilities
         {
             IQueryable<ExternalCliniciansAndFacilities> clinicians = from rf in _clinContext.ExternalCliniciansAndFacilities
                              where rf.NON_ACTIVE == 0 & rf.Is_GP == 0
                              orderby rf.LAST_NAME
                              select rf;
-            int fuck = clinicians.Count();
+            
+            return clinicians.Distinct().ToList();
+        }
+
+        public List<ExternalClinician> GetAllCliniciansList() //Get list of all external/referring clinicians
+        {
+            IQueryable<ExternalClinician> clinicians = from rf in _clinContext.ExternalClinician
+                                                                //where rf.NON_ACTIVE == 0
+                                                                 orderby rf.NAME
+                                                                 select rf;
+
             return clinicians.Distinct().ToList();
         }
 
