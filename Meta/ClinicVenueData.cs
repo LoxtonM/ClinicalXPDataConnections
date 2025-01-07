@@ -1,7 +1,7 @@
 ﻿using ClinicalXPDataConnections.Models;
 using ClinicalXPDataConnections.Data;
 
-namespace CPTest.Connections
+namespace ClinicalXPDataConnections.Meta
 {
     public interface IClinicVenueData
     {

@@ -288,10 +288,10 @@ namespace ClinicalXPDataConnections.Models
         public string? REFERRAL_CLINICNO { get; set; }
         [Display(Name = "Referral Date")]
         [DataType(DataType.Date)]
-        public DateTime REFERRAL_DATE { get; set; }
+        public DateTime? REFERRAL_DATE { get; set; }
         [Display(Name = "Scheduled Date")]
         [DataType(DataType.Date)]
-        public DateTime DATE_SCHEDULED { get; set; }
+        public DateTime? DATE_SCHEDULED { get; set; }
         public DateTime? ClockStartDate { get; set; }
         public DateTime? ClockStopDate { get; set; }
         public string? COUNSELED { get; set; }        
@@ -309,7 +309,7 @@ namespace ClinicalXPDataConnections.Models
         public DateTime? BOOKED_TIME { get; set; }        
         public string? STAFF_CODE_1 { get; set; }
         [Display(Name = "Appointment Type")]
-        public string TYPE { get; set; }
+        public string? TYPE { get; set; }
         public string? CLASS { get; set; }
         public string? PATIENT_TYPE { get; set; }
         public string? GC { get; set; }
