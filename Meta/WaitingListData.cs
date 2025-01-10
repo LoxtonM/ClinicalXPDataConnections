@@ -1,7 +1,7 @@
 ﻿using ClinicalXPDataConnections.Data;
 using ClinicalXPDataConnections.Models;
 
-namespace CPTest.Connections
+namespace ClinicalXPDataConnections.Meta
 {
     public interface IWaitingListData
     {

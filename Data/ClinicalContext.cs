@@ -59,5 +59,8 @@ namespace ClinicalXPDataConnections.Data
         public DbSet<Supervisors> Supervisors { get; set; }
         public DbSet<AreaNames> AreaNames { get; set; }
         public DbSet<ClinicDetails> ClinicDetails { get; set; }
+        public DbSet<HPOTerm> HPOTerms { get; set; }
+        public DbSet<ClinicalNoteHPOTerms> ClinicalNoteHPOTerms { get; set; }
+        public DbSet<HPOTermDetails> HPOTermDetails { get; set; }
     }
 }

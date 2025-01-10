@@ -198,8 +198,15 @@ namespace ClinicalXPDataConnections.Models
         public string? Clinician3 { get; set; }
         public string Clinic { get; set; }
         public string FACILITY { get; set; }
+        public string? Title { get; set; }
         public string FIRSTNAME { get; set; }
         public string LASTNAME { get; set; }
+        public DateTime? dob { get; set; }
+        public string? ADDRESS1 { get; set; }
+        public string? address2 { get; set; }
+        public string? address3 { get; set; }
+        public string? address4 { get; set; }
+        public string? postcode { get; set; }
         public string CGU_No { get; set; }
         [DataType(DataType.Time)]
         public DateTime? ArrivalTime { get; set; }
@@ -219,6 +226,9 @@ namespace ClinicalXPDataConnections.Models
         public bool ActiveAlerts { get; set; }
         public string? PatientInstructions { get; set; }
         public string? ClinicInstructions { get; set; }
+        public string? REFERRAL_CLINICNO { get; set; }
+        public string? ClinicLocation { get; set; }
+        public string? CancellationReason { get; set; }
     }
 
     [Table("ViewPatientReferralDetails", Schema ="dbo")] //Referral data
@@ -667,9 +677,9 @@ namespace ClinicalXPDataConnections.Models
     {
         [Key]
         public int DoTID { get; set; }
-        public int MPI { get; set; }
-        public string CGU_No { get; set; }
-        public string Patient { get; set; }
+        public int? MPI { get; set; }
+        public string? CGU_No { get; set; }
+        public string? Patient { get; set; }
         public int? RefID { get; set; }
         public string? LetterTo { get; set; }
         public string? LetterToSalutation { get; set; }
@@ -833,6 +843,7 @@ namespace ClinicalXPDataConnections.Models
         public int PriorityLevel { get; set; }
         public string Priority { get; set; }
         public string? Comment { get; set; }
+        public string? Instructions { get; set; }
     }
 
     [Table("ListSupervisors", Schema = "dbo")]
@@ -879,5 +890,40 @@ namespace ClinicalXPDataConnections.Models
         public string? TelNo { get; set; }
         public string? Initials { get; set; }
         public string? Secretary { get; set; }
+    }
+
+    [Table("HPOTerm", Schema = "dbo")] //List of all HPO codes
+    public class HPOTerm
+    {
+        [Key]
+        public int ID { get; set; }
+        public string Term { get; set; }
+        public string TermCode { get; set; }
+    }
+
+    [Table("ClinicalNotesHPOTerm", Schema = "dbo")] //HPO codes applied to a clinical note (just the IDs)
+    public class ClinicalNoteHPOTerms
+    {
+        [Key]
+        public int ID { get; set; }
+        public int ClinicalNoteID { get; set; }
+        public int HPOTermID { get; set; }
+    }
+    public class HPOExtractedTerms
+    {
+        public int HPOTermID { get; set; }
+        public string TermCode { get; set; }
+        public String Term { get; set; }
+    }
+
+    [Table("ViewClinicalNoteHPOTermDetails", Schema = "dbo")] //HPO codes applied to a clinical note (including MPI and HPO data)
+    public class HPOTermDetails
+    {
+        [Key]
+        public int ID { get; set; }
+        public int ClinicalNoteID { get; set; }
+        public int MPI { get; set; }
+        public string? Term { get; set; }
+        public string? TermCode { get; set; }
     }
 }

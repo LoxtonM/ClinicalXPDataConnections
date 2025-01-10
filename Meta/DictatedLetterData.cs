@@ -8,6 +8,8 @@ namespace ClinicalXPDataConnections.Meta
     public interface IDictatedLetterData
     {
         public List<DictatedLetter> GetDictatedLettersList(string staffcode);
+
+        public List<DictatedLetter> GetDictatedLettersListFull();
         public List<DictatedLetter> GetDictatedLettersForPatient(int mpi);
         public DictatedLetter GetDictatedLetterDetails(int dotID);
         public List<DictatedLettersPatient> GetDictatedLettersPatientsList(int dotID);
@@ -31,6 +33,17 @@ namespace ClinicalXPDataConnections.Meta
                           where l.LetterFromCode == staffcode && l.MPI != null && l.RefID != null && l.Status != "Printed"
                           orderby l.DateDictated descending
                           select l;
+
+            return letters.ToList();
+        }
+
+        public List<DictatedLetter> GetDictatedLettersListFull()
+        {
+            IQueryable<DictatedLetter> letters = from l in _clinContext.DictatedLetters
+                                                 where l.MPI != null && l.RefID != null && l.Status != null
+                                                 orderby l.DateDictated descending
+                                                 select l;
+            letters = letters.Where(l => l.Status != "Printed"); //we can't do it in one line because of course there are nulls.
 
             return letters.ToList();
         }

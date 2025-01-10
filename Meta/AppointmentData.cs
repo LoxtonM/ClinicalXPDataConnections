@@ -6,6 +6,7 @@ namespace ClinicalXPDataConnections.Meta
     public interface IAppointmentData
     {
         public Appointment GetAppointmentDetails(int refID);
+        public Appointment GetAppointmentByClinicno(string? clinicno);
         public List<Appointment> GetAppointments(DateTime dFrom, DateTime dTo, string? clinician, string? clinic);
         public List<Appointment> GetAppointmentsForADay(DateTime clinicDate, string? clinician = null , string? clinic = null);
         public List<Appointment> GetAppointmentsForBWH(DateTime clinicDate);
@@ -31,6 +32,12 @@ namespace ClinicalXPDataConnections.Meta
         {
             Appointment appt = _context.Clinics.FirstOrDefault(a => a.RefID == refID);
             return appt;
+        }
+
+        public Appointment GetAppointmentByClinicno(string? clinicno)
+        {
+            Appointment appointment = _context.Clinics.FirstOrDefault(w => w.REFERRAL_CLINICNO == clinicno);
+            return appointment;
         }
 
         public List<Appointment> GetAppointments(DateTime dFrom, DateTime dTo, string? clinician, string? clinic)
