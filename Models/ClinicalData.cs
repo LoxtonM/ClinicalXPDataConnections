@@ -42,18 +42,18 @@ namespace ClinicalXPDataConnections.Models
         public DateTime? DECEASED_DATE { get; set; }
         public Int16 DECEASED {  get; set; }
         [Display(Name = "Forename")]
-        public string FIRSTNAME { get; set; }
+        public string? FIRSTNAME { get; set; }
         public string? PtForename2 { get; set; }
         public string? PtSurnameBirth { get; set; }
         public string? PREVIOUS_NAME { get; set; }
         [Display(Name = "Surname")]
-        public string LASTNAME { get; set; }
+        public string? LASTNAME { get; set; }
         [Display(Name = "CGU Number")]
         public string? CGU_No { get; set; }
         public string? PEDNO { get; set; }
         [Display(Name = "NHS Number")]
-        public string SOCIAL_SECURITY { get; set; }
-        public string SEX { get; set; }
+        public string? SOCIAL_SECURITY { get; set; }
+        public string? SEX { get; set; }
         public string? ADDRESS1 { get; set; }
         public string? ADDRESS2 { get; set; }
         public string? ADDRESS3 { get; set; }

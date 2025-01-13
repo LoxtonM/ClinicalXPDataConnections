@@ -4,7 +4,8 @@ using ClinicalXPDataConnections.Models;
 namespace ClinicalXPDataConnections.Meta
 {
     public interface IEthnicityData
-    {        public List<Ethnicity> GetEthnicitiesList();
+    {        
+        public List<Ethnicity> GetEthnicitiesList();
     }
     public class EthnicityData : IEthnicityData
     {

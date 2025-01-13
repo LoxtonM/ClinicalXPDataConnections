@@ -8,7 +8,6 @@ namespace ClinicalXPDataConnections.Meta
     public interface IDictatedLetterData
     {
         public List<DictatedLetter> GetDictatedLettersList(string staffcode);
-
         public List<DictatedLetter> GetDictatedLettersListFull();
         public List<DictatedLetter> GetDictatedLettersForPatient(int mpi);
         public DictatedLetter GetDictatedLetterDetails(int dotID);
