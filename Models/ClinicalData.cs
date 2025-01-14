@@ -358,25 +358,25 @@ namespace ClinicalXPDataConnections.Models
         public int ICPID { get; set; }        
         public int RefID { get; set; }
         public int MPI { get; set; }
-        public string ReferralPathway { get; set; }
-        public string RefType { get; set; }
-        public string CGU_No { get; set; }
-        public string ConsultantCode { get; set; }
-        public string GCCode { get; set; }
-        public string Name { get; set; }
+        public string? ReferralPathway { get; set; }
+        public string? RefType { get; set; }
+        public string? CGU_No { get; set; }
+        public string? ConsultantCode { get; set; }
+        public string? GCCode { get; set; }
+        public string? Name { get; set; }
         public bool? GCToTriage { get; set; }
         public bool? ConsToTriage { get; set; }
         public bool? GCTriaged { get; set; }
         public bool? ConsTriaged { get; set; }        
         [DataType(DataType.Date)]
         public DateTime? RefDate { get; set; }
-        public string LoginDetails { get; set; }
-        public string Clinician { get; set; }
+        public string? LoginDetails { get; set; }
+        public string? Clinician { get; set; }
         public int? TreatPath { get; set; }
         public int? TreatPath2 { get; set; }
         public bool? ConsWLForSPR { get; set; }
-        public string ConsultantName { get; set; }
-        public string GCName { get; set; }
+        public string? ConsultantName { get; set; }
+        public string? GCName { get; set; }
     }
 
     [Table("ViewPatientReviews", Schema = "dbo")] //Requested reviews

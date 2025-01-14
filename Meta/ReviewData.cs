@@ -7,6 +7,7 @@ namespace ClinicalXPDataConnections.Meta
     public interface IReviewData
     {
         public List<Review> GetReviewsList(string username);
+        public List<Review> GetReviewsListAll();
         public List<Review> GetReviewsListForPatient(int mpi);
         public Review GetReviewDetails(int id);
     }
@@ -33,6 +34,18 @@ namespace ClinicalXPDataConnections.Meta
 
             return reviews.ToList();
         }
+
+        public List<Review> GetReviewsListAll()
+        {            
+
+            IQueryable<Review> reviews = from r in _clinContext.Reviews
+                                         where r.Review_Status == "Pending"
+                                         orderby r.Planned_Date
+                                         select r;
+
+            return reviews.ToList();
+        }
+
 
         public List<Review> GetReviewsListForPatient(int mpi)
        {
