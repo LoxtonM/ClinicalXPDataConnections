@@ -62,5 +62,15 @@ namespace ClinicalXPDataConnections.Data
         public DbSet<HPOTerm> HPOTerms { get; set; }
         public DbSet<ClinicalNoteHPOTerms> ClinicalNoteHPOTerms { get; set; }
         public DbSet<HPOTermDetails> HPOTermDetails { get; set; }
+        public DbSet<ICPAction> ICPCancerActionsList { get; set; }
+        public DbSet<ICPGeneralAction> ICPGeneralActionsList { get; set; }
+        public DbSet<ICPGeneralAction2> ICPGeneralActionsList2 { get; set; }
+        public DbSet<CancerReg> CancerReg { get; set; }
+        public DbSet<RequestStatus> RequestStatus { get; set; }
+        public DbSet<TumourSite> TumourSite { get; set; }
+        public DbSet<TumourLat> TumourLat { get; set; }
+        public DbSet<TumourMorph> TumourMorph { get; set; }
+
+
     }
 }

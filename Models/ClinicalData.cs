@@ -138,6 +138,8 @@ namespace ClinicalXPDataConnections.Models
         public DateTime? DiaryRec { get; set; }
         public string? DocCode { get; set; }
         public bool NotReturned { get; set; }
+        public string? DiaryText { get; set; }
+        public string? LetterExtra { get; set; }
 
     }
 
@@ -457,6 +459,8 @@ namespace ClinicalXPDataConnections.Models
         public string? ReferralAction { get; set; }
         public string? Comments { get; set; }
         public string? ToBeReviewedby { get; set; }
+        public string? Status_Admin { get; set; }
+        public string? COMPLETE { get; set; }
 
     }
 
@@ -925,5 +929,75 @@ namespace ClinicalXPDataConnections.Models
         public int MPI { get; set; }
         public string? Term { get; set; }
         public string? TermCode { get; set; }
+    }
+
+    [Table("ListICPActions", Schema = "dbo")] //List of ICP actions (duh!)
+    public class ICPAction
+    {
+        [Key]
+        public int ID { get; set; }
+        public string Action { get; set; }
+        public bool InUse { get; set; }
+    }
+
+    [Table("ListICPGeneralActions", Schema = "dbo")] //List of treatpath actions
+    public class ICPGeneralAction
+    {
+        [Key]
+        public int ID { get; set; }
+        public string Action { get; set; }
+        public bool InUse { get; set; }
+    }
+
+    [Table("ListICPGeneralActions2", Schema = "dbo")] //List of trheatpath2 actions
+    public class ICPGeneralAction2
+    {
+        [Key]
+        public int ID { get; set; }
+        public string Action { get; set; }
+        public bool InUse { get; set; }
+        public bool Clinic { get; set; }
+        public bool NoClinic { get; set; }
+    }
+
+    [Table("ListCReg", Schema = "dbo")]
+    public class CancerReg
+    {
+        [Key]
+        public string CRegCode { get; set; }
+        public string Registry { get; set; }
+        public bool Creg_InUse { get; set; }
+    }
+
+    [Table("ListRequestStatus", Schema = "dbo")]
+    public class RequestStatus
+    {
+        [Key]
+        public string RelStatusCode { get; set; }
+        public string RelStatus { get; set; }
+    }
+
+    [Table("ListTumourSite", Schema = "dbo")]
+    public class TumourSite
+    {
+        [Key]
+        public string SiteCode { get; set; }
+        public string Site { get; set; }
+    }
+
+    [Table("ListTumourLat", Schema = "dbo")]
+    public class TumourLat
+    {
+        [Key]
+        public string LatCode { get; set; }
+        public string Lat { get; set; }
+    }
+
+    [Table("ListTumourMorph", Schema = "dbo")]
+    public class TumourMorph
+    {
+        [Key]
+        public string MorphCode { get; set; }
+        public string? Morph { get; set; }
     }
 }

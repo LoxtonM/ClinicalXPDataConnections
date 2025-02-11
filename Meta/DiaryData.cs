@@ -42,7 +42,9 @@ namespace ClinicalXPDataConnections.Meta
 
         public Diary GetLatestDiaryByRefID(int refID, string? docCode = "")
         {
-            Diary diary = _clinContext.Diary.FirstOrDefault(d => d.RefID == refID && d.DocCode == docCode);
+            List<Diary> diaryList = GetDiaryListByRefID(refID);
+            //Diary diary = _clinContext.Diary.FirstOrDefault(d => d.RefID == refID && d.DocCode == docCode);
+            Diary diary = diaryList.Where(d => d.DocCode == docCode).OrderByDescending(l => l.DiaryDate).FirstOrDefault();
 
             return diary;
         }

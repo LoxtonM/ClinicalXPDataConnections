@@ -65,7 +65,9 @@ namespace ClinicalXPDataConnections.Meta
 
             IQueryable<ICPCancer> icps = from i in _clinContext.ICPCancer
                        where i.ActOnRefBy != null && i.FinalReviewed == null && (i.GC_CODE == staffCode || i.ToBeReviewedby.ToUpper() == username.ToUpper())
-                      orderby i.REFERRAL_DATE
+                      && i.Status_Admin == "Review"
+                      && i.COMPLETE == "Active"
+                        orderby i.REFERRAL_DATE
                        select i;
             
             return icps.ToList();

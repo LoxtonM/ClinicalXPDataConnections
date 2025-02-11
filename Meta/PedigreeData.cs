@@ -41,9 +41,11 @@ namespace ClinicalXPDataConnections.Meta
             }
 
             //string pednumber = _clinContext.Pedigrees.OrderByDescending(p => (p.PEDNO)).FirstOrDefault().PEDNO;
-            string pednumber = pednums.OrderByDescending(x => x).First().ToString();
+            int pednumber = pednums.OrderByDescending(x => x).First();
+            pednumber += 1;
+            string newPedNo = pednumber.ToString();
 
-            return pednumber;
+            return newPedNo;
         }
 
     }
