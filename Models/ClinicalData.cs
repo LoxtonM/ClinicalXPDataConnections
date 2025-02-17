@@ -77,6 +77,8 @@ namespace ClinicalXPDataConnections.Models
         public string? SALUTATION { get; set; }
         public string? Ethnic { get; set; }
         public string? EthnicCode { get; set; }
+        public string? ADDITIONAL_NOTES { get; set; }
+        public string? INFECTION_RISK { get; set; }
         public string? DCTM_Folder_ID { get; set; }
         public int Patient_Dctm_Sts { get; set; }
     }
