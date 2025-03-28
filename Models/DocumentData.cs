@@ -38,6 +38,9 @@ namespace ClinicalXPDataConnections.Models
         public string? OurAddress { get; set; }
         public string? DirectLine { get; set; }
         public string? OurEmailAddress { get; set; }
+        public string? cc1 { get; set; }
+        public string? cc2 { get; set; }
+
     }
      
     [Table("Constants", Schema = "dbo")]

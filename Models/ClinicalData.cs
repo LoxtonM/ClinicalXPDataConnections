@@ -215,7 +215,11 @@ namespace ClinicalXPDataConnections.Models
         [DataType(DataType.Time)]
         public DateTime? ArrivalTime { get; set; }
         public string? SeenBy { get; set; }
+        public string? SeenBy2 { get; set; }
+        public string? SeenBy3 { get; set; }
         public string? SeenByClinician { get; set; }
+        public string? SeenByClinician2 { get; set; }
+        public string? SeenByClinician3 { get; set; }
         public Int16? NoPatientsSeen { get; set; }
         public Int16? Duration { get; set; }
         public bool? isClockStop { get; set; }

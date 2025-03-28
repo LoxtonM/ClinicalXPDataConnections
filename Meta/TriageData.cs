@@ -10,7 +10,8 @@ namespace ClinicalXPDataConnections.Meta
         public Triage GetTriageDetails(int? icpID);
         public List<Triage> GetTriageList(string username);
         public List<Triage> GetTriageListFull();
-        public List<ICPCancer> GetCancerICPList(string username);        
+        public List<ICPCancer> GetCancerICPList(string username);
+        public List<ICPCancer> GetCancerICPListForPatient(int mpi);
         public List<ClinicVenue> GetClinicalFacilitiesList();
         public ICPGeneral GetGeneralICPDetails(int? icpID);
         public ICPCancer GetCancerICPDetails(int? icpID);
@@ -73,7 +74,19 @@ namespace ClinicalXPDataConnections.Meta
             return icps.ToList();
         }
 
-        
+        public List<ICPCancer> GetCancerICPListForPatient(int mpi)
+        {
+            
+
+            IQueryable<ICPCancer> icps = from i in _clinContext.ICPCancer
+                                         where i.MPI == mpi
+                                         orderby i.REFERRAL_DATE
+                                         select i;
+
+            return icps.ToList();
+        }
+
+
         public List<ClinicVenue> GetClinicalFacilitiesList() //Get list of all clinic facilities where we hold clinics
         {
             IQueryable<ClinicVenue> facs = from f in _clinContext.ClinicalFacilities
