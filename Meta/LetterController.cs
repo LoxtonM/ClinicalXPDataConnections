@@ -335,12 +335,13 @@ namespace ClinicalXPDataConnections.Meta
                     patAddress = _add.GetAddress("PT", refID);
                 }
                 else
-                {
+                {                    
                     _lvm.relative = _relativeData.GetRelativeDetails(relID.GetValueOrDefault());
 
                     patName = _lvm.relative.Name;
                     patDOB = _lvm.relative.DOB.GetValueOrDefault();
                     salutation = _lvm.relative.Name;
+                    /*
                     patAddress = _lvm.relative.RelAdd1 + Environment.NewLine;
                     if (_lvm.relative.RelAdd2 != null)
                     {
@@ -348,7 +349,9 @@ namespace ClinicalXPDataConnections.Meta
                     }
                     patAddress = patAddress + _lvm.relative.RelAdd3 + Environment.NewLine;
                     patAddress = patAddress + _lvm.relative.RelAdd4 + Environment.NewLine;
-                    patAddress = patAddress + _lvm.relative.RelPC1;
+                    patAddress = patAddress + _lvm.relative.RelPC1;*/
+                    patAddress = _add.GetAddress("PTREL", refID, relID);
+
                 }
 
                 if (_lvm.documentsContent.LetterTo == "PT" || _lvm.documentsContent.LetterTo == "PTREL")
@@ -419,7 +422,7 @@ namespace ClinicalXPDataConnections.Meta
                     //table2.Format.Font.Size = 12;
                     MigraDoc.DocumentObjectModel.Tables.Row row1 = table2.AddRow();
                     row1.VerticalAlignment = MigraDoc.DocumentObjectModel.Tables.VerticalAlignment.Center;
-                    row1[0].AddParagraph(name + System.Environment.NewLine + address);
+                    row1[0].AddParagraph(address);
 
                     string emailEtc = "";
                     if (_lvm.documentsContent.OurEmailAddress != null) //because obviously there's a null.
@@ -1349,40 +1352,79 @@ namespace ClinicalXPDataConnections.Meta
                 {
                     content1 = _lvm.documentsContent.Para1;
                     content2 = _lvm.documentsContent.Para2;
-                    content1 = _lvm.documentsContent.Para3;
-                    content2 = _lvm.documentsContent.Para4;
+                    content3 = _lvm.documentsContent.Para3;
+                    content4 = _lvm.documentsContent.Para4;
                     Paragraph letterContent1 = section.AddParagraph(content1);
-                    letterContent1.Format.Font.Size = 12;
+                    //letterContent1.Format.Font.Size = 12;
                     spacer = section.AddParagraph();
                     Paragraph letterContent2 = section.AddParagraph(content2);
-                    letterContent2.Format.Font.Size = 12;
+                    //letterContent2.Format.Font.Size = 12;
                     spacer = section.AddParagraph();
                     Paragraph letterContent3 = section.AddParagraph(content3);
-                    letterContent1.Format.Font.Size = 12;
+                    //letterContent3.Format.Font.Size = 12;
                     spacer = section.AddParagraph();
                     Paragraph letterContent4 = section.AddParagraph(content4);
-                    letterContent2.Format.Font.Size = 12;
+                    //letterContent4.Format.Font.Size = 12;
                     spacer = section.AddParagraph();
 
-                    CreateQRImageFile(qrCodeText, user);
+                    if (qrCodeText != "")
+                    {
+                        CreateQRImageFile(qrCodeText, user);
 
-                    Paragraph contentQR = section.AddParagraph();
-                    MigraDoc.DocumentObjectModel.Shapes.Image imgQRCode = contentQR.AddImage($"wwwroot\\Images\\qrCode-{user}.jpg");
-                    imgQRCode.ScaleWidth = new Unit(1.5, UnitType.Point);
-                    imgQRCode.ScaleHeight = new Unit(1.5, UnitType.Point);
-                    contentQR.Format.Alignment = ParagraphAlignment.Center;
+                        Paragraph contentQR = section.AddParagraph();
+                        MigraDoc.DocumentObjectModel.Shapes.Image imgQRCode = contentQR.AddImage($"wwwroot\\Images\\qrCode-{user}.jpg");
+                        imgQRCode.ScaleWidth = new Unit(1.5, UnitType.Point);
+                        imgQRCode.ScaleHeight = new Unit(1.5, UnitType.Point);
+                        contentQR.Format.Alignment = ParagraphAlignment.Center;
+                    }
                     signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                     //File.Delete($"wwwroot\\Images\\qrCode-{user}.jpg");
 
+                }
+
+                if (docCode == "ClicsRem")
+                {
+                    content1 = _lvm.documentsContent.Para1;
+                    content2 = _lvm.documentsContent.Para2;
+                    content3 = _lvm.documentsContent.Para3;
+                    Paragraph letterContent1 = section.AddParagraph(content1);
+                    //letterContent1.Format.Font.Size = 12;
+                    spacer = section.AddParagraph();
+                    Paragraph letterContent2 = section.AddParagraph(content2);
+                    //letterContent2.Format.Font.Size = 12;
+                    spacer = section.AddParagraph();
+                    Paragraph letterContent3 = section.AddParagraph(content3);
+                    //letterContent3.Format.Font.Size = 12;
+                    spacer = section.AddParagraph();
+                    
+                    
+                    signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
+                }
+
+                if (docCode == "ClicsStop")
+                {
+                    content1 = _lvm.documentsContent.Para1;
+                    content2 = _lvm.documentsContent.Para2;
+                    content3 = _lvm.documentsContent.Para3;                    
+                    Paragraph letterContent1 = section.AddParagraph(content1);
+                    //letterContent1.Format.Font.Size = 12;
+                    spacer = section.AddParagraph();
+                    Paragraph letterContent2 = section.AddParagraph(content2);
+                    //letterContent2.Format.Font.Size = 12;
+                    spacer = section.AddParagraph();
+                    Paragraph letterContent3 = section.AddParagraph(content3);
+                    //letterContent3.Format.Font.Size = 12;
+                    spacer = section.AddParagraph();
+
+
+                    signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                 }
 
                 //tf.DrawString("Letter code: " + docCode, font, XBrushes.Black, new XRect(400, 800, 500, 20));
                 spacer = section.AddParagraph();
 
                 sigFilename = _lvm.staffMember.StaffForename + _lvm.staffMember.StaffSurname.Replace("'", "").Replace(" ", "") + ".jpg";
-
-                spacer = section.AddParagraph();
-                               
+                                                             
 
                 Paragraph contentSignOff = section.AddParagraph("Yours sincerely,");
                 //contentSignOff.Format.Font.Size = 12;
@@ -1498,11 +1540,25 @@ namespace ClinicalXPDataConnections.Meta
 
                 if (!isPreview.GetValueOrDefault())
                 {
-                    System.IO.File.Copy($"wwwroot\\StandardLetterPreviews\\preview-{user}.pdf", $@"C:\CGU_DB\Letters\CaStdLetter-{fileCGU}-{docCode}-{mpiString}-0-{refIDString}-{printCount.ToString()}-{dateTimeString}-{diaryIDString}.pdf");
+                    //string dbName = _constantsData.GetConstant("SQLDatabaseName", 1);
+                    string edmsPath = _constantsData.GetConstant("PrintPathEDMS", 1);
+                    System.IO.File.Copy($"wwwroot\\StandardLetterPreviews\\preview-{user}.pdf", $@"{edmsPath}\CaStdLetter-{fileCGU}-{docCode}-{mpiString}-0-{refIDString}-{printCount.ToString()}-{dateTimeString}-{diaryIDString}.pdf");
 
                     /*                 
                     can't actually print it because there's no way to give it your username, so it'll all be under the server's name
                     */
+                    
+
+                    /*
+                    if (dbName.Contains("Dev")) //so we HAVE to do it this way.
+                    {
+                        System.IO.File.Copy($"wwwroot\\StandardLetterPreviews\\preview-{user}.pdf", $@"C:\CGU_DB\LettersTest\CaStdLetter-{fileCGU}-{docCode}-{mpiString}-0-{refIDString}-{printCount.ToString()}-{dateTimeString}-{diaryIDString}.pdf");
+
+                    }
+                    else
+                    {
+                        System.IO.File.Copy($"wwwroot\\StandardLetterPreviews\\preview-{user}.pdf", $@"C:\CGU_DB\Letters\CaStdLetter-{fileCGU}-{docCode}-{mpiString}-0-{refIDString}-{printCount.ToString()}-{dateTimeString}-{diaryIDString}.pdf");
+                    }*/
                 }
 
                 

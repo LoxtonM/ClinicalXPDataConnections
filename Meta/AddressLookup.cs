@@ -5,7 +5,7 @@ namespace ClinicalXPDataConnections.Meta
 {
     public interface IAddressLookup
     {
-        public string GetAddress(string recipientCode, int refid);
+        public string GetAddress(string recipientCode, int refid, int? relID = 0);
     }
 
     public class AddressLookup : IAddressLookup
@@ -13,7 +13,8 @@ namespace ClinicalXPDataConnections.Meta
         private readonly ClinicalContext _clinContext;
         private readonly DocumentContext _documentContext;
         private readonly ReferralData _referralData;
-        private readonly IPatientData _pat;        
+        private readonly IPatientData _pat;
+        private readonly IRelativeData _relData;
         private readonly IExternalClinicianData _clinician;
         private readonly IExternalFacilityData _facility;
 
@@ -23,11 +24,12 @@ namespace ClinicalXPDataConnections.Meta
             _documentContext = documentContext;
             _referralData = new ReferralData(_clinContext);
             _pat = new PatientData(_clinContext);           
+            _relData = new RelativeData(_clinContext);
             _clinician = new ExternalClinicianData(_clinContext);
             _facility = new ExternalFacilityData(_clinContext);
         }
 
-        public string GetAddress(string recipientCode, int refid)
+        public string GetAddress(string recipientCode, int refid, int? relID = 0)
         {
             string address = "";
             Referral referral = _referralData.GetReferralDetails(refid);
@@ -41,6 +43,20 @@ namespace ClinicalXPDataConnections.Meta
                 if (pat.ADDRESS3 != null) { address = address + pat.ADDRESS3 + Environment.NewLine; }
                 if (pat.ADDRESS4 != null) { address = address + pat.ADDRESS4 + Environment.NewLine; }
                 address = address + pat.POSTCODE;
+            }
+
+            if (recipientCode == "PTREL" && relID != 0)
+            {
+                Relative relative = _relData.GetRelativeDetails(relID.GetValueOrDefault());
+                                
+                address = relative.RelAdd1 + Environment.NewLine;
+                if (relative.RelAdd2 != null)
+                {
+                    address = address + relative.RelAdd2 + Environment.NewLine;
+                }
+                address = address + relative.RelAdd3 + Environment.NewLine;
+                address = address + relative.RelAdd4 + Environment.NewLine;
+                address = address + relative.RelPC1;
             }
 
             if (recipientCode == "RD")

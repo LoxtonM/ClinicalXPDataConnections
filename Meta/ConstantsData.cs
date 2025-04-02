@@ -21,15 +21,23 @@ namespace ClinicalXPDataConnections.Meta
         public string GetConstant(string constantCode, int constantValue)
         {
             Constant item = _docContext.Constants.FirstOrDefault(c => c.ConstantCode == constantCode);
+            string returnValue = "";
 
-            if (constantValue == 1)
+            if (item != null)
             {
-                return item.ConstantValue;
+                if (constantValue == 1)
+                {
+                    returnValue = item.ConstantValue;
+                }
+                else
+                {
+                    returnValue = item.ConstantValue2;
+                }
+
+                returnValue = returnValue.Trim();
+                
             }
-            else
-            {
-                return item.ConstantValue2;
-            }
+            return returnValue;
         }
     }
 }
