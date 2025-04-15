@@ -7,6 +7,7 @@ namespace ClinicalXPDataConnections.Meta
     public interface ITriageData
     {
         public ICP GetICPDetails(int icpID);
+        public ICP GetICPDetailsByRefID(int refID);
         public Triage GetTriageDetails(int? icpID);
         public List<Triage> GetTriageList(string username);
         public List<Triage> GetTriageListFull();
@@ -32,6 +33,12 @@ namespace ClinicalXPDataConnections.Meta
         public ICP GetICPDetails(int icpID)
         {
             ICP icp = _clinContext.ICP.FirstOrDefault(i => i.ICPID == icpID);
+            return icp;
+        }
+
+        public ICP GetICPDetailsByRefID(int refID)
+        {
+            ICP icp = _clinContext.ICP.FirstOrDefault(i => i.REFID == refID);
             return icp;
         }
         public Triage GetTriageDetails(int? icpID) //Get details of ICP from the IcpID

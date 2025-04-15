@@ -74,7 +74,7 @@ namespace ClinicalXPDataConnections.Meta
 
             foreach (var p in patient)
             {
-                patients.Add(new DictatedLettersPatient() { DOTID = p.DOTID });
+                patients.Add(new DictatedLettersPatient() { DOTID = p.DOTID, MPI = p.MPI });
             }
 
             return patients;

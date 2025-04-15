@@ -440,6 +440,7 @@ namespace ClinicalXPDataConnections.Models
         [Key]
         public int ICP_Cancer_ID { get; set; }
         public int ICPID { get; set; }
+        public int RefID { get; set; }
         public int MPI { get; set; }
         public string? CGU_No {  get; set; }
         public string? FIRSTNAME { get; set; }
@@ -447,10 +448,14 @@ namespace ClinicalXPDataConnections.Models
         public DateTime? REFERRAL_DATE { get; set; }
         //public int ICPID { get; set; }
         public int? ActOnRef { get; set; }
+        public string? ReviewedBy { get; set; }
+        public DateTime? ReviewedDate { get; set; }
         public int? ReviewedOption { get; set; }
         //public string ActRefInfo { get; set; }
         public string? ActOnRefBy { get; set; }
         //public int FHFNotRet { get; set; }
+        public string? ActRefInfo {  get; set; }
+        public DateTime? ActOnRefDate { get; set; }
         public bool FHFRev { get; set; }
         public bool PedRev { get; set; }
         public bool ConfRev { get; set; }
@@ -458,6 +463,8 @@ namespace ClinicalXPDataConnections.Models
         public bool RiskAssessment { get; set; }
         //public int ReviewedOption { get; set; }
         public string? FinalReviewed { get; set; }
+        public string? FinalReviewedBy { get; set; }
+        public DateTime? FinalReviewedDate { get; set; }
         public string? GC_CODE { get; set; }
         public string? WaitingListClinician { get; set; }
         public string? WaitingListVenue { get; set; }
@@ -757,6 +764,7 @@ namespace ClinicalXPDataConnections.Models
         [DataType(DataType.Date)]
         public DateTime? RiskDate { get; set; }
         public string? RiskCode { get; set; }
+        public string? RiskName {  get; set; }
         public string? RiskClinCode { get; set; }
         public string? RiskComments { get; set; }
         public Int16? IncludeLetter { get; set; }

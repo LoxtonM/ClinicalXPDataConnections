@@ -263,30 +263,35 @@ namespace ClinicalXPDataConnections.Meta
             {
 
                 MigraDoc.DocumentObjectModel.Document document = new MigraDoc.DocumentObjectModel.Document();
-                Section section = document.AddSection();
+                Section section = document.AddSection();                
 
-                Paragraph contentLogo = section.AddParagraph();
-                MigraDoc.DocumentObjectModel.Shapes.Image imgLogo = contentLogo.AddImage(@"wwwroot\Letterhead.jpg");
-                imgLogo.ScaleWidth = new Unit(0.5, UnitType.Point);
-                imgLogo.ScaleHeight = new Unit(0.5, UnitType.Point);
-                contentLogo.Format.Alignment = ParagraphAlignment.Right;
+                MigraDoc.DocumentObjectModel.Tables.Table table = section.AddTable();
+                MigraDoc.DocumentObjectModel.Tables.Column contactInfo = table.AddColumn();
+                MigraDoc.DocumentObjectModel.Tables.Column logo = table.AddColumn();
+                contactInfo.Format.Alignment = ParagraphAlignment.Left;
+                logo.Format.Alignment = ParagraphAlignment.Right;
+                //MigraDoc.DocumentObjectModel.Tables.Column ourAddressInfo = table.AddColumn();
+                //ourAddressInfo.Format.Alignment = ParagraphAlignment.Right;
+                MigraDoc.DocumentObjectModel.Tables.Row row1 = table.AddRow();
+                row1.VerticalAlignment = MigraDoc.DocumentObjectModel.Tables.VerticalAlignment.Top;
+                MigraDoc.DocumentObjectModel.Tables.Row row2 = table.AddRow();
+                row2.VerticalAlignment = MigraDoc.DocumentObjectModel.Tables.VerticalAlignment.Center;
+                MigraDoc.DocumentObjectModel.Tables.Row row3 = table.AddRow();
+                row3.VerticalAlignment = MigraDoc.DocumentObjectModel.Tables.VerticalAlignment.Center;
+
+
                 Paragraph spacer = section.AddParagraph();
 
                 if (_lvm.documentsContent.LetterTo != "PTREL" && _lvm.documentsContent.LetterTo != "Other" && _lvm.documentsContent.DocCode != "DT13" && !_lvm.documentsContent.LetterTo.Contains("CF"))
                 {
-                    MigraDoc.DocumentObjectModel.Tables.Table table = section.AddTable();
-                    MigraDoc.DocumentObjectModel.Tables.Column contactInfo = table.AddColumn();
-                    contactInfo.Format.Alignment = ParagraphAlignment.Left;
-                    MigraDoc.DocumentObjectModel.Tables.Column ourAddressInfo = table.AddColumn();
-                    ourAddressInfo.Format.Alignment = ParagraphAlignment.Right;
-
-                    table.Rows.Height = 50;
-                    table.Columns.Width = 250;
+                    table.Columns.Width = 240;
+                    contactInfo.Width = 300;
+                    logo.Width = 180;
+                    row1.Height = 100;
+                    row2.Height = 110;
+                    row3.Height = 20;
                     ////table.Format.Font.Size = 12;
-                    MigraDoc.DocumentObjectModel.Tables.Row row1 = table.AddRow();
-                    row1.VerticalAlignment = MigraDoc.DocumentObjectModel.Tables.VerticalAlignment.Top;
-                    MigraDoc.DocumentObjectModel.Tables.Row row2 = table.AddRow();
-                    row2.VerticalAlignment = MigraDoc.DocumentObjectModel.Tables.VerticalAlignment.Center;
+
 
                     quoteRef = "Please quote this reference on all correspondence: " + _lvm.patient.CGU_No + Environment.NewLine;
                     quoteRef = quoteRef + "NHS number: " + _lvm.patient.SOCIAL_SECURITY + Environment.NewLine;
@@ -294,11 +299,16 @@ namespace ClinicalXPDataConnections.Meta
                     quoteRef = quoteRef + "Genetic Counsellor: " + referral.GC;
 
                     row1.Cells[0].AddParagraph(quoteRef);
-                    row1.Cells[1].AddParagraph(_lvm.documentsContent.OurAddress);
-                    row2.Cells[0].AddParagraph(DateTime.Today.ToString("dd MMMM yyyy"));
+                    MigraDoc.DocumentObjectModel.Shapes.Image imgLogo = row1.Cells[1].AddImage(@"wwwroot\Letterhead.jpg");
+                    imgLogo.ScaleWidth = new Unit(0.5, UnitType.Point);
+                    imgLogo.ScaleHeight = new Unit(0.5, UnitType.Point);
+
+                    row2.Cells[1].AddParagraph(_lvm.documentsContent.OurAddress);
+
+                    row3.Cells[0].AddParagraph(DateTime.Today.ToString("dd MMMM yyyy"));
                     if (_lvm.documentsContent.OurEmailAddress != null) //because obviously there's a null.
                     {
-                        row2.Cells[1].AddParagraph(_lvm.documentsContent.OurEmailAddress);
+                        row3.Cells[1].AddParagraph(_lvm.documentsContent.OurEmailAddress);
                     }
 
                 }
@@ -319,19 +329,7 @@ namespace ClinicalXPDataConnections.Meta
 
 
                 if (relID == 0)
-                {
-                    /*
-                    patName = _lvm.patient.PtLetterAddressee;
-                    patDOB = _lvm.patient.DOB.GetValueOrDefault();
-                    salutation = _lvm.patient.SALUTATION;
-                    patAddress = _lvm.patient.ADDRESS1 + Environment.NewLine;
-                    if (_lvm.patient.ADDRESS2 != null) //this is sometimes null
-                    {
-                        patAddress = patAddress + _lvm.patient.ADDRESS2 + Environment.NewLine;
-                    }
-                    patAddress = patAddress + _lvm.patient.ADDRESS3 + Environment.NewLine;
-                    patAddress = patAddress + _lvm.patient.ADDRESS4 + Environment.NewLine;
-                    patAddress = patAddress + _lvm.patient.POSTCODE;*/
+                {                    
                     patAddress = _add.GetAddress("PT", refID);
                 }
                 else
@@ -341,15 +339,7 @@ namespace ClinicalXPDataConnections.Meta
                     patName = _lvm.relative.Name;
                     patDOB = _lvm.relative.DOB.GetValueOrDefault();
                     salutation = _lvm.relative.Name;
-                    /*
-                    patAddress = _lvm.relative.RelAdd1 + Environment.NewLine;
-                    if (_lvm.relative.RelAdd2 != null)
-                    {
-                        patAddress = patAddress + _lvm.relative.RelAdd2 + Environment.NewLine;
-                    }
-                    patAddress = patAddress + _lvm.relative.RelAdd3 + Environment.NewLine;
-                    patAddress = patAddress + _lvm.relative.RelAdd4 + Environment.NewLine;
-                    patAddress = patAddress + _lvm.relative.RelPC1;*/
+                    
                     patAddress = _add.GetAddress("PTREL", refID, relID);
 
                 }
@@ -367,31 +357,13 @@ namespace ClinicalXPDataConnections.Meta
 
                 if (_lvm.documentsContent.LetterTo == "RD")
                 {
-                    /*
-                    var refAddressee = _externalClinicianData.GetClinicianDetails(_lvm.referrer.MasterClinicianCode);
-                    salutation = refAddressee.TITLE + " " + refAddressee.FIRST_NAME + " " + refAddressee.NAME;
-                    var refFac = _externalFacilityData.GetFacilityDetails(refAddressee.FACILITY);
-                    address = refFac.NAME + Environment.NewLine;
-                    address += refFac.ADDRESS + Environment.NewLine;
-                    address += refFac.CITY + Environment.NewLine;
-                    address += refFac.STATE + Environment.NewLine;
-                    address += refFac.ZIP + Environment.NewLine;
-                    */
+                    
                     address = _add.GetAddress("RD", refID);
                 }
 
                 if (_lvm.documentsContent.LetterTo == "GP")
                 {
-                    /*
-                    var gpAddressee = _externalClinicianData.GetClinicianDetails(_lvm.patient.GP_Code);
-                    salutation = gpAddressee.TITLE + " " + gpAddressee.FIRST_NAME + " " + gpAddressee.NAME;
-                    var gpFac = _externalFacilityData.GetFacilityDetails(gpAddressee.FACILITY);
-                    address = gpFac.NAME + Environment.NewLine;
-                    address += gpFac.ADDRESS + Environment.NewLine;
-                    address += gpFac.CITY + Environment.NewLine;
-                    address += gpFac.STATE + Environment.NewLine;
-                    address += gpFac.ZIP + Environment.NewLine;
-                    */
+                    
                     address = _add.GetAddress("GP", refID);
                 }
 
@@ -408,7 +380,7 @@ namespace ClinicalXPDataConnections.Meta
                 }
 
 
-
+                /*
                 if (address != "")
                 {
                     MigraDoc.DocumentObjectModel.Tables.Table table2 = section.AddTable();
@@ -433,10 +405,10 @@ namespace ClinicalXPDataConnections.Meta
                     emailEtc = emailEtc + DateTime.Today.ToString("dd MMMM yyyy");
 
                     //row1[1].AddParagraph(emailEtc);
-                }
+                }*/
                 //Content containers for all of the paragraphs, as well as other data required
 
-
+                row2.Cells[0].AddParagraph(address);
 
                 if (_lvm.documentsContent.LetterTo == "PTREL" || _lvm.documentsContent.LetterTo == "Other" || _lvm.documentsContent.DocCode == "DT13")
                 {
@@ -571,7 +543,7 @@ namespace ClinicalXPDataConnections.Meta
                 //OOR1
                 if (docCode == "OOR1")
                 {
-                    MigraDoc.DocumentObjectModel.Tables.Table table = section.AddTable();
+                    MigraDoc.DocumentObjectModel.Tables.Table table1 = section.AddTable();
                     MigraDoc.DocumentObjectModel.Tables.Column contentPatAddress = table.AddColumn();
                     contentPatAddress.Format.Alignment = ParagraphAlignment.Left;
                     MigraDoc.DocumentObjectModel.Tables.Column contentPatDOB = table.AddColumn();
@@ -579,12 +551,12 @@ namespace ClinicalXPDataConnections.Meta
                     table.Rows.Height = 50;
                     table.Columns.Width = 150;
                     //table.Format.Font.Size = 12;
-                    MigraDoc.DocumentObjectModel.Tables.Row row1 = table.AddRow();
-                    row1.VerticalAlignment = MigraDoc.DocumentObjectModel.Tables.VerticalAlignment.Top;
-                    row1.Format.Font.Bold = true;
+                    MigraDoc.DocumentObjectModel.Tables.Row row1_1 = table1.AddRow();
+                    row1_1.VerticalAlignment = MigraDoc.DocumentObjectModel.Tables.VerticalAlignment.Top;
+                    row1_1.Format.Font.Bold = true;
                     //row1.Format.Font.Size = 12;
-                    row1.Cells[0].AddParagraph("Re: " + patName + System.Environment.NewLine + patAddress);
-                    row1.Cells[1].AddParagraph("Date of Birth: " + patDOB.ToString("dd/MM/yyyy"));
+                    row1_1.Cells[0].AddParagraph("Re: " + patName + System.Environment.NewLine + patAddress);
+                    row1_1.Cells[1].AddParagraph("Date of Birth: " + patDOB.ToString("dd/MM/yyyy"));
                     spacer = section.AddParagraph();
                     Paragraph letterContent1 = section.AddParagraph(_lvm.documentsContent.Para1 + " " + patName + " " + _lvm.documentsContent.Para2);
                     //letterContent1.Format.Font.Size = 12;
@@ -602,7 +574,7 @@ namespace ClinicalXPDataConnections.Meta
                 //OOR1
                 if (docCode == "OOR2")
                 {
-                    MigraDoc.DocumentObjectModel.Tables.Table table = section.AddTable();
+                    MigraDoc.DocumentObjectModel.Tables.Table table1 = section.AddTable();
                     MigraDoc.DocumentObjectModel.Tables.Column contentPatAddress = table.AddColumn();
                     contentPatAddress.Format.Alignment = ParagraphAlignment.Left;
                     MigraDoc.DocumentObjectModel.Tables.Column contentPatDOB = table.AddColumn();
@@ -610,12 +582,12 @@ namespace ClinicalXPDataConnections.Meta
                     table.Rows.Height = 50;
                     table.Columns.Width = 100;
                     //table.Format.Font.Size = 12;
-                    MigraDoc.DocumentObjectModel.Tables.Row row1 = table.AddRow();
-                    row1.VerticalAlignment = MigraDoc.DocumentObjectModel.Tables.VerticalAlignment.Top;
-                    row1.Format.Font.Bold = true;
+                    MigraDoc.DocumentObjectModel.Tables.Row row1_1 = table.AddRow();
+                    row1_1.VerticalAlignment = MigraDoc.DocumentObjectModel.Tables.VerticalAlignment.Top;
+                    row1_1.Format.Font.Bold = true;
                     //row1.Format.Font.Size = 12;
-                    row1.Cells[0].AddParagraph("Re: " + patName + System.Environment.NewLine + patAddress);
-                    row1.Cells[1].AddParagraph("Date of Birth: " + patDOB.ToString("dd/MM/yyyy"));
+                    row1_1.Cells[0].AddParagraph("Re: " + patName + System.Environment.NewLine + patAddress);
+                    row1_1.Cells[1].AddParagraph("Date of Birth: " + patDOB.ToString("dd/MM/yyyy"));
                     spacer = section.AddParagraph();
                     Paragraph letterContent1 = section.AddParagraph(_lvm.documentsContent.Para1 + " " + patName + " " + _lvm.documentsContent.Para2);
                     //letterContent1.Format.Font.Size = 12;
@@ -1050,7 +1022,7 @@ namespace ClinicalXPDataConnections.Meta
 
                     ptDOB = ptDOB + "NHS Number: " + _lvm.patient.SOCIAL_SECURITY;
                     spacer = section.AddParagraph();
-                    MigraDoc.DocumentObjectModel.Tables.Table table = section.AddTable();
+                    MigraDoc.DocumentObjectModel.Tables.Table table1 = section.AddTable();
                     MigraDoc.DocumentObjectModel.Tables.Column contentPtName = table.AddColumn();
                     contentPtName.Format.Alignment = ParagraphAlignment.Left;
                     MigraDoc.DocumentObjectModel.Tables.Column contentPtDOB = table.AddColumn();
@@ -1058,11 +1030,11 @@ namespace ClinicalXPDataConnections.Meta
                     table.Rows.Height = 50;
                     table.Columns.Width = 250;
                     //table.Format.Font.Size = 12;
-                    MigraDoc.DocumentObjectModel.Tables.Row row1 = table.AddRow();
-                    row1[0].AddParagraph("Re: " + patName + System.Environment.NewLine + patAddress);
-                    row1[1].AddParagraph(ptDOB);
-                    row1.VerticalAlignment = MigraDoc.DocumentObjectModel.Tables.VerticalAlignment.Top;
-                    row1.Format.Font.Bold = true;
+                    MigraDoc.DocumentObjectModel.Tables.Row row1_1 = table.AddRow();
+                    row1_1[0].AddParagraph("Re: " + patName + System.Environment.NewLine + patAddress);
+                    row1_1[1].AddParagraph(ptDOB);
+                    row1_1.VerticalAlignment = MigraDoc.DocumentObjectModel.Tables.VerticalAlignment.Top;
+                    row1_1.Format.Font.Bold = true;
                     spacer = section.AddParagraph();
                     Paragraph letterContent1 = section.AddParagraph(_lvm.documentsContent.Para5);
                     //letterContent1.Format.Font.Size = 12;
@@ -1379,7 +1351,11 @@ namespace ClinicalXPDataConnections.Meta
                     }
                     signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                     //File.Delete($"wwwroot\\Images\\qrCode-{user}.jpg");
-
+                    ccs[0] = referrerName;
+                    if (referrerName != gpName)
+                    {
+                        ccs[1] = gpName;
+                    }
                 }
 
                 if (docCode == "ClicsRem")
@@ -1396,8 +1372,9 @@ namespace ClinicalXPDataConnections.Meta
                     Paragraph letterContent3 = section.AddParagraph(content3);
                     //letterContent3.Format.Font.Size = 12;
                     spacer = section.AddParagraph();
+                    ccs[0] = referrerName;
                     
-                    
+
                     signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                 }
 
@@ -1415,7 +1392,11 @@ namespace ClinicalXPDataConnections.Meta
                     Paragraph letterContent3 = section.AddParagraph(content3);
                     //letterContent3.Format.Font.Size = 12;
                     spacer = section.AddParagraph();
-
+                    ccs[0] = referrerName;
+                    if (referrerName != gpName)
+                    {
+                        ccs[1] = gpName;
+                    }
 
                     signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                 }

@@ -7,6 +7,7 @@ namespace ClinicalXPDataConnections.Meta
     public interface IRelativeDiaryData
     {
         public List<RelativeDiary> GetRelativeDiaryList(int relID);
+        public RelativeDiary GetRelativeDiaryDetails(int diaryID);
     }
     public class RelativeDiaryData : IRelativeDiaryData
     {
@@ -22,6 +23,13 @@ namespace ClinicalXPDataConnections.Meta
             IQueryable<RelativeDiary> diaryList = _context.RelativesDiary.Where(d => d.RelsID == relID);
 
             return diaryList.ToList();
+        }
+
+        public RelativeDiary GetRelativeDiaryDetails(int diaryID)
+        {
+            RelativeDiary rd = _context.RelativesDiary.First(d => d.DiaryID == diaryID);
+
+            return rd;
         }
     }
 }
