@@ -1014,4 +1014,39 @@ namespace ClinicalXPDataConnections.Models
         public string MorphCode { get; set; }
         public string? Morph { get; set; }
     }
+
+    [Table("ViewPatientStudies", Schema = "dbo")]
+    public class Study
+    {
+        [Key]
+        public int StudyRecID { get; set; }
+        public int MPI { get; set; }
+        public string StudyCode { get; set; }
+        public string StudyName { get; set; }
+        public DateTime? IdentifiedDate { get; set; }
+        public string? IdentifiedClinCode { get; set; }
+        public string? IdentifiedClinician { get; set; }
+        public string? Recruited { get; set; }
+        public DateTime? RecruitedDate { get; set; }
+        public string? Status { get; set; }
+
+    }
+
+    [Table("ViewTestingEligibility", Schema = "dbo")] //Testing eligibility
+    public class Eligibility
+    {
+        [Key]
+        public int ID { get; set; }
+        public int MPI { get; set; }
+        public string? FIRSTNAME { get; set; }
+        public string? LASTNAME { get; set; }
+        public string? CalcTool { get; set; }
+        public int? Gene { get; set; }
+        public string? Score { get; set; }
+        public string? OfferTesting { get; set; }
+        public bool Relative { get; set; }
+        public string? RelTitle { get; set; }
+        public string? RelForename1 { get; set; }
+        public string? RelSurname { get; set; }
+    }
 }
