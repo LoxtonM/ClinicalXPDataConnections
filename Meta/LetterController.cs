@@ -29,6 +29,7 @@ namespace ClinicalXPDataConnections.Meta
         private readonly IExternalFacilityData _externalFacilityData;
         private readonly IConstantsData _constantsData;
         private readonly IAddressLookup _add;
+        private readonly ILeafletData _leafletData;
 
         public LetterController(ClinicalContext clinContext, DocumentContext docContext)
         {
@@ -45,6 +46,7 @@ namespace ClinicalXPDataConnections.Meta
             _externalFacilityData = new ExternalFacilityData(_clinContext);
             _constantsData = new ConstantsData(_docContext);
             _add = new AddressLookup(_clinContext, _docContext);
+            _leafletData = new LeafletData(_docContext);
         }
                
 
@@ -224,7 +226,7 @@ namespace ClinicalXPDataConnections.Meta
 
         public void DoPDF(int id, int mpi, int refID, string user, string referrer, string? additionalText = "", string? enclosures = "", int? reviewAtAge = 0,
             string? tissueType = "", bool? isResearchStudy = false, bool? isScreeningRels = false, int? diaryID = 0, string? freeText1 = "", string? freeText2 = "",
-            int? relID = 0, string? clinicianCode = "", string? siteText = "", DateTime? diagDate = null, bool? isPreview = false, string? qrCodeText = "")
+            int? relID = 0, string? clinicianCode = "", string? siteText = "", DateTime? diagDate = null, bool? isPreview = false, string? qrCodeText = "", int? leafletID = 0)
         {
 
             /*try
@@ -1501,6 +1503,19 @@ namespace ClinicalXPDataConnections.Meta
 
                     }
                 }
+
+                spacer = section.AddParagraph();
+
+                if (leafletID != 0)
+                {
+                    Leaflet enc = _leafletData.GetLeafletDetails(leafletID.GetValueOrDefault());
+
+                    Paragraph contentEnclosures = section.AddParagraph("Enc " + Environment.NewLine + $"{enc.Code} Leaflet - ({enc.Name})");
+                    contentEnclosures.Format.Font.Size = 12;
+                }
+                spacer = section.AddParagraph();
+
+
 
                 Paragraph contentDocCode = section.AddParagraph("Letter code: " + docCode);
                 contentDocCode.Format.Alignment = ParagraphAlignment.Right;
