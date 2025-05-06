@@ -12,6 +12,7 @@ namespace ClinicalXPDataConnections.Models
         public string? DocName { get; set; }
         public string? DocGroup { get; set; }
         public bool TemplateInUseNow { get; set; }
+        public bool HasAdditionalActions { get; set; }
     }
 
     [Table("ListDocumentsContent", Schema = "wmfacs_user")]
@@ -50,5 +51,21 @@ namespace ClinicalXPDataConnections.Models
         public string ConstantCode { get; set; }
         public string ConstantValue { get; set; }
         public string? ConstantValue2 { get; set; }
-    }    
+    }
+
+    [Table("Leaflets", Schema = "dbo")]
+    public class Leaflet
+    {
+        [Key]
+        public int ID { get; set; }
+        public string Code { get; set; }
+        public string Name { get; set; }
+        public bool Printable { get; set; }
+        public bool ExternalLeaflet { get; set; }
+        public string Site { get; set; }
+        public bool CancerLeaflet { get; set; }
+        public bool GeneralLeaflet { get; set; }
+        public bool InUse { get; set; }
+
+    }
 }

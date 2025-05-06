@@ -72,5 +72,6 @@ namespace ClinicalXPDataConnections.Data
         public DbSet<TumourMorph> TumourMorph { get; set; }
         public DbSet<Study> Study { get; set; }
         public DbSet<Eligibility> Eligibility { get; set; }
+        public DbSet<FHSummary> FHSummary { get; set; }
     }
 }

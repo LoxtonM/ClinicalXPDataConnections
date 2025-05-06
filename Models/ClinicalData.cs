@@ -315,6 +315,8 @@ namespace ClinicalXPDataConnections.Models
         public string? COUNSELED { get; set; }        
         public DateTime? ARRIVAL_TIME { get; set; }
         public string? SEEN_BY { get; set; }
+        public string? SEEN_BY2 { get; set; }
+        public string? SEEN_BY3 { get; set; }
         public Int16? NOPATIENTS_SEEN { get; set; }
         public Int16? EST_DURATION_MINS { get; set; }
         public bool? ClockStop { get; set; }
@@ -952,6 +954,7 @@ namespace ClinicalXPDataConnections.Models
         public int ID { get; set; }
         public string Action { get; set; }
         public bool InUse { get; set; }
+        public int? RelatedLetterID { get; set; }
     }
 
     [Table("ListICPGeneralActions", Schema = "dbo")] //List of treatpath actions
@@ -1048,5 +1051,51 @@ namespace ClinicalXPDataConnections.Models
         public string? RelTitle { get; set; }
         public string? RelForename1 { get; set; }
         public string? RelSurname { get; set; }
+    }
+
+    [Table("viewFHSummary", Schema = "dbo")]
+    public class FHSummary
+    {
+        [Key]
+        public int RelsID { get; set; }
+        public string MasterFileNo { get; set; }
+        public string? MasterCrossRefFileNo { get; set; }
+        public int WMFACSID { get; set; }
+        public string? PtName { get; set; }
+        public string? RelName { get; set; }
+        public string? RelAdd { get; set; }
+        public string? RelPC { get; set; }
+        public string? RelSex { get; set; }
+        public string? RelDOBy { get; set; }
+        public string? RelDOB { get; set; }
+        public string? RelDOD { get; set; }
+        public string AgeDeath { get; set; }
+        public string Alive { get; set; }
+        public string? RelAffected { get; set; }
+        public string Affected { get; set; }
+        public int TumourID { get; set; }
+        public string? Diagnosis { get; set; }
+        public string? AgeDiag { get; set; }
+        public string? Hospital { get; set; }
+        public DateTime? DateReq { get; set; }
+        public string? CRegCode { get; set; }
+        public string? Registry { get; set; }
+        public DateTime? DateRec { get; set; }
+        public string? Status { get; set; }
+        [Column("Consent?")]
+        public string? Consent { get; set; } 
+        public string? InfoReq { get; set; }
+        public string WhyNot { get; set; }
+        public string? Confirmed { get; set; }
+        public string Conf { get; set; }
+        public float? ConfDiagAge { get; set; } 
+        public string? ConfDiagDate { get; set; }
+        public string? Site { get; set; }
+        public string? Lat { get; set; }
+        public string? Morph { get; set; }
+        public string? Notes { get; set; }
+        public string RelSurname { get; set; }
+        public string RelForename1 { get; set; }
+        public string? RelForename2 { get; set; }
     }
 }

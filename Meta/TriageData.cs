@@ -15,6 +15,7 @@ namespace ClinicalXPDataConnections.Meta
         public List<ICPCancer> GetCancerICPListForPatient(int mpi);
         public List<ClinicVenue> GetClinicalFacilitiesList();
         public ICPGeneral GetGeneralICPDetails(int? icpID);
+        public ICPGeneral GetGeneralICPDetailsByICPID(int? icpID);
         public ICPCancer GetCancerICPDetails(int? icpID);
         public ICPCancer GetCancerICPDetailsByICPID(int? icpID);
         public int GetGeneralICPCountByICPID(int id);
@@ -104,6 +105,12 @@ namespace ClinicalXPDataConnections.Meta
         }
 
         public ICPGeneral GetGeneralICPDetails(int? icpID) //Get details of a general ICP by the IcpID
+        {
+            ICPGeneral icp = _clinContext.ICPGeneral.FirstOrDefault(c => c.ICP_General_ID == icpID);
+            return icp;
+        }
+
+        public ICPGeneral GetGeneralICPDetailsByICPID(int? icpID) //Get details of a general ICP by the IcpID
         {
             ICPGeneral icp = _clinContext.ICPGeneral.FirstOrDefault(c => c.ICPID == icpID);
             return icp;

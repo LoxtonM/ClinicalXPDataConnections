@@ -9,6 +9,7 @@ namespace ClinicalXPDataConnections.Meta
         public DocumentsContent GetDocumentDetails(int id);
         public DocumentsContent GetDocumentDetailsByDocCode(string docCode);
         public List<Document> GetDocumentsList();
+        public Document GetDocumentData(string docCode);
     }
     public class DocumentsData : IDocumentsData
     {       
@@ -39,6 +40,13 @@ namespace ClinicalXPDataConnections.Meta
                        select d;
 
             return docs.ToList();
+        }
+
+        public Document GetDocumentData(string docCode)
+        {
+            Document doc = _docContext.Documents.FirstOrDefault(d => d.DocCode == docCode);
+
+            return doc;
         }
         
     }
