@@ -73,5 +73,6 @@ namespace ClinicalXPDataConnections.Data
         public DbSet<Study> Study { get; set; }
         public DbSet<Eligibility> Eligibility { get; set; }
         public DbSet<FHSummary> FHSummary { get; set; }
+        public DbSet<TriageTotal> TriageTotal { get; set; }
     }
 }

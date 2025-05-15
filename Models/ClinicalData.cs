@@ -184,6 +184,7 @@ namespace ClinicalXPDataConnections.Models
         public int RefID { get; set; }
         public int MPI { get; set; }        
         public string? FamilyName { get; set; }
+        public string? NHSNo { get; set; }
         public string FamilyNumber { get; set; }
         [Display(Name = "Booked Date")]
         [DataType(DataType.Date)]
@@ -237,6 +238,7 @@ namespace ClinicalXPDataConnections.Models
         public string? REFERRAL_CLINICNO { get; set; }
         public string? ClinicLocation { get; set; }
         public string? CancellationReason { get; set; }
+        public DateTime? OUTCOME_ENTERED { get; set; }
     }
 
     [Table("ViewPatientReferralDetails", Schema ="dbo")] //Referral data
@@ -374,6 +376,7 @@ namespace ClinicalXPDataConnections.Models
         public string? ConsultantCode { get; set; }
         public string? GCCode { get; set; }
         public string? Name { get; set; }
+        public string? NHSNo { get; set; }
         public bool? GCToTriage { get; set; }
         public bool? ConsToTriage { get; set; }
         public bool? GCTriaged { get; set; }
@@ -1043,11 +1046,13 @@ namespace ClinicalXPDataConnections.Models
         public int MPI { get; set; }
         public string? FIRSTNAME { get; set; }
         public string? LASTNAME { get; set; }
+        public int RefID { get; set; }
         public string? CalcTool { get; set; }
         public int? Gene { get; set; }
         public string? Score { get; set; }
         public string? OfferTesting { get; set; }
         public bool Relative { get; set; }
+        public int RelID { get; set; }
         public string? RelTitle { get; set; }
         public string? RelForename1 { get; set; }
         public string? RelSurname { get; set; }
@@ -1097,5 +1102,31 @@ namespace ClinicalXPDataConnections.Models
         public string RelSurname { get; set; }
         public string RelForename1 { get; set; }
         public string? RelForename2 { get; set; }
+    }
+
+    [Keyless]
+    [Table("ViewPatientTriagesAll", Schema = "dbo")]
+    public class TriageTotal
+    {
+        //[Key]
+        public int ICPID { get; set; }
+        public int RefID { get; set; }
+        public int MPI { get; set; }
+        public string CGU_No { get; set; }
+        public string FIRSTNAME { get; set; }
+        public string LASTNAME { get; set; }
+        public string? NHSNo { get; set; }
+        public bool Triaged { get; set; }
+        public string? TriagedBy { get; set; }
+        public string? TriagedByClinician { get; set; }
+        public DateTime? TriagedDate { get; set; }
+        public bool LogicalDelete { get; set; }
+        public string? Type { get; set; }
+        public string PATHWAY { get; set; }
+        public string? WaitingListClinician { get; set; }
+        public string? WaitingListClinicianName { get; set; }
+        public string? WaitingListClinic { get; set; }
+        public string? WaitingListClinicName { get; set; }
+        public string? IndicationNotes { get; set; }
     }
 }
