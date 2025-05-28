@@ -1052,7 +1052,7 @@ namespace ClinicalXPDataConnections.Models
         public string? Score { get; set; }
         public string? OfferTesting { get; set; }
         public bool Relative { get; set; }
-        public int RelID { get; set; }
+        public int? RelID { get; set; }
         public string? RelTitle { get; set; }
         public string? RelForename1 { get; set; }
         public string? RelSurname { get; set; }
