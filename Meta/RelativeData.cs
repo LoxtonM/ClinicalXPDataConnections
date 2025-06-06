@@ -25,7 +25,11 @@ namespace ClinicalXPDataConnections.Meta
         public List<Relative> GetRelativesList(int id) //Get list of relatives of patient by MPI
         {
             Patient patient = _clinContext.Patients.FirstOrDefault(i => i.MPI == id);
-            int wmfacsID = patient.WMFACSID;
+            string pedno = patient.PEDNO;
+            
+            //int wmfacsID = patient.WMFACSID;
+            int wmfacsID = _clinContext.Patients.FirstOrDefault(i => i.CGU_No == pedno + ".0").WMFACSID;
+            //family file's WMFACSID is different to patient's WMFACSID
 
             IQueryable<Relative> relative = from r in _clinContext.Relatives
                            where r.WMFACSID == wmfacsID

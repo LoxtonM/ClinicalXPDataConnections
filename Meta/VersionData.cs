@@ -6,7 +6,7 @@
     }
     public class VersionData : IVersionData
     {
-        public string dllVersion = "26";
+        public string dllVersion = "27";
         public string GetDLLVersion()
         {
             return dllVersion;

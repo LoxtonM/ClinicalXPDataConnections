@@ -492,6 +492,7 @@ namespace ClinicalXPDataConnections.Models
         public string? NOTES { get; set; }
         public Int16 NON_ACTIVE { get; set; }
         public bool HasQRCode { get; set; }
+        public string? QRCodeURL { get; set; }
     }        
 
     [Table("STAFF", Schema = "dbo")] //Staff members
@@ -1049,6 +1050,8 @@ namespace ClinicalXPDataConnections.Models
         public int RefID { get; set; }
         public string? CalcTool { get; set; }
         public int? Gene { get; set; }
+        public string? TestCode { get; set; }
+        public string? TestType { get; set; }
         public string? Score { get; set; }
         public string? OfferTesting { get; set; }
         public bool Relative { get; set; }
@@ -1093,7 +1096,7 @@ namespace ClinicalXPDataConnections.Models
         public string WhyNot { get; set; }
         public string? Confirmed { get; set; }
         public string Conf { get; set; }
-        public float? ConfDiagAge { get; set; } 
+        public double? ConfDiagAge { get; set; } 
         public string? ConfDiagDate { get; set; }
         public string? Site { get; set; }
         public string? Lat { get; set; }
