@@ -220,15 +220,23 @@ namespace ClinicalXPDataConnections.Meta
             if (ccList.Count() > 0)
             {
                 section.AddPageBreak();
-                Paragraph ccHead = section.AddParagraph("CC:");
-                ccHead.Format.Font.Size = 12;
+                //Paragraph ccHead = section.AddParagraph("CC:");
+                //ccHead.Format.Font.Size = 12;
 
                 foreach (var item in ccList)
                 {
                     spacer = section.AddParagraph();
                     spacer = section.AddParagraph();
-                    Paragraph contentCC = section.AddParagraph(item.CC);
-                    contentCC.Format.Font.Size = 12;
+                    MigraDoc.DocumentObjectModel.Tables.Table tableCC = section.AddTable();
+
+                    MigraDoc.DocumentObjectModel.Tables.Column colCC = tableCC.AddColumn();
+                    MigraDoc.DocumentObjectModel.Tables.Column colADDRESS = tableCC.AddColumn();
+                    MigraDoc.DocumentObjectModel.Tables.Row rowcc = tableCC.AddRow();
+                    colCC.Width = 20;
+                    colADDRESS.Width = 300;
+
+                    rowcc[0].AddParagraph("cc:");
+                    rowcc[1].AddParagraph(item.CC);
                     spacer = section.AddParagraph();
                     spacer = section.AddParagraph();
                     printCount = printCount += 1;
@@ -326,7 +334,7 @@ namespace ClinicalXPDataConnections.Meta
 
                 Paragraph spacer = section.AddParagraph();
 
-                if (_lvm.documentsContent.LetterTo != "PTREL" && _lvm.documentsContent.LetterTo != "Other" && _lvm.documentsContent.DocCode != "DT13" && !_lvm.documentsContent.LetterTo.Contains("CF"))
+                if (_lvm.documentsContent.LetterTo != "PTREL" && _lvm.documentsContent.LetterTo != "Other" && !_lvm.documentsContent.LetterTo.Contains("CF"))
                 {
                     table.Columns.Width = 240;
                     contactInfo.Width = 300;
@@ -395,6 +403,7 @@ namespace ClinicalXPDataConnections.Meta
                         name = _lvm.patient.PtLetterAddressee;
                         salutation = _lvm.patient.SALUTATION;
 
+                        patAddress = _add.GetAddress("PT", refID);
                         address = patAddress;
                     }
                 }
@@ -1532,7 +1541,20 @@ namespace ClinicalXPDataConnections.Meta
                             //tfcc.DrawString(cc, font, XBrushes.Black, new XRect(100, ccLength, 500, 100));
                             spacer = section.AddParagraph();
                             spacer = section.AddParagraph();
-                            Paragraph contentCCDetail = section.AddParagraph(cc);
+                            //Paragraph contentCCDetail = section.AddParagraph(cc);                            
+                            MigraDoc.DocumentObjectModel.Tables.Table tableCC = section.AddTable();
+
+                            MigraDoc.DocumentObjectModel.Tables.Column colCC = tableCC.AddColumn();
+                            MigraDoc.DocumentObjectModel.Tables.Column colADDRESS = tableCC.AddColumn();
+                            MigraDoc.DocumentObjectModel.Tables.Row rowcc = tableCC.AddRow();
+                            colCC.Width = 20;
+                            colADDRESS.Width = 300;
+
+                            rowcc[0].AddParagraph("cc:");
+                            rowcc[1].AddParagraph(cc);
+                            spacer = section.AddParagraph();
+                            spacer = section.AddParagraph();
+                            printCount = printCount += 1;
                             //contentCCDetail.Format.Font.Size = 12;
                             ccLength += 150;
                             if (_documentsData.GetDocumentData(docCode).HasAdditionalActions)
@@ -1930,6 +1952,7 @@ namespace ClinicalXPDataConnections.Meta
             text = text.Replace("</font></div>", "");
             text = text.Replace("<div>&nbsp;</div>", "");
             text = text.Replace("&nbsp;", "");
+            text = text.Replace("&amp;", "&");
             //text = text.Replace("&nbsp;", System.Environment.NewLine);
             text = text.Replace(System.Environment.NewLine, "newline");
             //text = Regex.Replace(text, @"<[^>]+>", "").Trim();

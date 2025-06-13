@@ -49,7 +49,7 @@ namespace ClinicalXPDataConnections.Meta
 
         public List<Risk> GetRiskListByRefID(int refID) //Get details of risk item by RiskID
         {
-            IQueryable<Risk> risk = _clinContext.Risk.Where(c => c.RefID == refID);
+            IQueryable<Risk> risk = _clinContext.Risk.Where(c => c.RefID == refID && c.IncludeLetter != 0);
             return risk.ToList();
         }       
 

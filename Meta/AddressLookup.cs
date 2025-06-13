@@ -37,8 +37,18 @@ namespace ClinicalXPDataConnections.Meta
             if (recipientCode == "PT")
             {
                 Patient pat = _pat.GetPatientDetails(referral.MPI);
+                string salutation = "";
 
-                address = pat.PtLetterAddressee + Environment.NewLine + pat.ADDRESS1 + Environment.NewLine;
+                if (pat.DOB > DateTime.Now.AddYears(-16))
+                {
+                    salutation = $"Parent / Guardian of {pat.Title} {pat.FIRSTNAME} {pat.LASTNAME}";
+                }
+                else
+                {
+                    salutation = pat.PtLetterAddressee;
+                }
+
+                address = salutation + Environment.NewLine + pat.ADDRESS1 + Environment.NewLine;
                 if (pat.ADDRESS2 != null) { address = address + pat.ADDRESS2 + Environment.NewLine; }
                 if (pat.ADDRESS3 != null) { address = address + pat.ADDRESS3 + Environment.NewLine; }
                 if (pat.ADDRESS4 != null) { address = address + pat.ADDRESS4 + Environment.NewLine; }

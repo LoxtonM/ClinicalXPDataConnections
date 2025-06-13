@@ -42,5 +42,12 @@ namespace ClinicalXPDataConnections.Meta
             return dateDiff;
         }
 
+        public int DateDifferenceMonth(DateTime startDate, DateTime endDate)
+        {
+            int dateDiff = endDate.Month - startDate.Month;
+
+            return dateDiff;
+        }
+
     }
 }
