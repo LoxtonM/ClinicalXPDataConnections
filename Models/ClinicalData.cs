@@ -51,6 +51,8 @@ namespace ClinicalXPDataConnections.Models
         [Display(Name = "CGU Number")]
         public string? CGU_No { get; set; }
         public string? PEDNO { get; set; }
+        public int? RegNo { get; set; }
+
         [Display(Name = "NHS Number")]
         public string? SOCIAL_SECURITY { get; set; }
         public string? SEX { get; set; }
@@ -564,7 +566,7 @@ namespace ClinicalXPDataConnections.Models
         public string NHSEthnicCode { get; set; }
     }
 
-    [Table("View_Alerts", Schema = "dbo")] //Alerts
+    [Table("ViewPatientAlerts", Schema = "dbo")] //Alerts
     public class Alert
     {
         [Key]

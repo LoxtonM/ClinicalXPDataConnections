@@ -7,7 +7,8 @@ namespace ClinicalXPDataConnections.Meta
     public interface IAlertData    
     {        
         public List<Alert> GetAlertsList(int id);
-        public Alert GetAlertDetails(int id);        
+        public Alert GetAlertDetails(int id);
+        public List<Alert> GetAlertsListAll(int id);
     }
     public class AlertData : IAlertData
     {
@@ -27,7 +28,17 @@ namespace ClinicalXPDataConnections.Meta
 
             return alerts.ToList();
         }
-        
+
+        public List<Alert> GetAlertsListAll(int id) //Get list of ALL alerts for patient by MPI
+        {
+            IQueryable<Alert> alerts = from a in _clinContext.Alert
+                                       where a.MPI == id
+                                       orderby a.AlertID
+                                       select a;
+
+            return alerts.ToList();
+        }
+
 
         public Alert GetAlertDetails(int id)
         {
