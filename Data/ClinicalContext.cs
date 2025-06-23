@@ -42,6 +42,7 @@ namespace ClinicalXPDataConnections.Data
         public DbSet<Relation> Relations { get; set; }
         public DbSet<Gender> Genders { get; set; }
         public DbSet<Pathway> Pathways { get; set; }
+        public DbSet<SubPathway> SubPathways { get; set; }
         public DbSet<Priority> Priority { get; set; }        
         public DbSet<Notification> Notifications { get; set; }       
         public DbSet<ExternalCliniciansAndFacilities> ExternalCliniciansAndFacilities { get; set; }
@@ -74,5 +75,6 @@ namespace ClinicalXPDataConnections.Data
         public DbSet<Eligibility> Eligibility { get; set; }
         public DbSet<FHSummary> FHSummary { get; set; }
         public DbSet<TriageTotal> TriageTotal { get; set; }
+        public DbSet<ReferralReason> referralReasons { get; set; }
     }
 }

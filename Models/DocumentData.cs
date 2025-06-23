@@ -68,4 +68,13 @@ namespace ClinicalXPDataConnections.Models
         public bool InUse { get; set; }
 
     }
+
+    [Table("DocumentKinds", Schema = "dbo")]
+    public class DocumentKinds
+    {
+        [Key]
+        public string DocumentKind { get; set; }
+        public string DocumentKindDescription { get; set; }
+        public int DisplayOrder { get; set; }
+    }
 }

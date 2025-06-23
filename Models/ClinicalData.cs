@@ -63,6 +63,7 @@ namespace ClinicalXPDataConnections.Models
         public string? POSTCODE { get; set; }
         public string? COUNTRY { get; set; }
         public string? PtAreaCode { get; set; }
+        public string? PtAreaName { get; set; }
         public string? TEL { get; set; }
         public string? WORKTEL { get; set; }
         public string? PtTelMobile { get; set; }               
@@ -282,6 +283,7 @@ namespace ClinicalXPDataConnections.Models
         public string? PREGNANCY { get; set; }
         public string? UBRN { get; set; }
         public string? RefReasonCode { get; set; }
+        public string? RefReason { get; set; }
         public string? OthReason1 { get; set; }
         public string? OthReason2 { get; set; }
         public string? OthReason3 { get; set; }
@@ -634,6 +636,15 @@ namespace ClinicalXPDataConnections.Models
         public string CGU_Pathway { get; set; }
     }
 
+    [Table("Pathway_Subset", Schema = "dbo")]
+    public class SubPathway
+    {
+        [Key]
+        public int ID { get; set; }
+        public string Subset { get; set; }
+        public bool InUse { get; set; }
+    }
+
     [Table("CLIN_CLASS", Schema = "dbo")]
     public class Priority
     {
@@ -674,7 +685,7 @@ namespace ClinicalXPDataConnections.Models
         public string? ZIP { get; set; }
     }
 
-    [Table("ListTitle", Schema = "dbo")]
+    [Table("view_PAT_TITLE_as_ListTitle", Schema = "dbo")]
     public class PatientTitle
     {
         [Key]
@@ -1133,5 +1144,15 @@ namespace ClinicalXPDataConnections.Models
         public string? WaitingListClinic { get; set; }
         public string? WaitingListClinicName { get; set; }
         public string? IndicationNotes { get; set; }
+    }
+
+    [Table("ListRefReason", Schema = "dbo")]
+    public class ReferralReason
+    {
+        [Key]
+        public string RefReasonCode { get; set; }
+        public string RefReason { get; set; }
+        public string RefReasonCategory { get; set; }
+        public string OldRefReasonCode { get; set; }
     }
 }

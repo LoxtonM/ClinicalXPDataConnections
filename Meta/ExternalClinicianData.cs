@@ -9,6 +9,7 @@ namespace ClinicalXPDataConnections.Meta
         public string GetCCDetails(ExternalClinician referrer);
         public ExternalClinician GetClinicianDetails(string sref);
         public List<ExternalCliniciansAndFacilities> GetClinicianList();
+        public ExternalCliniciansAndFacilities GetPatientGPReferrer(int mpi);
         public List<ExternalClinician> GetAllCliniciansList();
         public List<ExternalClinician> GetGPList();
         public List<string> GetClinicianTypeList();
@@ -41,7 +42,7 @@ namespace ClinicalXPDataConnections.Meta
             return item;
         }
 
-        public List<ExternalCliniciansAndFacilities> GetClinicianList() //Get list of all external/referring clinicians with their facilities
+        public List<ExternalCliniciansAndFacilities> GetClinicianList() //Get list of all external/referring clinicians with their facilities (no GPs)
         {
             IQueryable<ExternalCliniciansAndFacilities> clinicians = from rf in _clinContext.ExternalCliniciansAndFacilities
                              where rf.NON_ACTIVE == 0 & rf.Is_GP == 0
@@ -49,6 +50,15 @@ namespace ClinicalXPDataConnections.Meta
                              select rf;
             
             return clinicians.Distinct().ToList();
+        }
+
+        public ExternalCliniciansAndFacilities GetPatientGPReferrer(int mpi) //Get the patient's GP and facility
+        {
+            Patient patient = _clinContext.Patients.FirstOrDefault(p => p.MPI == mpi);
+
+            ExternalCliniciansAndFacilities gp = _clinContext.ExternalCliniciansAndFacilities.FirstOrDefault(c => c.MasterClinicianCode == patient.GP_Code);
+
+            return gp;
         }
 
         public List<ExternalClinician> GetAllCliniciansList() //Get list of all external/referring clinicians

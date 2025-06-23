@@ -8,6 +8,7 @@ namespace ClinicalXPDataConnections.Meta
     {
         public PatientPathway GetPathwayDetails(int id);
         public List<Pathway> GetPathwayList();
+        public List<SubPathway> GetSubPathwayList();
     }
     public class PathwayData : IPathwayData
     {
@@ -30,6 +31,15 @@ namespace ClinicalXPDataConnections.Meta
                          select p;
 
             return pathway.ToList();
+        }
+
+        public List<SubPathway> GetSubPathwayList()
+        {
+            IQueryable<SubPathway> spathway = from p in _clinContext.SubPathways
+                                          where p.InUse == true
+                                          select p;
+
+            return spathway.ToList();
         }
 
         

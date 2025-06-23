@@ -11,5 +11,6 @@ namespace ClinicalXPDataConnections.Data
         public DbSet<DocumentsContent> DocumentsContent { get; set; }
         public DbSet<Constant> Constants { get; set; }
         public DbSet<Leaflet> Leaflets { get; set; }
+        public DbSet<DocumentKinds> DocumentKinds { get; set; }
     }
 }

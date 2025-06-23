@@ -8,6 +8,7 @@ namespace ClinicalXPDataConnections.Meta
     {
         public Referral GetReferralDetails(int id);
         public List<Referral> GetReferralsList(int id);
+        public List<Referral> GetTempRegList(int id);
         public List<Referral> GetReferralsByStaffMember(string staffCode, DateTime? startDate, DateTime? endDate);
         public List<Referral> GetActiveReferralsList();
         public List<Referral> GetActiveReferralsListForPatient(int id);
@@ -35,6 +36,16 @@ namespace ClinicalXPDataConnections.Meta
                            select r;            
 
             return referrals.ToList();
+        }
+
+        public List<Referral> GetTempRegList(int id) //Get list of temp reges for patient by MPI
+        {
+            IQueryable<Referral> treg = from r in _clinContext.Referrals
+                                             where r.MPI == id & r.RefType.Contains("Temp")
+                                             orderby r.RefDate
+                                             select r;
+
+            return treg.ToList();
         }
 
         public List<Referral> GetReferralsByStaffMember(string staffCode, DateTime? startDate, DateTime? endDate)
