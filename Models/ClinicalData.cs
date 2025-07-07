@@ -825,6 +825,9 @@ namespace ClinicalXPDataConnections.Models
         public string? SurvRecHoCode { get; set; }
         public int? GeneChangeID { get; set; }
         public string? GeneChangeDescription { get; set; }
+        public bool SurvDisc { get; set; }
+        public DateTime? SurvDiscDate { get; set; }
+        public string? SurvDiscReason { get; set; }
     }
 
     [Table("ListICPCancerReviewActions", Schema = "dbo")]

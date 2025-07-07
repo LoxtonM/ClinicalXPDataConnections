@@ -75,7 +75,7 @@ namespace ClinicalXPDataConnections.Meta
             Paragraph title = section.AddParagraph();
             title.AddFormattedText("WEST MIDLANDS REGIONAL CLINICAL GENETICS SERVICE", TextFormat.Bold);
             title.Format.Alignment = ParagraphAlignment.Center;
-            title.Format.Font.Size = 12; //yes, we literally have to do this for every single paragraph!!
+            title.Format.Font.Size = 10; //yes, we literally have to do this for every single paragraph!!
 
             spacer = section.AddParagraph();
 
@@ -86,7 +86,7 @@ namespace ClinicalXPDataConnections.Meta
             ourAddressInfo.Format.Alignment = ParagraphAlignment.Right;
             table.Rows.Height = 50;
             table.Columns.Width = 250;
-            table.Format.Font.Size = 12;
+            table.Format.Font.Size = 10;
             MigraDoc.DocumentObjectModel.Tables.Row row1 = table.AddRow();
             row1.VerticalAlignment = MigraDoc.DocumentObjectModel.Tables.VerticalAlignment.Top;
             //MigraDoc.DocumentObjectModel.Tables.Row row2 = table.AddRow();
@@ -122,10 +122,10 @@ namespace ClinicalXPDataConnections.Meta
 
             spacer = section.AddParagraph();
             Paragraph contentRefNo = section.AddParagraph($"Please quote our reference on all correspondence: {System.Environment.NewLine} {_lvm.patient.CGU_No}");
-            contentRefNo.Format.Font.Size = 12;
+            contentRefNo.Format.Font.Size = 10;
             spacer = section.AddParagraph();
             Paragraph contentDatesInfo = section.AddParagraph(datesInfo);
-            contentDatesInfo.Format.Font.Size = 12;
+            contentDatesInfo.Format.Font.Size = 10;
 
             string address = "";
             address = _lvm.dictatedLetter.LetterTo;
@@ -133,28 +133,28 @@ namespace ClinicalXPDataConnections.Meta
             spacer = section.AddParagraph();
             spacer = section.AddParagraph();
             Paragraph contentPatientAddress = section.AddParagraph(address);
-            contentPatientAddress.Format.Font.Size = 12;
+            contentPatientAddress.Format.Font.Size = 10;
             spacer = section.AddParagraph();
             Paragraph contentToday = section.AddParagraph(DateTime.Today.ToString("dd MMMM yyyy"));
-            contentToday.Format.Font.Size = 12;
+            contentToday.Format.Font.Size = 10;
             spacer = section.AddParagraph();
             Paragraph contentSalutation = section.AddParagraph($"Dear {_lvm.dictatedLetter.LetterToSalutation}");
-            contentSalutation.Format.Font.Size = 12;
+            contentSalutation.Format.Font.Size = 10;
             spacer = section.AddParagraph();
             Paragraph contentLetterRe = section.AddParagraph();
             contentLetterRe.AddFormattedText(_lvm.dictatedLetter.LetterRe, TextFormat.Bold);
-            contentLetterRe.Format.Font.Size = 12;
+            contentLetterRe.Format.Font.Size = 10;
             spacer = section.AddParagraph();
             Paragraph contentSummary = section.AddParagraph();
             contentSummary.AddFormattedText(_lvm.dictatedLetter.LetterContentBold, TextFormat.Bold);
-            contentSummary.Format.Font.Size = 12;
+            contentSummary.Format.Font.Size = 10;
             spacer = section.AddParagraph();
 
             string letterContent = RemoveHTML(_lvm.dictatedLetter.LetterContent);
 
             //Paragraph contentLetterContent = section.AddParagraph(letterContent);
             Paragraph contentLetterContent = section.AddParagraph();
-            contentLetterContent.Format.Font.Size = 12;
+            contentLetterContent.Format.Font.Size = 10;
 
             if (letterContent.Contains("<<strong>>")) //This is all required because there's no other way to get the bold text into the letter!!
             {
@@ -190,7 +190,7 @@ namespace ClinicalXPDataConnections.Meta
             spacer = section.AddParagraph();
 
             Paragraph contentSignOff = section.AddParagraph("Yours sincerely,");
-            contentSignOff.Format.Font.Size = 12;
+            contentSignOff.Format.Font.Size = 10;
             spacer = section.AddParagraph();
             Paragraph contentSig = section.AddParagraph();
             if (System.IO.File.Exists(@$"wwwroot\Signatures\{sigFilename}"))
@@ -199,7 +199,7 @@ namespace ClinicalXPDataConnections.Meta
             }
             spacer = section.AddParagraph();
             Paragraph contentSignOffName = section.AddParagraph(signOff);
-            contentSignOffName.Format.Font.Size = 12;
+            contentSignOffName.Format.Font.Size = 10;
 
 
 
@@ -208,7 +208,7 @@ namespace ClinicalXPDataConnections.Meta
                 spacer = section.AddParagraph();
                 spacer = section.AddParagraph();
                 Paragraph enclosures = section.AddParagraph("Enclosures: " + _lvm.dictatedLetter.Enclosures);
-                enclosures.Format.Font.Size = 12;
+                enclosures.Format.Font.Size = 10;
             }
             int printCount = 1;
 
@@ -221,7 +221,7 @@ namespace ClinicalXPDataConnections.Meta
             {
                 section.AddPageBreak();
                 //Paragraph ccHead = section.AddParagraph("CC:");
-                //ccHead.Format.Font.Size = 12;
+                //ccHead.Format.Font.Size = 10;
 
                 foreach (var item in ccList)
                 {
@@ -342,7 +342,7 @@ namespace ClinicalXPDataConnections.Meta
                     row1.Height = 100;
                     row2.Height = 110;
                     row3.Height = 20;
-                    ////table.Format.Font.Size = 12;
+                    ////table.Format.Font.Size = 10;
 
 
                     quoteRef = "Please quote this reference on all correspondence: " + _lvm.patient.CGU_No + Environment.NewLine;
@@ -367,7 +367,7 @@ namespace ClinicalXPDataConnections.Meta
                 else
                 {
                     Paragraph contentOurAddress = section.AddParagraph(_lvm.documentsContent.OurAddress);
-                    //contentOurAddress.Format.Font.Size = 12;
+                    //contentOurAddress.Format.Font.Size = 10;
                     contentOurAddress.Format.Alignment = ParagraphAlignment.Right;
                 }
 
@@ -376,7 +376,7 @@ namespace ClinicalXPDataConnections.Meta
                 {
                     spacer = section.AddParagraph();
                     Paragraph contentDirectLine = section.AddParagraph(_lvm.documentsContent.DirectLine);
-                    contentDirectLine.Format.Font.Size = 12;
+                    contentDirectLine.Format.Font.Size = 10;
                 }*/
 
 
@@ -444,7 +444,7 @@ namespace ClinicalXPDataConnections.Meta
 
                     table2.Rows.Height = 50;
                     table2.Columns.Width = 250;
-                    //table2.Format.Font.Size = 12;
+                    //table2.Format.Font.Size = 10;
                     MigraDoc.DocumentObjectModel.Tables.Row row1 = table2.AddRow();
                     row1.VerticalAlignment = MigraDoc.DocumentObjectModel.Tables.VerticalAlignment.Center;
                     row1[0].AddParagraph(address);
@@ -466,14 +466,14 @@ namespace ClinicalXPDataConnections.Meta
                 if (_lvm.documentsContent.LetterTo == "PTREL" || _lvm.documentsContent.LetterTo == "Other" || _lvm.documentsContent.DocCode == "DT13")
                 {
                     Paragraph contentQuoteRef = section.AddParagraph("CGU No. : " + _lvm.patient.CGU_No);
-                    //contentQuoteRef.Format.Font.Size = 12;
+                    //contentQuoteRef.Format.Font.Size = 10;
                 }
                 spacer = section.AddParagraph();
 
                 if (address != "")
                 {
                     Paragraph contentSalutation = section.AddParagraph("Dear " + salutation);
-                    //contentSalutation.Format.Font.Size = 12;
+                    //contentSalutation.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                 }
                 
@@ -516,7 +516,7 @@ namespace ClinicalXPDataConnections.Meta
                 {
                     content1 = _lvm.documentsContent.Para1;
                     Paragraph letterContent = section.AddParagraph(content1);
-                    //letterContent.Format.Font.Size = 12;
+                    //letterContent.Format.Font.Size = 10;
                     signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
 
                 }
@@ -528,13 +528,13 @@ namespace ClinicalXPDataConnections.Meta
                     content2 = _lvm.documentsContent.Para2;
                     content3 = _lvm.documentsContent.Para3 + Environment.NewLine + Environment.NewLine + _lvm.documentsContent.Para4;
                     Paragraph letterContent1 = section.AddParagraph(content1);
-                    //letterContent1.Format.Font.Size = 12;
+                    //letterContent1.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     Paragraph letterContent2 = section.AddParagraph(content2);
-                    //letterContent2.Format.Font.Size = 12;
+                    //letterContent2.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     Paragraph letterContent3 = section.AddParagraph(content3);
-                    //letterContent3.Format.Font.Size = 12;
+                    //letterContent3.Format.Font.Size = 10;
                     signOff = "CGU Booking Centre";
                     ccs[0] = referrerName;
                 }
@@ -549,10 +549,10 @@ namespace ClinicalXPDataConnections.Meta
                         Environment.NewLine + Environment.NewLine + _lvm.documentsContent.Para4;
                     content2 = _lvm.documentsContent.Para5;
                     Paragraph letterContent1 = section.AddParagraph(content1);
-                    //letterContent1.Format.Font.Size = 12;
+                    //letterContent1.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     Paragraph letterContent2 = section.AddParagraph(content2);
-                    //letterContent2.Format.Font.Size = 12;
+                    //letterContent2.Format.Font.Size = 10;
                     signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                 }
 
@@ -560,19 +560,19 @@ namespace ClinicalXPDataConnections.Meta
                 {
                     Paragraph contentRe = section.AddParagraph();
                     contentRe.AddFormattedText("Re: " + patName + ", " + patDOB.ToString("dd/MM/yyyy"), TextFormat.Bold);
-                    //contentRe.Format.Font.Size = 12;
+                    //contentRe.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     Paragraph letterContent1 = section.AddParagraph(_lvm.documentsContent.Para1 + " " + patName + " " + _lvm.documentsContent.Para2);
-                    //letterContent1.Format.Font.Size = 12;
+                    //letterContent1.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     Paragraph letterContent2 = section.AddParagraph(_lvm.documentsContent.Para3);
-                    //letterContent2.Format.Font.Size = 12;
+                    //letterContent2.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     Paragraph letterContent3 = section.AddParagraph(_lvm.documentsContent.Para4);
-                    //letterContent3.Format.Font.Size = 12;
+                    //letterContent3.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     Paragraph letterContent4 = section.AddParagraph(_lvm.documentsContent.Para5);
-                    //letterContent4.Format.Font.Size = 12;
+                    //letterContent4.Format.Font.Size = 10;
                     signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                 }
 
@@ -580,21 +580,21 @@ namespace ClinicalXPDataConnections.Meta
                 {
                     Paragraph contentRe = section.AddParagraph();                    
                     contentRe.AddFormattedText("Re: " + patName + ", " + patDOB.ToString("dd/MM/yyyy"), TextFormat.Bold);
-                    //contentRe.Format.Font.Size = 12;
+                    //contentRe.Format.Font.Size = 10;
                     Paragraph letterContent1 = section.AddParagraph(_lvm.documentsContent.Para1 + " " + patName + " " + _lvm.documentsContent.Para2);
-                    //letterContent1.Format.Font.Size = 12;
+                    //letterContent1.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     Paragraph letterContent2 = section.AddParagraph(_lvm.documentsContent.Para2);
-                    //letterContent2.Format.Font.Size = 12;
+                    //letterContent2.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     Paragraph letterContent3 = section.AddParagraph(_lvm.documentsContent.Para3);
-                    //letterContent3.Format.Font.Size = 12;
+                    //letterContent3.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     Paragraph letterContent4 = section.AddParagraph(_lvm.documentsContent.Para4);
-                    //letterContent4.Format.Font.Size = 12;
+                    //letterContent4.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     Paragraph letterContent5 = section.AddParagraph(_lvm.documentsContent.Para5);
-                    //letterContent5.Format.Font.Size = 12;
+                    //letterContent5.Format.Font.Size = 10;
 
                     signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                 }
@@ -609,25 +609,25 @@ namespace ClinicalXPDataConnections.Meta
                     contentPatDOB.Format.Alignment = ParagraphAlignment.Right;
                     table.Rows.Height = 50;
                     table.Columns.Width = 150;
-                    //table.Format.Font.Size = 12;
+                    //table.Format.Font.Size = 10;
                     MigraDoc.DocumentObjectModel.Tables.Row row1_1 = table1.AddRow();
                     row1_1.VerticalAlignment = MigraDoc.DocumentObjectModel.Tables.VerticalAlignment.Top;
                     row1_1.Format.Font.Bold = true;
-                    //row1.Format.Font.Size = 12;
+                    //row1.Format.Font.Size = 10;
                     row1_1.Cells[0].AddParagraph("Re: " + patName + System.Environment.NewLine + patAddress);
                     row1_1.Cells[1].AddParagraph("Date of Birth: " + patDOB.ToString("dd/MM/yyyy"));
                     spacer = section.AddParagraph();
                     Paragraph letterContent1 = section.AddParagraph(_lvm.documentsContent.Para1 + " " + patName + " " + _lvm.documentsContent.Para2);
-                    //letterContent1.Format.Font.Size = 12;
+                    //letterContent1.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     Paragraph letterContent2 = section.AddParagraph(_lvm.documentsContent.Para2);
-                    //letterContent2.Format.Font.Size = 12;
+                    //letterContent2.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     Paragraph letterContent3 = section.AddParagraph(_lvm.documentsContent.Para3);
-                    //letterContent3.Format.Font.Size = 12;
+                    //letterContent3.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     Paragraph letterContent4 = section.AddParagraph(_lvm.documentsContent.Para4);
-                    //letterContent4.Format.Font.Size = 12;
+                    //letterContent4.Format.Font.Size = 10;
                 }
 
                 //OOR1
@@ -640,25 +640,25 @@ namespace ClinicalXPDataConnections.Meta
                     contentPatDOB.Format.Alignment = ParagraphAlignment.Right;
                     table.Rows.Height = 50;
                     table.Columns.Width = 100;
-                    //table.Format.Font.Size = 12;
+                    //table.Format.Font.Size = 10;
                     MigraDoc.DocumentObjectModel.Tables.Row row1_1 = table.AddRow();
                     row1_1.VerticalAlignment = MigraDoc.DocumentObjectModel.Tables.VerticalAlignment.Top;
                     row1_1.Format.Font.Bold = true;
-                    //row1.Format.Font.Size = 12;
+                    //row1.Format.Font.Size = 10;
                     row1_1.Cells[0].AddParagraph("Re: " + patName + System.Environment.NewLine + patAddress);
                     row1_1.Cells[1].AddParagraph("Date of Birth: " + patDOB.ToString("dd/MM/yyyy"));
                     spacer = section.AddParagraph();
                     Paragraph letterContent1 = section.AddParagraph(_lvm.documentsContent.Para1 + " " + patName + " " + _lvm.documentsContent.Para2);
-                    //letterContent1.Format.Font.Size = 12;
+                    //letterContent1.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     Paragraph letterContent2 = section.AddParagraph(_lvm.documentsContent.Para2);
-                    //letterContent2.Format.Font.Size = 12;
+                    //letterContent2.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     Paragraph letterContent3 = section.AddParagraph(_lvm.documentsContent.Para3);
-                    //letterContent3.Format.Font.Size = 12;
+                    //letterContent3.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     Paragraph letterContent4 = section.AddParagraph(_lvm.documentsContent.Para4);
-                    //letterContent4.Format.Font.Size = 12;
+                    //letterContent4.Format.Font.Size = 10;
                 }
 
                 //PrC letter
@@ -670,16 +670,16 @@ namespace ClinicalXPDataConnections.Meta
                     content4 = _lvm.documentsContent.Para4;
 
                     Paragraph letterContent1 = section.AddParagraph(content1);
-                    //letterContent1.Format.Font.Size = 12;
+                    //letterContent1.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     Paragraph letterContent2 = section.AddParagraph(content2);
-                    //letterContent2.Format.Font.Size = 12;
+                    //letterContent2.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     Paragraph letterContent3 = section.AddParagraph(content3);
-                    //letterContent3.Format.Font.Size = 12;
+                    //letterContent3.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     Paragraph letterContent4 = section.AddParagraph(content4);
-                    //letterContent4.Format.Font.Size = 12;
+                    //letterContent4.Format.Font.Size = 10;
 
                     signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                 }
@@ -694,20 +694,20 @@ namespace ClinicalXPDataConnections.Meta
                     content5 = _lvm.documentsContent.Para9;
 
                     Paragraph letterContent1 = section.AddParagraph(content1);
-                    //letterContent1.Format.Font.Size = 12;
+                    //letterContent1.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     if (content2 != null && content2 != "")
                     {
                         Paragraph letterContent2 = section.AddParagraph();
                         letterContent2.AddFormattedText(content2, TextFormat.Bold);
-                        //letterContent2.Format.Font.Size = 12;
+                        //letterContent2.Format.Font.Size = 10;
                         spacer = section.AddParagraph();
                     }
                     Paragraph letterContent3 = section.AddParagraph(content3);
-                    //letterContent3.Format.Font.Size = 12;
+                    //letterContent3.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     Paragraph letterContent4 = section.AddParagraph(content4);
-                    //letterContent4.Format.Font.Size = 12;
+                    //letterContent4.Format.Font.Size = 10;
                     signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                     ccs[0] = referrerName;
                     ccs[1] = gpName;
@@ -745,28 +745,28 @@ namespace ClinicalXPDataConnections.Meta
                         content6 = _lvm.documentsContent.Para9;
                     }
                     Paragraph letterContent1 = section.AddParagraph(content1);
-                    //letterContent1.Format.Font.Size = 12;
+                    //letterContent1.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     if (content2 != null && content2 != "")
                     {
                         Paragraph letterContent2 = section.AddParagraph(content2);
-                        //letterContent2.Format.Font.Size = 12;
+                        //letterContent2.Format.Font.Size = 10;
                         spacer = section.AddParagraph();
                     }
                     if (content3 != null && content3 != "")
                     {
                         Paragraph letterContent3 = section.AddParagraph(content3);
-                        //letterContent3.Format.Font.Size = 12;
+                        //letterContent3.Format.Font.Size = 10;
                         spacer = section.AddParagraph();
                     }
                     if (content4 != null && content4 != "")
                     {
                         Paragraph letterContent4 = section.AddParagraph(content4);
-                        //letterContent4.Format.Font.Size = 12;
+                        //letterContent4.Format.Font.Size = 10;
                         spacer = section.AddParagraph();
                     }
                     Paragraph letterContent5 = section.AddParagraph(content5);
-                    //letterContent5.Format.Font.Size = 12;
+                    //letterContent5.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                     ccs[0] = referrerName;
@@ -789,18 +789,18 @@ namespace ClinicalXPDataConnections.Meta
                     }
 
                     Paragraph letterContent1 = section.AddParagraph(content1);
-                    //letterContent1.Format.Font.Size = 12;
+                    //letterContent1.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     if (content2 != null && content2 != "")
                     {
                         Paragraph letterContent2 = section.AddParagraph(content2);
-                        //letterContent2.Format.Font.Size = 12;
+                        //letterContent2.Format.Font.Size = 10;
                         spacer = section.AddParagraph();
                     }
                     if (content3 != null && content3 != "")
                     {
                         Paragraph letterContent3 = section.AddParagraph(content3);
-                        //letterContent3.Format.Font.Size = 12;
+                        //letterContent3.Format.Font.Size = 10;
                         spacer = section.AddParagraph();
                     }
                     signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
@@ -840,27 +840,27 @@ namespace ClinicalXPDataConnections.Meta
                     }
 
                     Paragraph letterContent1 = section.AddParagraph(content1);
-                    //letterContent1.Format.Font.Size = 12;
+                    //letterContent1.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     Paragraph letterContent2 = section.AddParagraph(content2);
-                    //letterContent2.Format.Font.Size = 12;
+                    //letterContent2.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     if (content3 != "")
                     {
                         Paragraph letterContent3 = section.AddParagraph(content3);
-                        //letterContent3.Format.Font.Size = 12;
+                        //letterContent3.Format.Font.Size = 10;
                         spacer = section.AddParagraph();
                     }
                     if (content4 != "")
                     {
                         Paragraph letterContent4 = section.AddParagraph(content4);
-                        //letterContent4.Format.Font.Size = 12;
+                        //letterContent4.Format.Font.Size = 10;
                         spacer = section.AddParagraph();
                     }
                     if (content5 != "")
                     {
                         Paragraph letterContent5 = section.AddParagraph(content5);
-                        //letterContent5.Format.Font.Size = 12;
+                        //letterContent5.Format.Font.Size = 10;
                         spacer = section.AddParagraph();
                     }
                     signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
@@ -900,30 +900,30 @@ namespace ClinicalXPDataConnections.Meta
                     }
 
                     Paragraph letterContent1 = section.AddParagraph(content1);
-                    //letterContent1.Format.Font.Size = 12;
+                    //letterContent1.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
 
                     if (content2 != "")
                     {
                         Paragraph letterContent2 = section.AddParagraph(content2);
-                        //letterContent2.Format.Font.Size = 12;
+                        //letterContent2.Format.Font.Size = 10;
                         spacer = section.AddParagraph();
                     }
 
                     Paragraph letterContent3 = section.AddParagraph(content3);
-                    //letterContent3.Format.Font.Size = 12;
+                    //letterContent3.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
 
                     if (content4 != "")
                     {
                         Paragraph letterContent4 = section.AddParagraph(content4);
-                        //letterContent4.Format.Font.Size = 12;
+                        //letterContent4.Format.Font.Size = 10;
                         spacer = section.AddParagraph();
                     }
                     if (content5 != "")
                     {
                         Paragraph letterContent5 = section.AddParagraph(content5);
-                        //letterContent5.Format.Font.Size = 12;
+                        //letterContent5.Format.Font.Size = 10;
                         spacer = section.AddParagraph();
                     }
                     signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
@@ -939,13 +939,13 @@ namespace ClinicalXPDataConnections.Meta
                     content3 = additionalText;
 
                     Paragraph letterContent1 = section.AddParagraph(content1);
-                    //letterContent1.Format.Font.Size = 12;
+                    //letterContent1.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     Paragraph letterContent2 = section.AddParagraph(content2);
-                    //letterContent2.Format.Font.Size = 12;
+                    //letterContent2.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     Paragraph letterContent3 = section.AddParagraph(content3);
-                    //letterContent3.Format.Font.Size = 12;
+                    //letterContent3.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                     ccs[0] = referrerName;
@@ -977,16 +977,16 @@ namespace ClinicalXPDataConnections.Meta
                     content4 = _lvm.documentsContent.Para4;
 
                     Paragraph letterContent1 = section.AddParagraph(content1);
-                    //letterContent1.Format.Font.Size = 12;
+                    //letterContent1.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     Paragraph letterContent2 = section.AddParagraph(content2);
-                    //letterContent2.Format.Font.Size = 12;
+                    //letterContent2.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     Paragraph letterContent4 = section.AddParagraph(content4);
-                    //letterContent4.Format.Font.Size = 12;
+                    //letterContent4.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     Paragraph letterContent5 = section.AddParagraph(content5);
-                    //letterContent5.Format.Font.Size = 12;
+                    //letterContent5.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                     ccs[0] = referrerName;
@@ -1002,16 +1002,16 @@ namespace ClinicalXPDataConnections.Meta
                     content4 = _lvm.documentsContent.Para9;
 
                     Paragraph letterContent1 = section.AddParagraph(content1);
-                    //letterContent1.Format.Font.Size = 12;
+                    //letterContent1.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     Paragraph letterContent2 = section.AddParagraph(content2);
-                    //letterContent2.Format.Font.Size = 12;
+                    //letterContent2.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     Paragraph letterContent3 = section.AddParagraph(content3);
-                    //letterContent3.Format.Font.Size = 12;
+                    //letterContent3.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     Paragraph letterContent4 = section.AddParagraph(content4);
-                    //letterContent4.Format.Font.Size = 12;
+                    //letterContent4.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                     ccs[0] = referrerName;
@@ -1027,16 +1027,16 @@ namespace ClinicalXPDataConnections.Meta
                     content4 = _lvm.documentsContent.Para4;
 
                     Paragraph letterContent1 = section.AddParagraph(content1);
-                    //letterContent1.Format.Font.Size = 12;
+                    //letterContent1.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     Paragraph letterContent2 = section.AddParagraph(content2);
-                    //letterContent2.Format.Font.Size = 12;
+                    //letterContent2.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     Paragraph letterContent3 = section.AddParagraph(content3);
-                    //letterContent3.Format.Font.Size = 12;
+                    //letterContent3.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     Paragraph letterContent4 = section.AddParagraph(content4);
-                    //letterContent4.Format.Font.Size = 12;
+                    //letterContent4.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                     ccs[0] = referrerName;
@@ -1049,20 +1049,20 @@ namespace ClinicalXPDataConnections.Meta
                     content1 = _lvm.documentsContent.Para1 + Environment.NewLine + Environment.NewLine + _lvm.documentsContent.Para2;
 
                     Paragraph letterContent1 = section.AddParagraph(content1);
-                    //letterContent1.Format.Font.Size = 12;
+                    //letterContent1.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     if (content2 != null)
                     {
                         Paragraph letterContent2 = section.AddParagraph();
                         letterContent2.AddFormattedText(content2, TextFormat.Bold);
-                        //letterContent1.Format.Font.Size = 12;
+                        //letterContent1.Format.Font.Size = 10;
                         spacer = section.AddParagraph();
                     }
                     Paragraph letterContent3 = section.AddParagraph(content3);
-                    //letterContent3.Format.Font.Size = 12;
+                    //letterContent3.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     Paragraph letterContent4 = section.AddParagraph(content4);
-                    //letterContent4.Format.Font.Size = 12;
+                    //letterContent4.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                     ccs[0] = referrerName;
@@ -1088,7 +1088,7 @@ namespace ClinicalXPDataConnections.Meta
                     contentPtDOB.Format.Alignment = ParagraphAlignment.Left;
                     table.Rows.Height = 50;
                     table.Columns.Width = 250;
-                    //table.Format.Font.Size = 12;
+                    //table.Format.Font.Size = 10;
                     MigraDoc.DocumentObjectModel.Tables.Row row1_1 = table.AddRow();
                     row1_1[0].AddParagraph("Re: " + patName + System.Environment.NewLine + patAddress);
                     row1_1[1].AddParagraph(ptDOB);
@@ -1096,19 +1096,19 @@ namespace ClinicalXPDataConnections.Meta
                     row1_1.Format.Font.Bold = true;
                     spacer = section.AddParagraph();
                     Paragraph letterContent1 = section.AddParagraph(_lvm.documentsContent.Para5);
-                    //letterContent1.Format.Font.Size = 12;
+                    //letterContent1.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
 
                     Paragraph letterContent2 = section.AddParagraph(_lvm.documentsContent.Para6 + $" {siteText.ToLower()} " + _lvm.documentsContent.Para7);
-                    //letterContent2.Format.Font.Size = 12;
+                    //letterContent2.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
 
                     Paragraph letterContent3 = section.AddParagraph(_lvm.documentsContent.Para3);
-                    //letterContent3.Format.Font.Size = 12;
+                    //letterContent3.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
 
                     Paragraph letterContent4 = section.AddParagraph(_lvm.documentsContent.Para4);
-                    //letterContent4.Format.Font.Size = 12;
+                    //letterContent4.Format.Font.Size = 10;
 
                     signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                 }
@@ -1117,9 +1117,9 @@ namespace ClinicalXPDataConnections.Meta
                 if (docCode == "DT01")
                 {
                     Paragraph letterContentPatName = section.AddParagraph("Re: " + patName);
-                    //letterContentPatName.Format.Font.Size = 12;
+                    //letterContentPatName.Format.Font.Size = 10;
                     Paragraph letterContentPatDOB = section.AddParagraph("Date of birth: " + patDOB.ToString("dd/MM/yyyy"));
-                    //letterContentPatDOB.Format.Font.Size = 12;
+                    //letterContentPatDOB.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
 
                     if (relID == 0)
@@ -1134,13 +1134,13 @@ namespace ClinicalXPDataConnections.Meta
                     content3 = _lvm.documentsContent.Para3;
 
                     Paragraph letterContent1 = section.AddParagraph(content1);
-                    //letterContent1.Format.Font.Size = 12;
+                    //letterContent1.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     Paragraph letterContent2 = section.AddParagraph(content2);
-                    //letterContent2.Format.Font.Size = 12;
+                    //letterContent2.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     Paragraph letterContent3 = section.AddParagraph(content3);
-                    //letterContent3.Format.Font.Size = 12;
+                    //letterContent3.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
 
                     signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
@@ -1154,14 +1154,14 @@ namespace ClinicalXPDataConnections.Meta
                 {
                     salutation = "Colleague";
                     Paragraph letterContentPatName = section.AddParagraph("Re: " + patName);
-                    //letterContentPatName.Format.Font.Size = 12;
+                    //letterContentPatName.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
 
                     Paragraph letterContentPatDOB = section.AddParagraph("Date of birth: " + patDOB.ToString("dd/MM/yyyy"));
-                    //letterContentPatDOB.Format.Font.Size = 12;
+                    //letterContentPatDOB.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     Paragraph letterContentPatAddress = section.AddParagraph(patAddress);
-                    //letterContentPatAddress.Format.Font.Size = 12;
+                    //letterContentPatAddress.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
 
                     content1 = _lvm.documentsContent.Para1 + " " + patName + " " + _lvm.documentsContent.Para2;
@@ -1169,16 +1169,16 @@ namespace ClinicalXPDataConnections.Meta
                     content3 = _lvm.documentsContent.Para4;
                     content4 = _lvm.documentsContent.Para5;
                     Paragraph letterContent1 = section.AddParagraph(content1);
-                    //letterContent1.Format.Font.Size = 12;
+                    //letterContent1.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     Paragraph letterContent2 = section.AddParagraph(content2);
-                    //letterContent2.Format.Font.Size = 12;
+                    //letterContent2.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     Paragraph letterContent3 = section.AddParagraph(content3);
-                    //letterContent3.Format.Font.Size = 12;
+                    //letterContent3.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     Paragraph letterContent4 = section.AddParagraph(content4);
-                    //letterContent4.Format.Font.Size = 12;
+                    //letterContent4.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
 
                     signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
@@ -1188,30 +1188,30 @@ namespace ClinicalXPDataConnections.Meta
                 if (docCode == "DT11")
                 {
                     Paragraph letterContentPatName = section.AddParagraph("Re: " + patName);
-                    //letterContentPatName.Format.Font.Size = 12;
+                    //letterContentPatName.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
 
                     ExternalClinician clin = _externalClinicianData.GetClinicianDetails(clinicianCode);
 
                     content1 = _lvm.documentsContent.Para1;
                     Paragraph letterContent1 = section.AddParagraph(content1);
-                    //letterContent1.Format.Font.Size = 12;
+                    //letterContent1.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     content2 = _lvm.documentsContent.Para2 + " " + siteText + " " + _lvm.documentsContent.Para3;
                     Paragraph letterContent2 = section.AddParagraph(content2);
-                    //letterContent2.Format.Font.Size = 12;
+                    //letterContent2.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     content3 = clin.TITLE + " " + clin.FIRST_NAME + clin.NAME + _externalClinicianData.GetCCDetails(clin);
                     Paragraph letterContent3 = section.AddParagraph(content3);
-                    //letterContent3.Format.Font.Size = 12;
+                    //letterContent3.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     content4 = _lvm.documentsContent.Para4;
                     Paragraph letterContent4 = section.AddParagraph(content4);
-                    //letterContent4.Format.Font.Size = 12;
+                    //letterContent4.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     content5 = _lvm.documentsContent.Para8;
                     Paragraph letterContent5 = section.AddParagraph(content5);
-                    //letterContent5.Format.Font.Size = 12;
+                    //letterContent5.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
 
                     signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
@@ -1231,32 +1231,32 @@ namespace ClinicalXPDataConnections.Meta
                         "B15 2TG"; //because of course it's hard-coded in CGU_DB
 
                     Paragraph letterContentPatName = section.AddParagraph("Re: " + patName);
-                    //letterContentPatName.Format.Font.Size = 12;
+                    //letterContentPatName.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
 
                     content1 = _lvm.documentsContent.Para1;
                     Paragraph letterContent1 = section.AddParagraph(content1);
-                    //letterContent1.Format.Font.Size = 12;
+                    //letterContent1.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
 
                     content2 = _lvm.documentsContent.Para2 + " " + siteText + " " + _lvm.documentsContent.Para3;
                     Paragraph letterContent2 = section.AddParagraph(content2);
-                    //letterContent2.Format.Font.Size = 12;
+                    //letterContent2.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
 
                     Paragraph letterContentRecipient = section.AddParagraph();
                     letterContentRecipient.AddFormattedText(recipient, TextFormat.Bold);
-                    //letterContentRecipient.Format.Font.Size = 12;
+                    //letterContentRecipient.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
 
                     content3 = _lvm.documentsContent.Para4;
                     Paragraph letterContent3 = section.AddParagraph(content3);
-                    //letterContent3.Format.Font.Size = 12;
+                    //letterContent3.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
 
                     content4 = _lvm.documentsContent.Para8;
                     Paragraph letterContent4 = section.AddParagraph(content4);
-                    //letterContent4.Format.Font.Size = 12;
+                    //letterContent4.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
 
                     enclosures = "copy of completed consent form (Letter code CF04)";
@@ -1269,38 +1269,38 @@ namespace ClinicalXPDataConnections.Meta
                 {
                     Paragraph letterContentPatName = section.AddParagraph();
                     letterContentPatName.AddFormattedText("Re: " + patName + System.Environment.NewLine + patAddress, TextFormat.Bold);
-                    //letterContentPatName.Format.Font.Size = 12;
+                    //letterContentPatName.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
 
                     Paragraph letterContentPatDOB = section.AddParagraph();
                     letterContentPatDOB.AddFormattedText("Date of birth: " + patDOB.ToString("dd/MM/yyyy"), TextFormat.Bold);
-                    //letterContentPatDOB.Format.Font.Size = 12;
+                    //letterContentPatDOB.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
 
                     Paragraph letterContentCancerSite = section.AddParagraph();
                     letterContentCancerSite.AddFormattedText("Cancer Site: " + siteText, TextFormat.Bold);
-                    //letterContentCancerSite.Format.Font.Size = 12;
+                    //letterContentCancerSite.Format.Font.Size = 10;
                     letterContentCancerSite.Format.Alignment = ParagraphAlignment.Right;
                     spacer = section.AddParagraph();
 
                     content1 = _lvm.documentsContent.Para1;
                     Paragraph letterContent1 = section.AddParagraph(content1);
-                    //letterContent1.Format.Font.Size = 12;
+                    //letterContent1.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
 
                     content2 = _lvm.documentsContent.Para2;
                     Paragraph letterContent2 = section.AddParagraph(content2);
-                    //letterContent2.Format.Font.Size = 12;
+                    //letterContent2.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
 
                     content3 = _lvm.documentsContent.Para3;
                     Paragraph letterContent3 = section.AddParagraph(content3);
-                    //letterContent3.Format.Font.Size = 12;
+                    //letterContent3.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
 
                     content4 = _lvm.documentsContent.Para4;
                     Paragraph letterContent4 = section.AddParagraph(content4);
-                    //letterContent4.Format.Font.Size = 12;
+                    //letterContent4.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
 
                     signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
@@ -1320,21 +1320,21 @@ namespace ClinicalXPDataConnections.Meta
                         " Date of birth: " + _lvm.patient.DOB.Value.ToString("dd/MM/yyyy");
 
                     Paragraph letterContentRelDets = section.AddParagraph(relDets);
-                    //letterContentRelDets.Format.Font.Size = 12;
+                    //letterContentRelDets.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     Paragraph letterContentPatDets = section.AddParagraph(patDets);
-                    //letterContentPatDets.Format.Font.Size = 12;
+                    //letterContentPatDets.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     content1 = _lvm.documentsContent.Para2;
                     Paragraph letterContent1 = section.AddParagraph(content1);
-                    //letterContent1.Format.Font.Size = 12;
+                    //letterContent1.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     content2 = _lvm.documentsContent.Para10;
                     Paragraph letterContent2 = section.AddParagraph(content2);
-                    //letterContent2.Format.Font.Size = 12;
+                    //letterContent2.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     Paragraph letterContent3 = section.AddParagraph(content3);
-                    //letterContent3.Format.Font.Size = 12;
+                    //letterContent3.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
 
                     signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
@@ -1347,16 +1347,16 @@ namespace ClinicalXPDataConnections.Meta
                     //totalLength = totalLength + 20;
                     Paragraph letterContentPt = section.AddParagraph();
                     letterContentPt.AddFormattedText(patName + ", " + patDOB, TextFormat.Bold);
-                    //letterContentPt.Format.Font.Size = 12;
+                    //letterContentPt.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
 
                     content1 = _lvm.documentsContent.Para1;
                     Paragraph letterContent1 = section.AddParagraph(content1);
-                    //letterContent1.Format.Font.Size = 12;
+                    //letterContent1.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     content2 = _lvm.documentsContent.Para2;
                     Paragraph letterContent2 = section.AddParagraph(content2);
-                    //letterContent2.Format.Font.Size = 12;
+                    //letterContent2.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
 
                     signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
@@ -1368,10 +1368,10 @@ namespace ClinicalXPDataConnections.Meta
                     content1 = _lvm.documentsContent.Para1;
                     content2 = _lvm.documentsContent.Para2;
                     Paragraph letterContent1 = section.AddParagraph(content1);
-                    //letterContent1.Format.Font.Size = 12;
+                    //letterContent1.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     Paragraph letterContent2 = section.AddParagraph(content2);
-                    //letterContent2.Format.Font.Size = 12;
+                    //letterContent2.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
 
                     signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
@@ -1386,16 +1386,16 @@ namespace ClinicalXPDataConnections.Meta
                     content3 = _lvm.documentsContent.Para3;
                     content4 = _lvm.documentsContent.Para4;
                     Paragraph letterContent1 = section.AddParagraph(content1);
-                    //letterContent1.Format.Font.Size = 12;
+                    //letterContent1.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     Paragraph letterContent2 = section.AddParagraph(content2);
-                    //letterContent2.Format.Font.Size = 12;
+                    //letterContent2.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     Paragraph letterContent3 = section.AddParagraph(content3);
-                    //letterContent3.Format.Font.Size = 12;
+                    //letterContent3.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     Paragraph letterContent4 = section.AddParagraph(content4);
-                    //letterContent4.Format.Font.Size = 12;
+                    //letterContent4.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
 
                     if (qrCodeText != "")
@@ -1423,13 +1423,13 @@ namespace ClinicalXPDataConnections.Meta
                     content2 = _lvm.documentsContent.Para2;
                     content3 = _lvm.documentsContent.Para3;
                     Paragraph letterContent1 = section.AddParagraph(content1);
-                    //letterContent1.Format.Font.Size = 12;
+                    //letterContent1.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     Paragraph letterContent2 = section.AddParagraph(content2);
-                    //letterContent2.Format.Font.Size = 12;
+                    //letterContent2.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     Paragraph letterContent3 = section.AddParagraph(content3);
-                    //letterContent3.Format.Font.Size = 12;
+                    //letterContent3.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     ccs[0] = referrerName;
                     
@@ -1443,13 +1443,13 @@ namespace ClinicalXPDataConnections.Meta
                     content2 = _lvm.documentsContent.Para2;
                     content3 = _lvm.documentsContent.Para3;                    
                     Paragraph letterContent1 = section.AddParagraph(content1);
-                    //letterContent1.Format.Font.Size = 12;
+                    //letterContent1.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     Paragraph letterContent2 = section.AddParagraph(content2);
-                    //letterContent2.Format.Font.Size = 12;
+                    //letterContent2.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     Paragraph letterContent3 = section.AddParagraph(content3);
-                    //letterContent3.Format.Font.Size = 12;
+                    //letterContent3.Format.Font.Size = 10;
                     spacer = section.AddParagraph();
                     ccs[0] = referrerName;
                     if (referrerName != gpName)
@@ -1467,7 +1467,7 @@ namespace ClinicalXPDataConnections.Meta
                                                              
 
                 Paragraph contentSignOff = section.AddParagraph("Yours sincerely,");
-                //contentSignOff.Format.Font.Size = 12;
+                //contentSignOff.Format.Font.Size = 10;
                 spacer = section.AddParagraph();
 
                 if (signOff == "CGU Booking Centre")
@@ -1491,7 +1491,7 @@ namespace ClinicalXPDataConnections.Meta
                 }
                 
                 Paragraph contentSignOffName = section.AddParagraph(signOff);
-                //contentSignOffName.Format.Font.Size = 12;
+                //contentSignOffName.Format.Font.Size = 10;
 
                 if (enclosures != "")
                 {
@@ -1508,8 +1508,8 @@ namespace ClinicalXPDataConnections.Meta
 
                     int ccLength = 50;
                     spacer = section.AddParagraph();
-                    Paragraph contentCC = section.AddParagraph("cc:");
-                    //contentCC.Format.Font.Size = 12;
+                    //Paragraph contentCC = section.AddParagraph("cc:");
+                    //contentCC.Format.Font.Size = 10;
                     //tfcc.DrawString("cc:", font, XBrushes.Black, new XRect(40, ccLength, 500, 100));
 
                     //Add a page for all of the CC addresses (must be declared here or we can't use it)            
@@ -1555,7 +1555,7 @@ namespace ClinicalXPDataConnections.Meta
                             spacer = section.AddParagraph();
                             spacer = section.AddParagraph();
                             printCount = printCount += 1;
-                            //contentCCDetail.Format.Font.Size = 12;
+                            //contentCCDetail.Format.Font.Size = 10;
                             ccLength += 150;
                             if (_documentsData.GetDocumentData(docCode).HasAdditionalActions)
                             {
@@ -1574,7 +1574,7 @@ namespace ClinicalXPDataConnections.Meta
                     Leaflet enc = _leafletData.GetLeafletDetails(leafletID.GetValueOrDefault());
 
                     Paragraph contentEnclosures = section.AddParagraph("Enc " + Environment.NewLine + $"{enc.Code} Leaflet - ({enc.Name})");
-                    contentEnclosures.Format.Font.Size = 12;
+                    contentEnclosures.Format.Font.Size = 10;
                 }
                 spacer = section.AddParagraph();
 
