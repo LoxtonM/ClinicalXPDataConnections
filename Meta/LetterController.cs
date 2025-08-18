@@ -128,8 +128,11 @@ namespace ClinicalXPDataConnections.Meta
             contentDatesInfo.Format.Font.Size = 10;
 
             string address = "";
-            address = _lvm.dictatedLetter.LetterTo;
 
+            if (_lvm.dictatedLetter.LetterTo != null)
+            {
+                address = _lvm.dictatedLetter.LetterTo;
+            }
             spacer = section.AddParagraph();
             spacer = section.AddParagraph();
             Paragraph contentPatientAddress = section.AddParagraph(address);
@@ -146,11 +149,22 @@ namespace ClinicalXPDataConnections.Meta
             contentLetterRe.Format.Font.Size = 10;
             spacer = section.AddParagraph();
             Paragraph contentSummary = section.AddParagraph();
-            contentSummary.AddFormattedText(_lvm.dictatedLetter.LetterContentBold, TextFormat.Bold);
+            string summary = "";
+            if (_lvm.dictatedLetter.LetterContentBold != null)
+            {
+                summary = _lvm.dictatedLetter.LetterContentBold;
+            }
+            contentSummary.AddFormattedText(summary, TextFormat.Bold);
             contentSummary.Format.Font.Size = 10;
             spacer = section.AddParagraph();
 
-            string letterContent = RemoveHTML(_lvm.dictatedLetter.LetterContent);
+            string letterContent = "";
+            if (_lvm.dictatedLetter.LetterContent != null)
+            {
+                letterContent = _lvm.dictatedLetter.LetterContent;
+            }
+
+            RemoveHTML(letterContent);
 
             //Paragraph contentLetterContent = section.AddParagraph(letterContent);
             Paragraph contentLetterContent = section.AddParagraph();
@@ -220,8 +234,8 @@ namespace ClinicalXPDataConnections.Meta
             if (ccList.Count() > 0)
             {
                 section.AddPageBreak();
-                //Paragraph ccHead = section.AddParagraph("CC:");
-                //ccHead.Format.Font.Size = 10;
+                Paragraph ccHead = section.AddParagraph("CC:");
+                ccHead.Format.Font.Size = 10;
 
                 foreach (var item in ccList)
                 {

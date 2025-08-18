@@ -21,6 +21,7 @@ namespace ClinicalXPDataConnections.Models
         public int LetterPrinted { get; set; }
         public int ReviewPlanned { get; set; }
         public string ClockStatus { get; set; }
+        public int? ApptRefId { get; set; }
         public string? PATHWAY { get; set; }
         public int? ToBeSeenByGC { get; set; }
         public int? ToBeSeenByCons { get; set; }
@@ -84,6 +85,8 @@ namespace ClinicalXPDataConnections.Models
         public string? INFECTION_RISK { get; set; }
         public string? DCTM_Folder_ID { get; set; }
         public int Patient_Dctm_Sts { get; set; }
+        public string? GenderIdentity { get; set; }
+        public string? GenderAtBirth { get; set; }
     }
 
     [Table("PEDIGREE", Schema = "dbo")]
@@ -1157,5 +1160,32 @@ namespace ClinicalXPDataConnections.Models
         public string RefReason { get; set; }
         public string RefReasonCategory { get; set; }
         public string OldRefReasonCode { get; set; }
+    }
+
+    [Table("PhenotipsPatients", Schema = "dbo")]
+    public class PhenotipsPatient
+    {
+        [Key]
+        public string PhenotipsID { get; set; }
+        public string? FamilyID { get; set; }
+        public string CGUNumber { get; set; }
+        public int MPI { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public DateTime DOB { get; set; }
+        public DateTime? DOD { get; set; }
+        public string? PostCode { get; set; }
+        public string? NHSNo { get; set; }
+    }
+
+    [Table("APPTYPE", Schema = "dbo")]
+    public class ActivityType
+    {
+        [Key]
+        public string APP_TYPE { get; set; }
+        public Int16 NON_ACTIVE { get; set; }
+        public bool ISREFERRAL { get; set; }
+        public bool ISAPPT { get; set; }
+        public bool ISSTUDY { get; set; }
     }
 }

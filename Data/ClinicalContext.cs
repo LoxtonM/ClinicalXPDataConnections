@@ -76,5 +76,8 @@ namespace ClinicalXPDataConnections.Data
         public DbSet<FHSummary> FHSummary { get; set; }
         public DbSet<TriageTotal> TriageTotal { get; set; }
         public DbSet<ReferralReason> referralReasons { get; set; }
+        public DbSet<PhenotipsPatient> PhenotipsPatient { get; set; }
+
+        public DbSet<ActivityType> ActivityType { get; set; }
     }
 }

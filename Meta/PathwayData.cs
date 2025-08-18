@@ -7,6 +7,7 @@ namespace ClinicalXPDataConnections.Meta
     public interface IPathwayData
     {
         public PatientPathway GetPathwayDetails(int id);
+        public List<PatientPathway> GetPathways(int id);
         public List<Pathway> GetPathwayList();
         public List<SubPathway> GetSubPathwayList();
     }
@@ -24,6 +25,13 @@ namespace ClinicalXPDataConnections.Meta
             PatientPathway pathway = _clinContext.PatientPathway.OrderBy(i => i.REFERRAL_DATE).FirstOrDefault(i => i.MPI == id);
             return pathway;
         } //Get earliest active pathway for patient by MPI
+
+        public List<PatientPathway> GetPathways(int id)
+        {
+            IQueryable<PatientPathway> pathways = _clinContext.PatientPathway.Where(i => i.MPI == id).OrderBy(i => i.REFERRAL_DATE);
+
+            return pathways.ToList();
+        }
 
         public List<Pathway> GetPathwayList()
         {
