@@ -86,7 +86,6 @@ namespace ClinicalXPDataConnections.Models
         public string? DCTM_Folder_ID { get; set; }
         public int Patient_Dctm_Sts { get; set; }
         public string? GenderIdentity { get; set; }
-        public string? GenderAtBirth { get; set; }
     }
 
     [Table("PEDIGREE", Schema = "dbo")]
