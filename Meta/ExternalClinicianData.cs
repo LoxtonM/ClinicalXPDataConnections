@@ -13,6 +13,7 @@ namespace ClinicalXPDataConnections.Meta
         public List<ExternalClinician> GetAllCliniciansList();
         public List<ExternalClinician> GetGPList();
         public List<string> GetClinicianTypeList();
+        public List<ExternalCliniciansAndFacilities> GetExternalCliniciansByType(string type);
     }
     public class ExternalClinicianData : IExternalClinicianData
     {
@@ -96,6 +97,16 @@ namespace ClinicalXPDataConnections.Meta
             }
 
             return specialties.Distinct().ToList();
+        }
+
+        public List<ExternalCliniciansAndFacilities> GetExternalCliniciansByType(string type)
+        {
+            IQueryable<ExternalCliniciansAndFacilities> clins = _clinContext.ExternalCliniciansAndFacilities.Where(c => c.SPECIALITY != null);
+
+            clins = clins.Where(c => c.SPECIALITY.Contains(type));
+
+
+            return clins.ToList();
         }
     }
 }

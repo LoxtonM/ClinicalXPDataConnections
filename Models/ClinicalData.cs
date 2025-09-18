@@ -96,6 +96,10 @@ namespace ClinicalXPDataConnections.Models
         public string? PEDIGREE_NAME { get; set; }
         public int File_Dctm_Sts {  get; set; }
         public string? DCTM_Folder_ID { get; set; }
+        public int? PhenotipsStatus { get; set; }
+        public int? BatchNumber { get; set; }
+        public string? PhenotipsPushBy { get; set; }
+        public DateTime? PhenotipsPushDate { get; set; }
     }
 
     [Table("ViewPatientRelativeDetails", Schema = "dbo")] //Patients' relatives
@@ -591,6 +595,7 @@ namespace ClinicalXPDataConnections.Models
         public string MasterFacilityCode { get; set; }
         public string? NAME { get; set; }
         public string? ADDRESS { get; set; }
+        public string? DISTRICT { get; set; }
         public string? CITY { get; set; }
         public string? STATE { get; set; }
         public string? ZIP { get; set; }
@@ -908,6 +913,7 @@ namespace ClinicalXPDataConnections.Models
         public string? FHCStaffCode { get; set; }
         public string? ConsCode { get; set; }
         public string? GC { get; set; }
+        public string? MedSecCode { get; set; }
         public string? GenCons { get; set; }
         public string? GenGC { get; set; }
         public string? GenAdmin { get; set; }
