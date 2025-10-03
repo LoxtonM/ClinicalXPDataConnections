@@ -9,6 +9,7 @@ using PdfSharpCore.Drawing;
 using PdfSharpCore.Drawing.Layout;
 using PdfSharpCore.Pdf;
 using System.Drawing;
+using MigraDoc.DocumentObjectModel.Tables;
 
 
 namespace ClinicalXPDataConnections.Meta
@@ -32,7 +33,7 @@ namespace ClinicalXPDataConnections.Meta
         private readonly ILeafletData _leafletData;
         private readonly IAlertData _alertData;
 
-        public LetterController(ClinicalContext clinContext, DocumentContext docContext)
+        public LetterController(ClinicalContext clinContext, DocumentContext docContext) //to be used for testing only
         {
             _clinContext = clinContext;
             _docContext = docContext;
@@ -61,7 +62,6 @@ namespace ClinicalXPDataConnections.Meta
             string ourAddress = _docContext.DocumentsContent.FirstOrDefault(d => d.OurAddress != null).OurAddress;
             //creates a new PDF document
             MigraDoc.DocumentObjectModel.Document document = new MigraDoc.DocumentObjectModel.Document();
-            //document.Info.Title = "DOT Letter Preview";
 
             Section section = document.AddSection();
 
@@ -77,7 +77,6 @@ namespace ClinicalXPDataConnections.Meta
             Paragraph title = section.AddParagraph();
             title.AddFormattedText("WEST MIDLANDS REGIONAL CLINICAL GENETICS SERVICE", TextFormat.Bold);
             title.Format.Alignment = ParagraphAlignment.Center;
-            title.Format.Font.Size = 10; //yes, we literally have to do this for every single paragraph!!
 
             spacer = section.AddParagraph();
 
@@ -88,13 +87,16 @@ namespace ClinicalXPDataConnections.Meta
             ourAddressInfo.Format.Alignment = ParagraphAlignment.Right;
             table.Rows.Height = 50;
             table.Columns.Width = 250;
-            table.Format.Font.Size = 10;
             MigraDoc.DocumentObjectModel.Tables.Row row1 = table.AddRow();
             row1.VerticalAlignment = MigraDoc.DocumentObjectModel.Tables.VerticalAlignment.Top;
-            //MigraDoc.DocumentObjectModel.Tables.Row row2 = table.AddRow();
-            //row2.VerticalAlignment = MigraDoc.DocumentObjectModel.Tables.VerticalAlignment.Center;
+            MigraDoc.DocumentObjectModel.Tables.Row row2 = table.AddRow();
+            row2.VerticalAlignment = MigraDoc.DocumentObjectModel.Tables.VerticalAlignment.Center;
 
             string clinicianHeader = $"Consultant: {_lvm.dictatedLetter.Consultant}" + System.Environment.NewLine + $"Genetic Counsellor: {_lvm.dictatedLetter.GeneticCounsellor}";
+
+            row1.Cells[0].AddParagraph(clinicianHeader);
+            row1.Cells[0].Format.Font.Bold = true;
+            row1.Cells[1].AddParagraph(ourAddress);
 
             string phoneNumbers = "Secretaries Direct Line:" + System.Environment.NewLine;
 
@@ -104,14 +106,8 @@ namespace ClinicalXPDataConnections.Meta
                 phoneNumbers = phoneNumbers + $"{t.NAME} {t.TELEPHONE}" + System.Environment.NewLine;
             }
 
-            row1.Cells[0].AddParagraph(clinicianHeader + System.Environment.NewLine + System.Environment.NewLine + phoneNumbers);
-            //row1.Cells[0].Format.Font.Bold = true;            
-            row1.Cells[1].AddParagraph(ourAddress + System.Environment.NewLine + System.Environment.NewLine + _constantsData.GetConstant("MainCGUEmail", 1));
-
-
-
-            //row2.Cells[0].AddParagraph(phoneNumbers);
-            //row2.Cells[1].AddParagraph(_constantsData.GetConstant("MainCGUEmail", 1));
+            row2.Cells[0].AddParagraph(phoneNumbers);
+            row2.Cells[1].AddParagraph(_constantsData.GetConstant("MainCGUEmail", 1));
 
             string datesInfo = "";
 
@@ -123,82 +119,36 @@ namespace ClinicalXPDataConnections.Meta
             _lvm.patient = _patientData.GetPatientDetails(_lvm.dictatedLetter.MPI.GetValueOrDefault());
 
             spacer = section.AddParagraph();
-            Paragraph contentRefNo = section.AddParagraph($"Please quote our reference on all correspondence: {System.Environment.NewLine} {_lvm.patient.CGU_No}");
-            contentRefNo.Format.Font.Size = 10;
+            Paragraph contentRefNo = section.AddParagraph($"Please quote our reference on all correspondence: {_lvm.patient.CGU_No}");
             spacer = section.AddParagraph();
             Paragraph contentDatesInfo = section.AddParagraph(datesInfo);
-            contentDatesInfo.Format.Font.Size = 10;
 
             string address = "";
+            address = _lvm.dictatedLetter.LetterTo;
 
-            if (_lvm.dictatedLetter.LetterTo != null)
-            {
-                address = _lvm.dictatedLetter.LetterTo;
-            }
             spacer = section.AddParagraph();
             spacer = section.AddParagraph();
             Paragraph contentPatientAddress = section.AddParagraph(address);
-            contentPatientAddress.Format.Font.Size = 10;
             spacer = section.AddParagraph();
             Paragraph contentToday = section.AddParagraph(DateTime.Today.ToString("dd MMMM yyyy"));
-            contentToday.Format.Font.Size = 10;
             spacer = section.AddParagraph();
             Paragraph contentSalutation = section.AddParagraph($"Dear {_lvm.dictatedLetter.LetterToSalutation}");
-            contentSalutation.Format.Font.Size = 10;
             spacer = section.AddParagraph();
             Paragraph contentLetterRe = section.AddParagraph();
             contentLetterRe.AddFormattedText(_lvm.dictatedLetter.LetterRe, TextFormat.Bold);
-            contentLetterRe.Format.Font.Size = 10;
             spacer = section.AddParagraph();
             Paragraph contentSummary = section.AddParagraph();
-            string summary = "";
-            if (_lvm.dictatedLetter.LetterContentBold != null)
-            {
-                summary = _lvm.dictatedLetter.LetterContentBold;
-            }
-            contentSummary.AddFormattedText(summary, TextFormat.Bold);
-            contentSummary.Format.Font.Size = 10;
+            contentSummary.AddFormattedText(_lvm.dictatedLetter.LetterContentBold, TextFormat.Bold);
             spacer = section.AddParagraph();
 
-            string letterContent = "";
-            if (_lvm.dictatedLetter.LetterContent != null)
-            {
-                letterContent = _lvm.dictatedLetter.LetterContent;
-            }
+            string letterContent = RemoveHTML(_lvm.dictatedLetter.LetterContent);
 
-            RemoveHTML(letterContent);
+            Paragraph contentLetterContent = section.AddParagraph(letterContent);
 
-            //Paragraph contentLetterContent = section.AddParagraph(letterContent);
-            Paragraph contentLetterContent = section.AddParagraph();
-            contentLetterContent.Format.Font.Size = 10;
+            string signOff = _lvm.dictatedLetter.LetterFrom;            
+            StaffMember signatory = _staffUser.GetStaffMemberDetailsByStaffCode(signOff);
 
-            if (letterContent.Contains("<<strong>>")) //This is all required because there's no other way to get the bold text into the letter!!
-            {
-                List<string> letterContentParts = ParseBold(letterContent);
-
-                foreach (var item in letterContentParts)
-                {
-                    if (item.Contains("NOTBOLD"))
-                    {
-                        contentLetterContent.AddFormattedText(item.Replace("NOTBOLD", ""), TextFormat.NotBold);
-                    }
-                    else if (item.Contains("BOLD"))
-                    {
-                        contentLetterContent.AddFormattedText(item.Replace("BOLD", ""), TextFormat.Bold);
-                    }
-                    else
-                    {
-                        contentLetterContent.AddFormattedText(item, TextFormat.NotBold);
-                    }
-                }
-            }
-            else
-            {
-                contentLetterContent.AddFormattedText(letterContent, TextFormat.NotBold);
-            }
-
-            string signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
-            string sigFilename = $"{_lvm.staffMember.StaffForename.Replace(" ", "")}{_lvm.staffMember.StaffSurname.Replace("'", "").Replace(" ", "")}.jpg";
+            string sigFilename = $"{signatory.StaffForename.Replace(" ", "")}{signatory.StaffSurname.Replace("'", "").Replace(" ", "")}.jpg";
 
 
 
@@ -206,7 +156,7 @@ namespace ClinicalXPDataConnections.Meta
             spacer = section.AddParagraph();
 
             Paragraph contentSignOff = section.AddParagraph("Yours sincerely,");
-            contentSignOff.Format.Font.Size = 10;
+
             spacer = section.AddParagraph();
             Paragraph contentSig = section.AddParagraph();
             if (System.IO.File.Exists(@$"wwwroot\Signatures\{sigFilename}"))
@@ -215,17 +165,7 @@ namespace ClinicalXPDataConnections.Meta
             }
             spacer = section.AddParagraph();
             Paragraph contentSignOffName = section.AddParagraph(signOff);
-            contentSignOffName.Format.Font.Size = 10;
 
-
-
-            if (_lvm.dictatedLetter.Enclosures != null && _lvm.dictatedLetter.Enclosures != "")
-            {
-                spacer = section.AddParagraph();
-                spacer = section.AddParagraph();
-                Paragraph enclosures = section.AddParagraph("Enclosures: " + _lvm.dictatedLetter.Enclosures);
-                enclosures.Format.Font.Size = 10;
-            }
             int printCount = 1;
 
             string[] ccs = { "", "", "" };
@@ -235,38 +175,21 @@ namespace ClinicalXPDataConnections.Meta
 
             if (ccList.Count() > 0)
             {
-                section.AddPageBreak();
+                spacer = section.AddParagraph();
+                spacer = section.AddParagraph();
                 Paragraph ccHead = section.AddParagraph("CC:");
-                ccHead.Format.Font.Size = 10;
 
                 foreach (var item in ccList)
                 {
                     spacer = section.AddParagraph();
                     spacer = section.AddParagraph();
-                    MigraDoc.DocumentObjectModel.Tables.Table tableCC = section.AddTable();
-
-                    MigraDoc.DocumentObjectModel.Tables.Column colCC = tableCC.AddColumn();
-                    MigraDoc.DocumentObjectModel.Tables.Column colADDRESS = tableCC.AddColumn();
-                    MigraDoc.DocumentObjectModel.Tables.Row rowcc = tableCC.AddRow();
-                    colCC.Width = 20;
-                    colADDRESS.Width = 300;
-
-                    rowcc[0].AddParagraph("cc:");
-                    rowcc[1].AddParagraph(item.CC);
+                    Paragraph contentCC = section.AddParagraph(item.CC);
                     spacer = section.AddParagraph();
                     spacer = section.AddParagraph();
                     printCount = printCount += 1;
                 }
             }
 
-            spacer = section.AddParagraph();
-
-            Paragraph contentDocCode = section.AddParagraph("Letter code: DOT");
-            contentDocCode.Format.Alignment = ParagraphAlignment.Right;
-            contentDocCode.Format.Font.Size = 8;
-
-
-            //document.Save(Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot\\DOTLetterPreviews\\preview-{user}.pdf"));
 
             PdfDocumentRenderer pdf = new PdfDocumentRenderer();
             pdf.Document = document;
@@ -281,6 +204,7 @@ namespace ClinicalXPDataConnections.Meta
                 string refIDString = _lvm.dictatedLetter.RefID.ToString();
                 string dateTimeString = DateTime.Now.ToString("yyyyMMddHHmmss");
 
+
                 System.IO.File.Copy($"wwwroot\\DOTLetterPreviews\\preview-{user}.pdf", $@"C:\CGU_DB\Letters\DOTLetter-{fileCGU}-DOT-{mpiString}-0-{refIDString}-{printCount.ToString()}-{dateTimeString}-{dID.ToString()}.pdf");
 
                 /*                 
@@ -292,7 +216,7 @@ namespace ClinicalXPDataConnections.Meta
         public void DoPDF(int id, int mpi, int refID, string user, string referrer, string? additionalText = "", string? enclosures = "", int? reviewAtAge = 0,
             string? tissueType = "", bool? isResearchStudy = false, bool? isScreeningRels = false, int? diaryID = 0, string? freeText1 = "", string? freeText2 = "",
             int? relID = 0, string? clinicianCode = "", string? siteText = "", DateTime? diagDate = null, bool? isPreview = false, string? qrCodeText = "", int? leafletID = 0)
-        {            
+        {
             _lvm.staffMember = _staffUser.GetStaffMemberDetails(user);
             _lvm.patient = _patientData.GetPatientDetails(mpi);
             _lvm.documentsContent = _documentsData.GetDocumentDetails(id);
@@ -347,7 +271,7 @@ namespace ClinicalXPDataConnections.Meta
 
                 Paragraph spacer = section.AddParagraph();
 
-                if (_lvm.documentsContent.LetterTo != "PTREL" && _lvm.documentsContent.LetterTo != "Other" && !_lvm.documentsContent.LetterTo.Contains("CF"))
+                if (!_lvm.documentsContent.LetterTo.Contains("CF"))
                 {
                     table.Columns.Width = 240;
                     contactInfo.Width = 300;
@@ -433,10 +357,11 @@ namespace ClinicalXPDataConnections.Meta
                     name = clinician.TITLE + " " + clinician.FIRST_NAME + " " + clinician.NAME;
                     var hospital = _externalFacilityData.GetFacilityDetails(clinician.FACILITY);
                     salutation = clinician.TITLE + " " + clinician.FIRST_NAME + " " + clinician.NAME;
-                    address = hospital.ADDRESS + Environment.NewLine;
-                    address = address + hospital.CITY + Environment.NewLine;
-                    address = address + hospital.STATE + Environment.NewLine;
-                    address = address + hospital.ZIP + Environment.NewLine;
+                    address = salutation + Environment.NewLine;
+                    address += hospital.ADDRESS + Environment.NewLine;
+                    address += hospital.CITY + Environment.NewLine;
+                    address += hospital.STATE + Environment.NewLine;
+                    address += hospital.ZIP + Environment.NewLine;
                 }
 
 
@@ -1441,7 +1366,127 @@ namespace ClinicalXPDataConnections.Meta
                 //DT15
                 if (docCode == "DT15")
                 {
-                    //PLACEHOLDER
+                    pageCount = 2;
+                    string germline = freeText1;
+                    string somatic = freeText2;
+                    string furtherDetails = additionalText;
+
+                    Paragraph letterContentPatName = section.AddParagraph();
+                    letterContentPatName.AddFormattedText("Re: " + patName + "CGUbo: " + _lvm.patient.CGU_No, TextFormat.Bold);
+
+                    Paragraph letterContentPatDOB = section.AddParagraph();
+                    letterContentPatDOB.AddFormattedText("Date of birth: " + patDOB.ToString("dd/MM/yyyy") + "NHS number: " + _lvm.patient.SOCIAL_SECURITY, TextFormat.Bold);
+                    spacer = section.AddParagraph();
+                    string titleText = "Request for formalin-fixed paraffin embedded (FFPE) tissue to enable genetic tissue";
+                    Paragraph letterTitle = section.AddParagraph();
+                    letterTitle.AddFormattedText(titleText, TextFormat.Bold);
+                    spacer = section.AddParagraph();
+                    content1 = _lvm.documentsContent.Para1;
+                    Paragraph letterContent1 = section.AddParagraph(content1);
+                    spacer = section.AddParagraph();
+                    content2 = _lvm.documentsContent.Para2 + " " + siteText + " " + _lvm.documentsContent.Para3;
+                    Paragraph letterContent2 = section.AddParagraph();
+                    letterContent2.AddFormattedText(content2);
+                    letterContent2.Format.LeftIndent = 5;
+                    spacer = section.AddParagraph();
+                    MigraDoc.DocumentObjectModel.Tables.Table histoTable = section.AddTable();
+                    MigraDoc.DocumentObjectModel.Tables.Column col1 = histoTable.AddColumn();
+                    col1.Width = 250;
+                    MigraDoc.DocumentObjectModel.Tables.Column col2 = histoTable.AddColumn();
+                    col2.Width = 250;
+                    MigraDoc.DocumentObjectModel.Tables.Row hRow1 = histoTable.AddRow();
+                    MigraDoc.DocumentObjectModel.Tables.Row hRow2 = histoTable.AddRow();
+                    MigraDoc.DocumentObjectModel.Tables.Row hRow3 = histoTable.AddRow();
+                    MigraDoc.DocumentObjectModel.Tables.Row hRow4 = histoTable.AddRow();
+                    MigraDoc.DocumentObjectModel.Tables.Row hRow5 = histoTable.AddRow();
+                    MigraDoc.DocumentObjectModel.Tables.Row hRow6 = histoTable.AddRow();
+                    MigraDoc.DocumentObjectModel.Tables.Row hRow7 = histoTable.AddRow();
+                    histoTable.Rows.Height = 20;
+
+                    histoTable.SetEdge(0, 0, histoTable.Columns.Count, histoTable.Rows.Count, Edge.Box, BorderStyle.Single, 1, Colors.Black);
+
+                    hRow1.Borders.Bottom.Width = 0.5;
+                    hRow4.Borders.Bottom.Width = 0.5;
+
+                    content3 = _lvm.documentsContent.Para7;
+                    hRow1.Cells[0].MergeRight = 1;
+                    hRow1.Cells[0].AddParagraph().AddFormattedText(content3, TextFormat.Bold);
+                    hRow2.Cells[0].AddParagraph().AddFormattedText("Slides containing tumour tissue", TextFormat.Bold);
+                    hRow3.Cells[0].AddParagraph("Slide reference(s):");
+                    hRow4.Cells[0].AddParagraph("Cellularity:");
+                    hRow4.Cells[1].AddParagraph("Tumour content:");
+                    hRow5.Cells[0].AddParagraph().AddFormattedText("Slides containing 'normal' tissue", TextFormat.Bold);
+                    hRow6.Cells[0].AddParagraph("Slide reference(s):");
+                    hRow7.Cells[0].AddParagraph("Cellularity:");
+                    hRow7.Cells[1].AddParagraph("Tumour content:" + Environment.NewLine + "(if an area of solely 'normal' tissue is not available)");
+
+                    spacer = section.AddParagraph();
+                    content4 = _lvm.documentsContent.Para10;
+                    Paragraph letterContent3 = section.AddParagraph(content4);
+                    spacer = section.AddParagraph();
+                    Paragraph letterContent4 = section.AddParagraph();
+                    letterContent4.AddFormattedText("Please ensure both sides of this form are included with the patient samples.", TextFormat.Bold);
+                    spacer = section.AddParagraph();
+                    Paragraph letterContent5 = section.AddParagraph();
+                    letterContent5.AddFormattedText("Notes to Histopathology Laboratory:", TextFormat.Bold);
+                    spacer = section.AddParagraph();
+                    content5 = _lvm.documentsContent.Para4;
+                    Paragraph letterContent6 = section.AddParagraph(content5);
+                    spacer = section.AddParagraph();
+                    content6 = _lvm.documentsContent.Para5;
+                    Paragraph letterContent7 = section.AddParagraph(content6);
+                    letterContent7.Format.LeftIndent = 5;
+                    spacer = section.AddParagraph();
+                    string content7 = _lvm.documentsContent.Para6;
+                    Paragraph letterContent8 = section.AddParagraph(content7);
+                    spacer = section.AddParagraph();
+
+                    MigraDoc.DocumentObjectModel.Tables.Table histoTable2 = section.AddTable();
+                    MigraDoc.DocumentObjectModel.Tables.Column col2_1 = histoTable2.AddColumn();
+                    col2_1.Width = 500;
+                    MigraDoc.DocumentObjectModel.Tables.Row hRow2_1 = histoTable2.AddRow();
+                    MigraDoc.DocumentObjectModel.Tables.Row hRow2_2 = histoTable2.AddRow();
+                    MigraDoc.DocumentObjectModel.Tables.Row hRow2_3 = histoTable2.AddRow();
+                    MigraDoc.DocumentObjectModel.Tables.Row hRow2_4 = histoTable2.AddRow();
+                    MigraDoc.DocumentObjectModel.Tables.Row hRow2_5 = histoTable2.AddRow();
+                    MigraDoc.DocumentObjectModel.Tables.Row hRow2_6 = histoTable2.AddRow();
+                    MigraDoc.DocumentObjectModel.Tables.Row hRow2_7 = histoTable2.AddRow();
+                    MigraDoc.DocumentObjectModel.Tables.Row hRow2_8 = histoTable2.AddRow();
+                    MigraDoc.DocumentObjectModel.Tables.Row hRow2_9 = histoTable2.AddRow();
+                    MigraDoc.DocumentObjectModel.Tables.Row hRow2_10 = histoTable2.AddRow();
+                    MigraDoc.DocumentObjectModel.Tables.Row hRow2_11 = histoTable2.AddRow();
+                    MigraDoc.DocumentObjectModel.Tables.Row hRow2_12 = histoTable2.AddRow();
+                    histoTable2.Rows.Height = 20;
+
+                    histoTable2.SetEdge(0, 0, histoTable2.Columns.Count, histoTable2.Rows.Count, Edge.Box, BorderStyle.Single, 1, Colors.Black);
+                    hRow2_2.Borders.Bottom.Width = 0.5;
+                    hRow2_6.Borders.Bottom.Width = 0.5;
+                    hRow2_10.Borders.Bottom.Width = 0.5;
+                    hRow2_12.Borders.Bottom.Width = 0.5;
+
+                    hRow2_1.Cells[0].AddParagraph().AddFormattedText("Details of molecular genetic testing required", TextFormat.Bold);
+                    hRow2_1.Height = 10;
+                    hRow2_2.Cells[0].AddParagraph("Clinician please detail as appropriate to direct testing at the West Midlands Regional Genetics Laboratory");
+                    hRow2_3.Cells[0].AddParagraph().AddFormattedText("Germline analysis", TextFormat.Bold);
+                    hRow2_4.Cells[0].AddParagraph("(where blood or saliva is not available from the affected family member and indirect testing of other family members is not appropriate)");
+                    hRow2_4.Height = 30;
+                    hRow2_5.Cells[0].AddParagraph("Gene(s) to be analysed for germline variants:");
+                    hRow2_6.Cells[0].AddParagraph(germline).Format.LeftIndent = 2;
+                    hRow2_7.Cells[0].AddParagraph().AddFormattedText("Somatic analysis", TextFormat.Bold);
+                    hRow2_8.Cells[0].AddParagraph("(following a negative germline screen of a gene(s) in which a molecular defect is indicated)");
+                    hRow2_9.Cells[0].AddParagraph("Gene(s) to be analysed for somatic variants:");
+                    hRow2_10.Cells[0].AddParagraph(somatic).Format.LeftIndent = 2;
+                    hRow2_11.Cells[0].AddParagraph().AddFormattedText("Further patient details and cancer history", TextFormat.Bold); ;
+                    if (furtherDetails != null)
+                    {
+                        hRow2_12.Cells[0].AddParagraph(furtherDetails).Format.LeftIndent = 2;
+                    }
+                    hRow2_12.Height = 50;
+                    spacer = section.AddParagraph();
+                    Paragraph letterContentClinDets = section.AddParagraph();
+                    letterContentClinDets.AddFormattedText("Section 5: Clinician details", TextFormat.Bold);
+                    spacer = section.AddParagraph();
+                    signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                 }
 
                 //PC01
@@ -1648,6 +1693,11 @@ namespace ClinicalXPDataConnections.Meta
                     content3 = _lvm.documentsContent.Para7;
                     Paragraph letterContent3 = section.AddParagraph(content3);
                     spacer = section.AddParagraph();
+                    if (additionalText != null && additionalText != "")
+                    {
+                        Paragraph addText = section.AddParagraph(additionalText);
+                        spacer = section.AddParagraph();
+                    }
                     content4 = _lvm.documentsContent.Para8;
                     Paragraph letterContent4 = section.AddParagraph(content4);
                     spacer = section.AddParagraph();
@@ -1710,7 +1760,10 @@ namespace ClinicalXPDataConnections.Meta
                 spacer = section.AddParagraph();
                 sigFilename = _lvm.staffMember.StaffForename + _lvm.staffMember.StaffSurname.Replace("'", "").Replace(" ", "") + ".jpg";
 
-                Paragraph contentSignOff = section.AddParagraph("Yours sincerely,");
+                if (docCode != "DT15")
+                {
+                    Paragraph contentSignOff = section.AddParagraph("Yours sincerely,");
+                }
                 spacer = section.AddParagraph();
 
                 if (signOff == "CGU Booking Centre")
@@ -1735,7 +1788,7 @@ namespace ClinicalXPDataConnections.Meta
 
                 Paragraph contentSignOffName = section.AddParagraph(signOff);
 
-                if (enclosures != "")
+                if (enclosures != "" && enclosures != null)
                 {
                     spacer = section.AddParagraph();
                     spacer = section.AddParagraph();
@@ -2245,63 +2298,25 @@ namespace ClinicalXPDataConnections.Meta
         }
 
 
-
         string RemoveHTML(string text)
         {
-            text = text.Replace("<div><font face=Arial size=3>", "");
-            text = text.Replace("</font></div>", "");
-            text = text.Replace("<div>&nbsp;</div>", "");
-            text = text.Replace("&nbsp;", "");
-            text = text.Replace("&amp;", "&");
-            //text = text.Replace("&nbsp;", System.Environment.NewLine);
+
+            text = text.Replace("&nbsp;", System.Environment.NewLine);
             text = text.Replace(System.Environment.NewLine, "newline");
-            //text = Regex.Replace(text, @"<[^>]+>", "").Trim();
-            ////text = Regex.Replace(text, @"\n{2,}", " ");
-            //text = text.Replace("&lt;", "<");
-            //text = text.Replace("&gt;", ">"); //because sometimes clinicians like to actually use those symbols
-            text = text.Replace("newlinenewlinenewlinenewline", System.Environment.NewLine + System.Environment.NewLine);
-            //text = text.Replace("newlinenewlinenewline", "3 lines " + System.Environment.NewLine + System.Environment.NewLine);
+            text = Regex.Replace(text, @"<[^>]+>", "").Trim();
+            //text = Regex.Replace(text, @"\n{2,}", " ");
+            text = text.Replace("&lt;", "<");
+            text = text.Replace("&gt;", ">"); //because sometimes clinicians like to actually use those symbols
             text = text.Replace("newlinenewline", System.Environment.NewLine);
             text = text.Replace("newline", "");
-            text = text.Replace("<br>", System.Environment.NewLine + System.Environment.NewLine);
-            text = text.Replace("<div>", "");
-            text = text.Replace("</div>", "");
-            text = text.Replace("b>", "strong>");
-            if (text.Contains("<span style=\"font-weight: 600;\">")) { text = text.Replace("<span style=\"font-weight: 600;\">", "<strong>"); }
-            text = text.Replace("</span>", "</strong>"); //because there are a million different ways that it can decide to save bold formatting
-            text = text.Replace("<strong>", "<<strong>>");
-            text = text.Replace("</strong>", "<</strong>>");
+            //this is the ONLY way to strip out the excessive new lines!! (and still can't remove all of them)
 
             return text;
         }
 
-        List<string> ParseBold(string text)
-        {
-            List<string> newText = new List<string>();
 
-            if (text.Contains("<strong>"))
-            {
-                string[] textBlocks = text.Split("strong>>");
 
-                foreach (var item in textBlocks)
-                {
-                    if (item.Contains("<</"))
-                    {
-                        newText.Add(item.Replace("<</", "") + "BOLD ");
-                    }
-                    else if (item.Contains("<<"))
-                    {
-                        newText.Add(item.Replace("<<", "") + "NOTBOLD ");
-                    }
-                    else
-                    {
-                        newText.Add(item);
-                    }
-                }
-            }
 
-            return newText;
-        }
     }
 }
 
