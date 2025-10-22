@@ -86,6 +86,7 @@ namespace ClinicalXPDataConnections.Models
         public string? DCTM_Folder_ID { get; set; }
         public int Patient_Dctm_Sts { get; set; }
         public string? GenderIdentity { get; set; }
+        public string? ExternalID { get; set; }
     }
 
     [Table("PEDIGREE", Schema = "dbo")]
@@ -135,7 +136,7 @@ namespace ClinicalXPDataConnections.Models
         public string? RelAdd3 { get; set; }
         public string? RelAdd4 { get; set; }
         public string? RelAdd5 { get; set; }
-        public string? RelPC1 { get; set; }
+        public string? RelPC1 { get; set; }        
     }
 
     [Table("RelativesDiary", Schema = "dbo")]

@@ -145,8 +145,8 @@ namespace ClinicalXPDataConnections.Meta
 
             Paragraph contentLetterContent = section.AddParagraph(letterContent);
 
-            string signOff = _lvm.dictatedLetter.LetterFrom;            
-            StaffMember signatory = _staffUser.GetStaffMemberDetailsByStaffCode(signOff);
+            string signOff = _lvm.dictatedLetter.LetterFrom;                        
+            StaffMember signatory = _staffUser.GetStaffMemberDetailsByStaffCode(_lvm.dictatedLetter.LetterFromCode);
 
             string sigFilename = $"{signatory.StaffForename.Replace(" ", "")}{signatory.StaffSurname.Replace("'", "").Replace(" ", "")}.jpg";
 

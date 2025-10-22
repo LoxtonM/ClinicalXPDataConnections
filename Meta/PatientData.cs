@@ -13,6 +13,7 @@ namespace ClinicalXPDataConnections.Meta
         public Patient GetPatientDetailsByCGUNo(string cguNo);
         public List<Patient> GetFamilyMembers(int mpi);
         public List<Patient> GetPatientsInPedigree(string pedno);
+        public List<Patient> GetPatientsWithoutCGUNumbers();
     }
     public class PatientData : IPatientData 
     {
@@ -65,6 +66,13 @@ namespace ClinicalXPDataConnections.Meta
         {
             IQueryable<Patient> pts = _clinContext.Patients.Where(p => p.PEDNO == pedno).OrderBy(p => p.MPI);
             return pts.ToList();
+        }
+
+        public List<Patient> GetPatientsWithoutCGUNumbers()
+        {
+            IQueryable<Patient> patients = _clinContext.Patients.Where(p => p.ExternalID != null && p.CGU_No == ".");
+
+            return patients.ToList();
         }
     }
 }

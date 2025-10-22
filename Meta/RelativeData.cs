@@ -26,16 +26,22 @@ namespace ClinicalXPDataConnections.Meta
         {
             Patient patient = _clinContext.Patients.FirstOrDefault(i => i.MPI == id);
             string pedno = patient.PEDNO;
-            
+            List<Relative> relative = new List<Relative>();
+
             //int wmfacsID = patient.WMFACSID;
-            int wmfacsID = _clinContext.Patients.FirstOrDefault(i => i.CGU_No == pedno + ".0").WMFACSID;
-            //family file's WMFACSID is different to patient's WMFACSID
+            if (patient.PEDNO != null)
+            {
+                int wmfacsID = _clinContext.Patients.FirstOrDefault(i => i.CGU_No == pedno + ".0").WMFACSID;
+                //family file's WMFACSID is different to patient's WMFACSID
 
-            IQueryable<Relative> relative = from r in _clinContext.Relatives
-                           where r.WMFACSID == wmfacsID
-                           select r;           
 
-            return relative.ToList();
+                IQueryable<Relative> rels = from r in _clinContext.Relatives
+                                                where r.WMFACSID == wmfacsID
+                                                select r;
+                relative = rels.ToList(); //because apparently I can't create an empty Iqueryable anymore for some reason, even though it worked before!!!
+            }
+
+            return relative;
         }
 
         public Relative GetRelativeDetails(int relID)
