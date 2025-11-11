@@ -70,7 +70,7 @@ namespace ClinicalXPDataConnections.Meta
 
         public List<Patient> GetPatientsWithoutCGUNumbers()
         {
-            IQueryable<Patient> patients = _clinContext.Patients.Where(p => p.ExternalID != null && p.CGU_No == ".");
+            IQueryable<Patient> patients = _clinContext.Patients.Where(p => p.ExternalID != null && (p.CGU_No == "." || p.CGU_No == null));
 
             return patients.ToList();
         }
