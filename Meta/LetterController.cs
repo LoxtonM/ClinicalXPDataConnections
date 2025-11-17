@@ -138,7 +138,9 @@ namespace ClinicalXPDataConnections.Meta
             contentLetterRe.AddFormattedText(_lvm.dictatedLetter.LetterRe, TextFormat.Bold);
             spacer = section.AddParagraph();
             Paragraph contentSummary = section.AddParagraph();
-            contentSummary.AddFormattedText(_lvm.dictatedLetter.LetterContentBold, TextFormat.Bold);
+            string letterContentBold = "";
+            if(_lvm.dictatedLetter.LetterContentBold != null) { letterContentBold = _lvm.dictatedLetter.LetterContentBold; }
+            contentSummary.AddFormattedText(letterContentBold, TextFormat.Bold);
             spacer = section.AddParagraph();
 
             string letterContent = RemoveHTML(_lvm.dictatedLetter.LetterContent);

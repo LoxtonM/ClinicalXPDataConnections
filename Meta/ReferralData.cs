@@ -12,6 +12,8 @@ namespace ClinicalXPDataConnections.Meta
         public List<Referral> GetReferralsByStaffMember(string staffCode, DateTime? startDate, DateTime? endDate);
         public List<Referral> GetActiveReferralsList();
         public List<Referral> GetActiveReferralsListForPatient(int id);
+
+        public List<Referral> GetUnassignedReferrals();
     }
     public class ReferralData : IReferralData
     {
@@ -77,6 +79,14 @@ namespace ClinicalXPDataConnections.Meta
                                                                         && r.MPI == id).OrderBy(r => r.WeeksFromReferral).ToList();
 
             return patientReferralsList;
+        }
+
+
+        public List<Referral> GetUnassignedReferrals()
+        {
+            IQueryable<Referral> referrals = _clinContext.Referrals.Where(r => r.RefType.Contains("Refer") && r.COMPLETE == "Missing Data");
+
+            return referrals.ToList();
         }
     }
 }
