@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -70,6 +69,7 @@ namespace ClinicalXPDataConnections.Models
         public string? PtTelMobile { get; set; }               
         public string? EmailCommsConsent { get; set; }
         public string? EmailAddress { get; set; }
+        public string? EmailAddressUnconfirmed { get; set; } //DEV ONLY
         public string? PrimaryLanguage { get; set; }
         public string? IsInterpreterReqd { get; set; }
         public string? GP { get; set; }
@@ -360,6 +360,7 @@ namespace ClinicalXPDataConnections.Models
     {
         [Key]
         public int DiaryID { get; set; }
+        public int MPI { get; set; }
         public int WMFACSID { get; set; }
         public DateTime? DiaryDate { get; set; }
         public string? DiaryWith { get; set; }
@@ -528,6 +529,7 @@ namespace ClinicalXPDataConnections.Models
         public string PASSWORD { get; set; }
         public string? GMCNumber { get; set; }
         public Int16? SYSTEM_ADMINISTRATOR { get; set; }
+        public bool isDutyClinician { get; set; } //DEV only
     }
 
     [Table("ViewPatientDiagnosisDetails", Schema = "dbo")] //Patients' diagnoses
@@ -1167,7 +1169,7 @@ namespace ClinicalXPDataConnections.Models
         public string RefReasonCategory { get; set; }
         public string OldRefReasonCode { get; set; }
     }
-
+   
     [Table("PhenotipsPatients", Schema = "dbo")]
     public class PhenotipsPatient
     {
@@ -1183,6 +1185,7 @@ namespace ClinicalXPDataConnections.Models
         public string? PostCode { get; set; }
         public string? NHSNo { get; set; }
     }
+    
 
     [Table("APPTYPE", Schema = "dbo")]
     public class ActivityType

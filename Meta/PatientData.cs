@@ -67,12 +67,13 @@ namespace ClinicalXPDataConnections.Meta
             IQueryable<Patient> pts = _clinContext.Patients.Where(p => p.PEDNO == pedno).OrderBy(p => p.MPI);
             return pts.ToList();
         }
+               
 
         public List<Patient> GetPatientsWithoutCGUNumbers()
         {
             IQueryable<Patient> patients = _clinContext.Patients.Where(p => p.ExternalID != null && (p.CGU_No == "." || p.CGU_No == null));
 
             return patients.ToList();
-        }
+        }       
     }
 }

@@ -1,6 +1,5 @@
 ﻿using ClinicalXPDataConnections.Data;
 using ClinicalXPDataConnections.Models;
-using Microsoft.EntityFrameworkCore;
 using System.Data;
 
 namespace ClinicalXPDataConnections.Meta
@@ -12,6 +11,7 @@ namespace ClinicalXPDataConnections.Meta
         public List<StaffMember> GetStaffMemberList();
         public List<StaffMember> GetStaffMemberListAll();
         public List<StaffMember> GetConsultantsList();
+        public List<StaffMember> GetSpRList();
         public List<StaffMember> GetGCList();
         public List<StaffMember> GetAdminList();
         public List<string> GetSecTeamsList();
@@ -71,6 +71,16 @@ namespace ClinicalXPDataConnections.Meta
                              where rf.InPost == true && rf.CLINIC_SCHEDULER_GROUPS == "Consultant"
                              orderby rf.NAME
                              select rf;
+
+            return clinicians.ToList();
+        }
+
+        public List<StaffMember> GetSpRList() //Get list of all sprs
+        {
+            IQueryable<StaffMember> clinicians = from rf in _clinContext.StaffMembers
+                                                 where rf.InPost == true && rf.CLINIC_SCHEDULER_GROUPS.ToLower() == "spr"
+                                                 orderby rf.NAME
+                                                 select rf;
 
             return clinicians.ToList();
         }

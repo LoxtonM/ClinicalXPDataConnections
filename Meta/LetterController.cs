@@ -56,12 +56,12 @@ namespace ClinicalXPDataConnections.Meta
         //Creates a preview of the DOT letter
         public void PrintDOTPDF(int dID, string user, bool isPreview)
         {
-
             _lvm.staffMember = _staffUser.GetStaffMemberDetails(user);
             _lvm.dictatedLetter = _dictatedLetterData.GetDictatedLetterDetails(dID);
             string ourAddress = _docContext.DocumentsContent.FirstOrDefault(d => d.OurAddress != null).OurAddress;
             //creates a new PDF document
             MigraDoc.DocumentObjectModel.Document document = new MigraDoc.DocumentObjectModel.Document();
+            //document.Info.Title = "DOT Letter Preview";
 
             Section section = document.AddSection();
 
@@ -77,6 +77,7 @@ namespace ClinicalXPDataConnections.Meta
             Paragraph title = section.AddParagraph();
             title.AddFormattedText("WEST MIDLANDS REGIONAL CLINICAL GENETICS SERVICE", TextFormat.Bold);
             title.Format.Alignment = ParagraphAlignment.Center;
+            title.Format.Font.Size = 10; //yes, we literally have to do this for every single paragraph!!
 
             spacer = section.AddParagraph();
 
@@ -87,16 +88,13 @@ namespace ClinicalXPDataConnections.Meta
             ourAddressInfo.Format.Alignment = ParagraphAlignment.Right;
             table.Rows.Height = 50;
             table.Columns.Width = 250;
+            table.Format.Font.Size = 10;
             MigraDoc.DocumentObjectModel.Tables.Row row1 = table.AddRow();
             row1.VerticalAlignment = MigraDoc.DocumentObjectModel.Tables.VerticalAlignment.Top;
-            MigraDoc.DocumentObjectModel.Tables.Row row2 = table.AddRow();
-            row2.VerticalAlignment = MigraDoc.DocumentObjectModel.Tables.VerticalAlignment.Center;
+            //MigraDoc.DocumentObjectModel.Tables.Row row2 = table.AddRow();
+            //row2.VerticalAlignment = MigraDoc.DocumentObjectModel.Tables.VerticalAlignment.Center;
 
             string clinicianHeader = $"Consultant: {_lvm.dictatedLetter.Consultant}" + System.Environment.NewLine + $"Genetic Counsellor: {_lvm.dictatedLetter.GeneticCounsellor}";
-
-            row1.Cells[0].AddParagraph(clinicianHeader);
-            row1.Cells[0].Format.Font.Bold = true;
-            row1.Cells[1].AddParagraph(ourAddress);
 
             string phoneNumbers = "Secretaries Direct Line:" + System.Environment.NewLine;
 
@@ -106,8 +104,14 @@ namespace ClinicalXPDataConnections.Meta
                 phoneNumbers = phoneNumbers + $"{t.NAME} {t.TELEPHONE}" + System.Environment.NewLine;
             }
 
-            row2.Cells[0].AddParagraph(phoneNumbers);
-            row2.Cells[1].AddParagraph(_constantsData.GetConstant("MainCGUEmail", 1));
+            row1.Cells[0].AddParagraph(clinicianHeader + System.Environment.NewLine + System.Environment.NewLine + phoneNumbers);
+            //row1.Cells[0].Format.Font.Bold = true;            
+            row1.Cells[1].AddParagraph(ourAddress + System.Environment.NewLine + System.Environment.NewLine + _constantsData.GetConstant("MainCGUEmail", 1));
+
+
+
+            //row2.Cells[0].AddParagraph(phoneNumbers);
+            //row2.Cells[1].AddParagraph(_constantsData.GetConstant("MainCGUEmail", 1));
 
             string datesInfo = "";
 
@@ -119,38 +123,82 @@ namespace ClinicalXPDataConnections.Meta
             _lvm.patient = _patientData.GetPatientDetails(_lvm.dictatedLetter.MPI.GetValueOrDefault());
 
             spacer = section.AddParagraph();
-            Paragraph contentRefNo = section.AddParagraph($"Please quote our reference on all correspondence: {_lvm.patient.CGU_No}");
+            Paragraph contentRefNo = section.AddParagraph($"Please quote our reference on all correspondence: {System.Environment.NewLine} {_lvm.patient.CGU_No}");
+            contentRefNo.Format.Font.Size = 10;
             spacer = section.AddParagraph();
             Paragraph contentDatesInfo = section.AddParagraph(datesInfo);
+            contentDatesInfo.Format.Font.Size = 10;
 
             string address = "";
-            address = _lvm.dictatedLetter.LetterTo;
 
+            if (_lvm.dictatedLetter.LetterTo != null)
+            {
+                address = _lvm.dictatedLetter.LetterTo;
+            }
             spacer = section.AddParagraph();
             spacer = section.AddParagraph();
             Paragraph contentPatientAddress = section.AddParagraph(address);
+            contentPatientAddress.Format.Font.Size = 10;
             spacer = section.AddParagraph();
             Paragraph contentToday = section.AddParagraph(DateTime.Today.ToString("dd MMMM yyyy"));
+            contentToday.Format.Font.Size = 10;
             spacer = section.AddParagraph();
             Paragraph contentSalutation = section.AddParagraph($"Dear {_lvm.dictatedLetter.LetterToSalutation}");
+            contentSalutation.Format.Font.Size = 10;
             spacer = section.AddParagraph();
             Paragraph contentLetterRe = section.AddParagraph();
             contentLetterRe.AddFormattedText(_lvm.dictatedLetter.LetterRe, TextFormat.Bold);
+            contentLetterRe.Format.Font.Size = 10;
             spacer = section.AddParagraph();
             Paragraph contentSummary = section.AddParagraph();
-            string letterContentBold = "";
-            if(_lvm.dictatedLetter.LetterContentBold != null) { letterContentBold = _lvm.dictatedLetter.LetterContentBold; }
-            contentSummary.AddFormattedText(letterContentBold, TextFormat.Bold);
+            string summary = "";
+            if (_lvm.dictatedLetter.LetterContentBold != null)
+            {
+                summary = _lvm.dictatedLetter.LetterContentBold;
+            }
+            contentSummary.AddFormattedText(summary, TextFormat.Bold);
+            contentSummary.Format.Font.Size = 10;
             spacer = section.AddParagraph();
 
-            string letterContent = RemoveHTML(_lvm.dictatedLetter.LetterContent);
+            string letterContent = "";
+            if (_lvm.dictatedLetter.LetterContent != null)
+            {
+                letterContent = _lvm.dictatedLetter.LetterContent;
+            }
 
-            Paragraph contentLetterContent = section.AddParagraph(letterContent);
+            RemoveHTML(letterContent);
 
-            string signOff = _lvm.dictatedLetter.LetterFrom;                        
-            StaffMember signatory = _staffUser.GetStaffMemberDetailsByStaffCode(_lvm.dictatedLetter.LetterFromCode);
+            //Paragraph contentLetterContent = section.AddParagraph(letterContent);
+            Paragraph contentLetterContent = section.AddParagraph();
+            contentLetterContent.Format.Font.Size = 10;
 
-            string sigFilename = $"{signatory.StaffForename.Replace(" ", "")}{signatory.StaffSurname.Replace("'", "").Replace(" ", "")}.jpg";
+            if (letterContent.Contains("<<strong>>") || letterContent.Contains("<b>")) //This is all required because there's no other way to get the bold text into the letter!!
+            {
+                List<string> letterContentParts = ParseBold(letterContent);
+
+                foreach (var item in letterContentParts)
+                {
+                    if (item.Contains("NOTBOLD"))
+                    {
+                        contentLetterContent.AddFormattedText(item.Replace("NOTBOLD", ""), TextFormat.NotBold);
+                    }
+                    else if (item.Contains("BOLD"))
+                    {
+                        contentLetterContent.AddFormattedText(item.Replace("BOLD", ""), TextFormat.Bold);
+                    }
+                    else
+                    {
+                        contentLetterContent.AddFormattedText(item, TextFormat.NotBold);
+                    }
+                }
+            }
+            else
+            {
+                contentLetterContent.AddFormattedText(letterContent, TextFormat.NotBold);
+            }
+
+            string signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
+            string sigFilename = $"{_lvm.staffMember.StaffForename.Replace(" ", "")}{_lvm.staffMember.StaffSurname.Replace("'", "").Replace(" ", "")}.jpg";
 
 
 
@@ -158,7 +206,7 @@ namespace ClinicalXPDataConnections.Meta
             spacer = section.AddParagraph();
 
             Paragraph contentSignOff = section.AddParagraph("Yours sincerely,");
-
+            contentSignOff.Format.Font.Size = 10;
             spacer = section.AddParagraph();
             Paragraph contentSig = section.AddParagraph();
             if (System.IO.File.Exists(@$"wwwroot\Signatures\{sigFilename}"))
@@ -167,7 +215,17 @@ namespace ClinicalXPDataConnections.Meta
             }
             spacer = section.AddParagraph();
             Paragraph contentSignOffName = section.AddParagraph(signOff);
+            contentSignOffName.Format.Font.Size = 10;
 
+
+
+            if (_lvm.dictatedLetter.Enclosures != null && _lvm.dictatedLetter.Enclosures != "")
+            {
+                spacer = section.AddParagraph();
+                spacer = section.AddParagraph();
+                Paragraph enclosures = section.AddParagraph("Enclosures: " + _lvm.dictatedLetter.Enclosures);
+                enclosures.Format.Font.Size = 10;
+            }
             int printCount = 1;
 
             string[] ccs = { "", "", "" };
@@ -177,21 +235,38 @@ namespace ClinicalXPDataConnections.Meta
 
             if (ccList.Count() > 0)
             {
-                spacer = section.AddParagraph();
-                spacer = section.AddParagraph();
+                section.AddPageBreak();
                 Paragraph ccHead = section.AddParagraph("CC:");
+                ccHead.Format.Font.Size = 10;
 
                 foreach (var item in ccList)
                 {
                     spacer = section.AddParagraph();
                     spacer = section.AddParagraph();
-                    Paragraph contentCC = section.AddParagraph(item.CC);
+                    MigraDoc.DocumentObjectModel.Tables.Table tableCC = section.AddTable();
+
+                    MigraDoc.DocumentObjectModel.Tables.Column colCC = tableCC.AddColumn();
+                    MigraDoc.DocumentObjectModel.Tables.Column colADDRESS = tableCC.AddColumn();
+                    MigraDoc.DocumentObjectModel.Tables.Row rowcc = tableCC.AddRow();
+                    colCC.Width = 20;
+                    colADDRESS.Width = 300;
+
+                    rowcc[0].AddParagraph("cc:");
+                    rowcc[1].AddParagraph(item.CC);
                     spacer = section.AddParagraph();
                     spacer = section.AddParagraph();
                     printCount = printCount += 1;
                 }
             }
 
+            spacer = section.AddParagraph();
+
+            Paragraph contentDocCode = section.AddParagraph("Letter code: DOT");
+            contentDocCode.Format.Alignment = ParagraphAlignment.Right;
+            contentDocCode.Format.Font.Size = 8;
+
+
+            //document.Save(Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot\\DOTLetterPreviews\\preview-{user}.pdf"));
 
             PdfDocumentRenderer pdf = new PdfDocumentRenderer();
             pdf.Document = document;
@@ -205,7 +280,6 @@ namespace ClinicalXPDataConnections.Meta
                 string mpiString = _lvm.patient.MPI.ToString();
                 string refIDString = _lvm.dictatedLetter.RefID.ToString();
                 string dateTimeString = DateTime.Now.ToString("yyyyMMddHHmmss");
-
 
                 System.IO.File.Copy($"wwwroot\\DOTLetterPreviews\\preview-{user}.pdf", $@"C:\CGU_DB\Letters\DOTLetter-{fileCGU}-DOT-{mpiString}-0-{refIDString}-{printCount.ToString()}-{dateTimeString}-{dID.ToString()}.pdf");
 
@@ -275,7 +349,7 @@ namespace ClinicalXPDataConnections.Meta
 
                 Paragraph spacer = section.AddParagraph();
 
-                if (!_lvm.documentsContent.LetterTo.Contains("CF"))
+                if (_lvm.documentsContent.LetterTo != "PTREL" && _lvm.documentsContent.LetterTo != "Other" && !_lvm.documentsContent.LetterTo.Contains("CF"))
                 {
                     table.Columns.Width = 240;
                     contactInfo.Width = 300;
@@ -310,26 +384,6 @@ namespace ClinicalXPDataConnections.Meta
                     //contentOurAddress.Format.Font.Size = 12;
                     contentOurAddress.Format.Alignment = ParagraphAlignment.Right;
                 }
-
-
-
-                /* //do we actually need this?
-                if (relID == 0)
-                {
-                    patAddress = _add.GetAddress("PT", refID);
-                }
-                else
-                {
-                    _lvm.relative = _relativeData.GetRelativeDetails(relID.GetValueOrDefault());
-
-                    patName = _lvm.relative.Name;
-                    patDOB = _lvm.relative.DOB.GetValueOrDefault();
-                    salutation = _lvm.relative.Name;
-
-                    patAddress = _add.GetAddress("PTREL", refID, relID);
-
-                }
-                */
 
                 patAddress = _add.GetAddress("PT", refID);
 
@@ -2311,21 +2365,81 @@ namespace ClinicalXPDataConnections.Meta
 
         string RemoveHTML(string text)
         {
-
-            text = text.Replace("&nbsp;", System.Environment.NewLine);
+            text = text.Replace("<div><font face=Arial size=3>", "");
+            text = text.Replace("</font></div>", "");
+            text = text.Replace("<div>&nbsp;</div>", "");
+            text = text.Replace("&nbsp;", "");
+            text = text.Replace("&amp;", "&");
+            //text = text.Replace("&nbsp;", System.Environment.NewLine);
             text = text.Replace(System.Environment.NewLine, "newline");
-            text = Regex.Replace(text, @"<[^>]+>", "").Trim();
-            //text = Regex.Replace(text, @"\n{2,}", " ");
-            text = text.Replace("&lt;", "<");
-            text = text.Replace("&gt;", ">"); //because sometimes clinicians like to actually use those symbols
+            //text = Regex.Replace(text, @"<[^>]+>", "").Trim();
+            ////text = Regex.Replace(text, @"\n{2,}", " ");
+            //text = text.Replace("&lt;", "<");
+            //text = text.Replace("&gt;", ">"); //because sometimes clinicians like to actually use those symbols
+            text = text.Replace("newlinenewlinenewlinenewline", System.Environment.NewLine + System.Environment.NewLine);
+            //text = text.Replace("newlinenewlinenewline", "3 lines " + System.Environment.NewLine + System.Environment.NewLine);
             text = text.Replace("newlinenewline", System.Environment.NewLine);
             text = text.Replace("newline", "");
-            //this is the ONLY way to strip out the excessive new lines!! (and still can't remove all of them)
+            text = text.Replace("<br>", System.Environment.NewLine + System.Environment.NewLine);
+            text = text.Replace("<div>", "");
+            text = text.Replace("</div>", "");
+            text = text.Replace("b>", "strong>");
+            if (text.Contains("<span style=\"font-weight: 600;\">")) { text = text.Replace("<span style=\"font-weight: 600;\">", "<strong>"); }
+            text = text.Replace("</span>", "</strong>"); //because there are a million different ways that it can decide to save bold formatting
+            text = text.Replace("<strong>", "<<strong>>");
+            text = text.Replace("</strong>", "<</strong>>");
 
             return text;
         }
 
+        List<string> ParseBold(string text)
+        {
+            List<string> newText = new List<string>();
 
+            if (text.Contains("<strong>"))
+            {
+                string[] textBlocks = text.Split("strong>>");
+
+                foreach (var item in textBlocks)
+                {
+                    if (item.Contains("<</"))
+                    {
+                        newText.Add(item.Replace("<</", "") + "BOLD ");
+                    }
+                    else if (item.Contains("<<"))
+                    {
+                        newText.Add(item.Replace("<<", "") + "NOTBOLD ");
+                    }
+                    else
+                    {
+                        newText.Add(item);
+                    }
+                }
+            }
+
+            if (text.Contains("<b>")) //because sometimes it's <b> and sometimes it's <strong> - don't fucking ask!!!
+            {
+                string[] textBlocks = text.Split("b>");
+
+                foreach (var item in textBlocks)
+                {
+                    if (item.Contains("</"))
+                    {
+                        newText.Add(item.Replace("</", "") + "BOLD ");
+                    }
+                    else if (item.Contains("<"))
+                    {
+                        newText.Add(item.Replace("<", "") + "NOTBOLD ");
+                    }
+                    else
+                    {
+                        newText.Add(item);
+                    }
+                }
+            }
+
+            return newText;
+        }
 
 
     }
