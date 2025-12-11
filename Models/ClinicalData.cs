@@ -70,6 +70,7 @@ namespace ClinicalXPDataConnections.Models
         public string? PtTelMobile { get; set; }               
         public string? EmailCommsConsent { get; set; }
         public string? EmailAddress { get; set; }
+        public string? EmailAddressUnconfirmed { get; set; }
         public string? PrimaryLanguage { get; set; }
         public string? IsInterpreterReqd { get; set; }
         public string? GP { get; set; }
@@ -528,6 +529,7 @@ namespace ClinicalXPDataConnections.Models
         public string PASSWORD { get; set; }
         public string? GMCNumber { get; set; }
         public Int16? SYSTEM_ADMINISTRATOR { get; set; }
+        public bool isDutyClinician { get; set; }
     }
 
     [Table("ViewPatientDiagnosisDetails", Schema = "dbo")] //Patients' diagnoses

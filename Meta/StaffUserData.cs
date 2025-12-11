@@ -13,6 +13,7 @@ namespace ClinicalXPDataConnections.Meta
         public List<StaffMember> GetStaffMemberListAll();
         public List<StaffMember> GetConsultantsList();
         public List<StaffMember> GetGCList();
+        public List<StaffMember> GetSpRList();
         public List<StaffMember> GetAdminList();
         public List<string> GetSecTeamsList();
         public string GetStaffCode(string userName);
@@ -81,6 +82,16 @@ namespace ClinicalXPDataConnections.Meta
                              where rf.InPost == true && rf.CLINIC_SCHEDULER_GROUPS == "GC"
                              orderby rf.NAME
                              select rf;
+
+            return clinicians.ToList();
+        }
+
+        public List<StaffMember> GetSpRList() //Get list of all GCs
+        {
+            IQueryable<StaffMember> clinicians = from rf in _clinContext.StaffMembers
+                                                 where rf.InPost == true && rf.CLINIC_SCHEDULER_GROUPS.ToUpper() == "SPR"
+                                                 orderby rf.NAME
+                                                 select rf;
 
             return clinicians.ToList();
         }
