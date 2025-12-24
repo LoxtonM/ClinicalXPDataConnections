@@ -1,31 +1,31 @@
 ﻿using System.Data;
 using ClinicalXPDataConnections.Data;
 using ClinicalXPDataConnections.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ClinicalXPDataConnections.Meta
 {
-    public interface ICaseloadData
+    public interface ICaseloadDataAsync
     {
-        public List<Caseload> GetCaseloadList(string staffCode);
+        public Task<List<Caseload>> GetCaseloadList(string staffCode);        
     }
-    public class CaseloadData : ICaseloadData
+    public class CaseloadDataAsync : ICaseloadDataAsync
     {
         private readonly ClinicalContext _clinContext;       
 
-        public CaseloadData(ClinicalContext context)
+        public CaseloadDataAsync(ClinicalContext context)
         {
             _clinContext = context;
         }
         
-        public List<Caseload> GetCaseloadList(string staffCode) //Get caseload for clinician
+        public async Task<List<Caseload>> GetCaseloadList(string staffCode) //Get caseload for clinician
         {
             IQueryable<Caseload> caseload = from c in _clinContext.Caseload
                            where c.StaffCode == staffCode
                            orderby c.BookedDate, c.BookedTime                           
                            select c;
 
-            return caseload.ToList();
+            return await caseload.ToListAsync();
         }
-
     }
 }

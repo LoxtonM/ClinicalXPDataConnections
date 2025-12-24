@@ -3,40 +3,40 @@ using ClinicalXPDataConnections.Models;
 
 namespace ClinicalXPDataConnections.Meta
 {
-    public interface IAddressLookup
+    public interface IAddressLookupAsync
     {
-        public string GetAddress(string recipientCode, int refid, int? relID = 0);
+        public Task<string> GetAddress(string recipientCode, int refid, int? relID = 0);
     }
 
-    public class AddressLookup : IAddressLookup
+    public class AddressLookupAsync : IAddressLookupAsync
     {
         private readonly ClinicalContext _clinContext;
         //private readonly DocumentContext _documentContext;
-        private readonly ReferralData _referralData;
-        private readonly IPatientData _pat;
-        private readonly IRelativeData _relData;
+        private readonly IReferralDataAsync _referralData;
+        private readonly IPatientDataAsync _pat;
+        private readonly IRelativeDataAsync _relData;
         private readonly IExternalClinicianData _clinician;
         private readonly IExternalFacilityData _facility;
 
-        public AddressLookup(ClinicalContext clinicalContext, DocumentContext documentContext)
+        public AddressLookupAsync(ClinicalContext clinicalContext, DocumentContext documentContext)
         {
             _clinContext = clinicalContext;
             //_documentContext = documentContext;
-            _referralData = new ReferralData(_clinContext);
-            _pat = new PatientData(_clinContext);           
-            _relData = new RelativeData(_clinContext);
+            _referralData = new ReferralDataAsync(_clinContext);
+            _pat = new PatientDataAsync(_clinContext);           
+            _relData = new RelativeDataAsync(_clinContext);
             _clinician = new ExternalClinicianData(_clinContext);
             _facility = new ExternalFacilityData(_clinContext);
         }
 
-        public string GetAddress(string recipientCode, int refid, int? relID = 0)
+        public async Task<string> GetAddress(string recipientCode, int refid, int? relID = 0)
         {
             string address = "";
-            Referral referral = _referralData.GetReferralDetails(refid);
+            Referral referral = await _referralData.GetReferralDetails(refid);
 
             if (recipientCode == "PT")
             {
-                Patient pat = _pat.GetPatientDetails(referral.MPI);
+                Patient pat = await _pat.GetPatientDetails(referral.MPI);
                 string salutation = "";
 
                 if (pat.DOB > DateTime.Now.AddYears(-16))
@@ -57,7 +57,7 @@ namespace ClinicalXPDataConnections.Meta
 
             if (recipientCode == "PTREL" && relID != 0)
             {
-                Relative relative = _relData.GetRelativeDetails(relID.GetValueOrDefault());
+                Relative relative = await _relData.GetRelativeDetails(relID.GetValueOrDefault());
                                 
                 address = relative.RelAdd1 + Environment.NewLine;
                 if (relative.RelAdd2 != null)
@@ -86,7 +86,7 @@ namespace ClinicalXPDataConnections.Meta
 
             if (recipientCode == "GP")
             {
-                Patient pat = _pat.GetPatientDetails(referral.MPI);
+                Patient pat = await _pat.GetPatientDetails(referral.MPI);
                 ExternalClinician gp = _clinician.GetClinicianDetails(pat.GP_Code);
                 ExternalFacility fac = _facility.GetFacilityDetails(gp.FACILITY);
 
@@ -103,6 +103,5 @@ namespace ClinicalXPDataConnections.Meta
 
             return address;
         }
-
     }
 }
