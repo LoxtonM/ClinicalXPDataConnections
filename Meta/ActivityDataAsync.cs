@@ -24,7 +24,7 @@ namespace ClinicalXPDataConnections.Meta
         
         public async Task<ActivityItem> GetActivityDetails(int id) //Get details of any activity item by RefID
         {
-            ActivityItem referral = await _clinContext.ActivityItems.FirstAsync(i => i.RefID == id);
+            ActivityItem referral = await _clinContext.ActivityItems.FirstOrDefaultAsync(i => i.RefID == id); //because null
             return referral;
         }
 
