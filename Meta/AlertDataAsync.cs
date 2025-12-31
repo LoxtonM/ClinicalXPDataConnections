@@ -43,7 +43,7 @@ namespace ClinicalXPDataConnections.Meta
 
         public async Task<Alert> GetAlertDetails(int id)
         {
-            Alert alert = await _clinContext.Alert.FirstAsync(a => a.AlertID == id);
+            Alert alert = await _clinContext.Alert.FirstOrDefaultAsync(a => a.AlertID == id);
 
             return alert;
         }

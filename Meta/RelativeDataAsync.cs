@@ -25,13 +25,13 @@ namespace ClinicalXPDataConnections.Meta
 
         public async Task<List<Relative>> GetRelativesList(int id) //Get list of relatives of patient by MPI
         {
-            Patient patient = await _clinContext.Patients.FirstAsync(i => i.MPI == id);
+            Patient patient = await _clinContext.Patients.FirstOrDefaultAsync(i => i.MPI == id);
             string pedno = patient.PEDNO;
             List<Relative> relative = new List<Relative>();
                         
             if (patient.PEDNO != null)
             {
-                Patient proband = await _clinContext.Patients.FirstAsync(i => i.CGU_No == pedno + ".0");
+                Patient proband = await _clinContext.Patients.FirstOrDefaultAsync(i => i.CGU_No == pedno + ".0");
                 //family file's WMFACSID is different to patient's WMFACSID
                 int wmfacsID = proband.WMFACSID;
 
@@ -46,7 +46,7 @@ namespace ClinicalXPDataConnections.Meta
 
         public async Task<Relative> GetRelativeDetails(int relID)
         {
-            Relative rel = await _clinContext.Relatives.FirstAsync(r => r.relsid == relID);
+            Relative rel = await _clinContext.Relatives.FirstOrDefaultAsync(r => r.relsid == relID);
 
             return rel;
         }

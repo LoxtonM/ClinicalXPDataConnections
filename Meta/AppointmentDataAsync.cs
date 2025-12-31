@@ -31,13 +31,13 @@ namespace ClinicalXPDataConnections.Meta
 
         public async Task<Appointment> GetAppointmentDetails(int refID)
         {
-            Appointment appt = await _context.Clinics.FirstAsync(a => a.RefID == refID);
+            Appointment appt = await _context.Clinics.FirstOrDefaultAsync(a => a.RefID == refID);
             return appt;
         }
 
         public async Task<Appointment> GetAppointmentByClinicno(string? clinicno)
         {
-            Appointment appointment = await _context.Clinics.FirstAsync(w => w.REFERRAL_CLINICNO == clinicno);
+            Appointment appointment = await _context.Clinics.FirstOrDefaultAsync(w => w.REFERRAL_CLINICNO == clinicno);
             return appointment;
         }
 

@@ -31,7 +31,7 @@ namespace ClinicalXPDataConnections.Meta
 
         public async Task<Eligibility> GetTestingEligibilityDetails(int id)
         {
-            Eligibility eligibility = await _clinContext.Eligibility.FirstAsync(e => e.ID == id);
+            Eligibility eligibility = await _clinContext.Eligibility.FirstOrDefaultAsync(e => e.ID == id);
 
             return eligibility;
         }

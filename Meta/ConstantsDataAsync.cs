@@ -21,7 +21,7 @@ namespace ClinicalXPDataConnections.Meta
 
         public async Task<string> GetConstant(string constantCode, int constantValue)
         {
-            Constant item = await _docContext.Constants.FirstAsync(c => c.ConstantCode == constantCode);
+            Constant item = await _docContext.Constants.FirstOrDefaultAsync(c => c.ConstantCode == constantCode);
             string returnValue = "";
 
             if (item != null)

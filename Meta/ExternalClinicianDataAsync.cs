@@ -31,7 +31,7 @@ namespace ClinicalXPDataConnections.Meta
             string cc = "";
             if (referrer.FACILITY != null) //believe it or not, there are actually some nulls!!!
             {
-                ExternalFacility facility = await _clinContext.ExternalFacility.FirstAsync(f => f.MasterFacilityCode == referrer.FACILITY);
+                ExternalFacility facility = await _clinContext.ExternalFacility.FirstOrDefaultAsync(f => f.MasterFacilityCode == referrer.FACILITY);
 
                 cc = cc + Environment.NewLine + facility.NAME + Environment.NewLine + facility.ADDRESS + Environment.NewLine
                     + facility.CITY + Environment.NewLine + facility.STATE + Environment.NewLine + facility.ZIP;
@@ -41,7 +41,7 @@ namespace ClinicalXPDataConnections.Meta
 
         public async Task<ExternalClinician> GetClinicianDetails(string sref) //Get details of external/referring clinician
         {
-            ExternalClinician item = await _clinContext.ExternalClinician.FirstAsync(f => f.MasterClinicianCode == sref);
+            ExternalClinician item = await _clinContext.ExternalClinician.FirstOrDefaultAsync(f => f.MasterClinicianCode == sref);
 
             return item;
         }
@@ -58,9 +58,9 @@ namespace ClinicalXPDataConnections.Meta
 
         public async Task<ExternalCliniciansAndFacilities> GetPatientGPReferrer(int mpi) //Get the patient's GP and facility
         {
-            Patient patient = await _clinContext.Patients.FirstAsync(p => p.MPI == mpi);
+            Patient patient = await _clinContext.Patients.FirstOrDefaultAsync(p => p.MPI == mpi);
 
-            ExternalCliniciansAndFacilities gp = await _clinContext.ExternalCliniciansAndFacilities.FirstAsync(c => c.MasterClinicianCode == patient.GP_Code);
+            ExternalCliniciansAndFacilities gp = await _clinContext.ExternalCliniciansAndFacilities.FirstOrDefaultAsync(c => c.MasterClinicianCode == patient.GP_Code);
 
             return gp;
         }

@@ -60,7 +60,7 @@ namespace ClinicalXPDataConnections.Meta
 
         public async Task<Review> GetReviewDetails(int id)
         {
-            Review review = await _clinContext.Reviews.FirstAsync(r => r.ReviewID == id);
+            Review review = await _clinContext.Reviews.FirstOrDefaultAsync(r => r.ReviewID == id);
 
             return review;
         }        

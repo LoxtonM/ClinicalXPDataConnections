@@ -21,14 +21,14 @@ namespace ClinicalXPDataConnections.Meta
 
         public async Task<AreaNames> GetAreaNameDetailsByID(int id)
         {
-            AreaNames areaNames = await _clinContext.AreaNames.FirstAsync(a => a.AreaID == id);
+            AreaNames areaNames = await _clinContext.AreaNames.FirstOrDefaultAsync(a => a.AreaID == id);
 
             return areaNames;
         }
 
         public async Task<AreaNames> GetAreaNameDetailsByCode(string areaCode)
         {
-            AreaNames areaNames = await _clinContext.AreaNames.FirstAsync(a => a.AreaCode == areaCode);
+            AreaNames areaNames = await _clinContext.AreaNames.FirstOrDefaultAsync(a => a.AreaCode == areaCode);
 
             return areaNames;
         }

@@ -27,7 +27,7 @@ namespace ClinicalXPDataConnections.Meta
                 
         public async Task<Referral> GetReferralDetails(int id) //Get details of referral by RefID
         {
-            Referral referral = await _clinContext.Referrals?.FirstAsync(i => i.refid == id);
+            Referral referral = await _clinContext.Referrals?.FirstOrDefaultAsync(i => i.refid == id);
             return referral;
         } 
                 

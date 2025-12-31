@@ -24,13 +24,13 @@ namespace ClinicalXPDataConnections.Meta
         
         public async Task<DocumentsContent> GetDocumentDetails(int id) //Get content for a type of standard letter by its ID
         {
-            DocumentsContent item = await _docContext.DocumentsContent.FirstAsync(d => d.DocContentID == id);
+            DocumentsContent item = await _docContext.DocumentsContent.FirstOrDefaultAsync(d => d.DocContentID == id);
             return item;
         }
 
         public async Task<DocumentsContent> GetDocumentDetailsByDocCode(string docCode) //Get content for a type of standard letter by its ID
         {
-            DocumentsContent item = await _docContext.DocumentsContent.FirstAsync(d => d.DocCode == docCode);
+            DocumentsContent item = await _docContext.DocumentsContent.FirstOrDefaultAsync(d => d.DocCode == docCode);
             return item;
         }
 
@@ -45,7 +45,7 @@ namespace ClinicalXPDataConnections.Meta
 
         public async Task<Document> GetDocumentData(string docCode)
         {
-            Document doc = await _docContext.Documents.FirstAsync(d => d.DocCode == docCode);
+            Document doc = await _docContext.Documents.FirstOrDefaultAsync(d => d.DocCode == docCode);
 
             return doc;
         }

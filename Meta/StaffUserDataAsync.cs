@@ -117,28 +117,28 @@ namespace ClinicalXPDataConnections.Meta
 
         public async Task<string> GetStaffCode(string userName)
         {
-            StaffMember staffCode = await _clinContext.StaffMembers.FirstAsync(s => s.EMPLOYEE_NUMBER == userName);
+            StaffMember staffCode = await _clinContext.StaffMembers.FirstOrDefaultAsync(s => s.EMPLOYEE_NUMBER == userName);
             
             return staffCode.STAFF_CODE;
         }
 
         public async Task<string> GetStaffName(string userName)
         {
-            StaffMember staffName = await _clinContext.StaffMembers.FirstAsync(s => s.EMPLOYEE_NUMBER == userName);
+            StaffMember staffName = await _clinContext.StaffMembers.FirstOrDefaultAsync(s => s.EMPLOYEE_NUMBER == userName);
             
             return staffName.NAME;
         }
 
         public async Task<string> GetStaffNameFromStaffCode(string staffCode)
         {
-            StaffMember staffName = await _clinContext.StaffMembers.FirstAsync(s => s.STAFF_CODE == staffCode);
+            StaffMember staffName = await _clinContext.StaffMembers.FirstOrDefaultAsync(s => s.STAFF_CODE == staffCode);
             
             return staffName.NAME;
         }
 
         public async Task<StaffMember> GetStaffMemberDetailsByStaffCode(string staffCode)
         {
-            StaffMember staffUser = await _clinContext.StaffMembers.FirstAsync(s => s.STAFF_CODE == staffCode);
+            StaffMember staffUser = await _clinContext.StaffMembers.FirstOrDefaultAsync(s => s.STAFF_CODE == staffCode);
 
             return staffUser;
         }

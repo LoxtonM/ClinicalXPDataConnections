@@ -22,7 +22,7 @@ namespace ClinicalXPDataConnections.Meta
 
         public async Task<Pedigree> GetPedigree(string pedno)
         {
-            Pedigree ped = await _clinContext.Pedigrees.FirstAsync(p => p.PEDNO == pedno);
+            Pedigree ped = await _clinContext.Pedigrees.FirstOrDefaultAsync(p => p.PEDNO == pedno);
 
             return ped;
         }

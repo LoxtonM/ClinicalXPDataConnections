@@ -23,7 +23,7 @@ namespace ClinicalXPDataConnections.Meta
         
         public async Task<List<Diary>> GetDiaryList(int id) //Get list of diary entries for patient by MPI
         {
-            Patient pat = await _clinContext.Patients.FirstAsync(p => p.MPI == id);
+            Patient pat = await _clinContext.Patients.FirstOrDefaultAsync(p => p.MPI == id);
 
             IQueryable<Diary> diary = from d in _clinContext.Diary
                         where d.WMFACSID == pat.WMFACSID
@@ -46,14 +46,14 @@ namespace ClinicalXPDataConnections.Meta
             //Diary diary = _clinContext.Diary.FirstOrDefault(d => d.RefID == refID && d.DocCode == docCode);
             IQueryable<Diary> diaryList = _clinContext.Diary.Where(d => d.DocCode == docCode && d.RefID == refID);
 
-            Diary diary = await diaryList.OrderByDescending(d => d.DiaryID).FirstAsync();
+            Diary diary = await diaryList.OrderByDescending(d => d.DiaryID).FirstOrDefaultAsync();
 
             return diary;
         }
 
         public async Task<Diary> GetDiaryEntry(int diaryID)
         {
-            Diary diary = await _clinContext.Diary.FirstAsync(d => d.DiaryID == diaryID);
+            Diary diary = await _clinContext.Diary.FirstOrDefaultAsync(d => d.DiaryID == diaryID);
 
             return diary;
         }

@@ -50,7 +50,7 @@ namespace ClinicalXPDataConnections.Meta
         
         public async Task<Diagnosis> GetDiagnosisDetails(int id) //Get details of diagnosis by the diagnosis ID
         {
-            Diagnosis diagnosis = await _clinContext.Diagnosis.FirstAsync(i => i.ID == id);
+            Diagnosis diagnosis = await _clinContext.Diagnosis.FirstOrDefaultAsync(i => i.ID == id);
 
             return diagnosis;
         }

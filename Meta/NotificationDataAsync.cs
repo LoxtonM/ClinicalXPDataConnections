@@ -22,7 +22,7 @@ namespace ClinicalXPDataConnections.Meta
         {
             string message = ""; 
 
-            Notification messageNotification = await _context.Notifications.FirstAsync(n => n.MessageCode == messageCode);
+            Notification messageNotification = await _context.Notifications.FirstOrDefaultAsync(n => n.MessageCode == messageCode);
 
             if(messageNotification.IsActive) { message = messageNotification.Message; }
                         

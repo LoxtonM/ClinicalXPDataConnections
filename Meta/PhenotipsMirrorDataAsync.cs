@@ -19,7 +19,7 @@ namespace ClinicalXPDataConnections.Meta
 
         public async Task<PhenotipsPatient> GetPhenotipsPatientByID(int mpi)
         {
-            PhenotipsPatient patient = await _context.PhenotipsPatient.Where(p => p.MPI == mpi).FirstAsync();
+            PhenotipsPatient patient = await _context.PhenotipsPatient.Where(p => p.MPI == mpi).FirstOrDefaultAsync();
 
             return patient;
         }

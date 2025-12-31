@@ -22,7 +22,7 @@ namespace ClinicalXPDataConnections.Meta
 
         public async Task<Leaflet> GetLeafletDetails(int id)
         {
-            Leaflet leaflet = await _docContext.Leaflets.FirstAsync(l => l.ID == id);
+            Leaflet leaflet = await _docContext.Leaflets.FirstOrDefaultAsync(l => l.ID == id);
 
             return leaflet;
         }

@@ -40,7 +40,7 @@ namespace ClinicalXPDataConnections.Meta
 
         public async Task<LabPatient> GetPatientDetails(int intID)
         {
-            LabPatient patient = await _labContext.labPatient.FirstAsync(p => p.INTID == intID);
+            LabPatient patient = await _labContext.labPatient.FirstOrDefaultAsync(p => p.INTID == intID);
 
             return patient;
         }
@@ -55,7 +55,7 @@ namespace ClinicalXPDataConnections.Meta
 
         public async Task<LabLab> GetCytoReport(string labNo)
         {
-            LabLab report = await _labContext.labLab.FirstAsync(r => r.LABNO == labNo);
+            LabLab report = await _labContext.labLab.FirstOrDefaultAsync(r => r.LABNO == labNo);
 
             return report;
         }
@@ -70,7 +70,7 @@ namespace ClinicalXPDataConnections.Meta
 
         public async Task<LabDNALab> GetDNAReport(string labNo)
         {
-            LabDNALab report = await _labContext.labDNALab.FirstAsync(r => r.LABNO == labNo);
+            LabDNALab report = await _labContext.labDNALab.FirstOrDefaultAsync(r => r.LABNO == labNo);
 
             return report;
         }
@@ -107,7 +107,7 @@ namespace ClinicalXPDataConnections.Meta
 
         public async Task<LabDNAReport> GetDNAReportDetails(string labNo, string indication, string reason)
         {
-            LabDNAReport report = await _labContext.labDNAReport.FirstAsync(r => r.LABNO == labNo && r.INDICATION == indication && r.REASON == reason);
+            LabDNAReport report = await _labContext.labDNAReport.FirstOrDefaultAsync(r => r.LABNO == labNo && r.INDICATION == indication && r.REASON == reason);
 
             return report;
         }

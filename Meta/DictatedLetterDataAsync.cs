@@ -60,7 +60,7 @@ namespace ClinicalXPDataConnections.Meta
 
         public async Task<DictatedLetter> GetDictatedLetterDetails(int dotID) //Get details of DOT letter by its DotID
         {
-            DictatedLetter letter = await _clinContext.DictatedLetters.FirstAsync(l => l.DoTID == dotID);
+            DictatedLetter letter = await _clinContext.DictatedLetters.FirstOrDefaultAsync(l => l.DoTID == dotID);
 
             return letter;
         }
@@ -94,16 +94,16 @@ namespace ClinicalXPDataConnections.Meta
         
         public async Task<DictatedLettersCopy> GetDictatedLetterCopyDetails(int id)  //Get details of a CC on a letter for deletion
         {
-            DictatedLettersCopy letter = await _clinContext.DictatedLettersCopies.FirstAsync(x => x.CCID == id);
+            DictatedLettersCopy letter = await _clinContext.DictatedLettersCopies.FirstOrDefaultAsync(x => x.CCID == id);
 
             return letter;
         }
 
         public async Task<List<Patient>> GetDictatedLetterPatientsList(int dotID) //Get list of all patients in the family that can be added to a DOT, by the DotID
         {
-            DictatedLetter letter = await _clinContext.DictatedLetters.FirstAsync(l => l.DoTID == dotID);
+            DictatedLetter letter = await _clinContext.DictatedLetters.FirstOrDefaultAsync(l => l.DoTID == dotID);
             int? mpi = letter.MPI;
-            Patient pat = await _clinContext.Patients.FirstAsync(p => p.MPI == mpi.GetValueOrDefault());
+            Patient pat = await _clinContext.Patients.FirstOrDefaultAsync(p => p.MPI == mpi.GetValueOrDefault());
 
             IQueryable<Patient> patients = from p in _clinContext.Patients
                            where p.PEDNO == pat.PEDNO

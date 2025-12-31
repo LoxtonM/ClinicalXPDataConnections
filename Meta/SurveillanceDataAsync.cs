@@ -40,7 +40,7 @@ namespace ClinicalXPDataConnections.Meta
 
         public async Task<Surveillance> GetSurvDetails(int? survID) //Get details of surveillance recommendation by RiskID
         {
-            Surveillance surv = await _clinContext.Surveillance.FirstAsync(c => c.SurvRecID == survID);
+            Surveillance surv = await _clinContext.Surveillance.FirstOrDefaultAsync(c => c.SurvRecID == survID);
 
             return surv;
         }       

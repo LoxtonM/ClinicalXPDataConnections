@@ -19,7 +19,7 @@ namespace ClinicalXPDataConnections.Meta
 
         public async Task<ClinicVenue> GetVenueDetails(string ven)
         {
-            ClinicVenue clin = await _context.ClinicalFacilities.FirstAsync(v => v.FACILITY == ven);
+            ClinicVenue clin = await _context.ClinicalFacilities.FirstOrDefaultAsync(v => v.FACILITY == ven);
             
             return clin;
         }

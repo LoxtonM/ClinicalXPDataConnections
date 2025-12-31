@@ -36,7 +36,7 @@ namespace ClinicalXPDataConnections.Meta
 
         public async Task<RelativesDiagnosis> GetRelativeDiagnosisDetails(int id)
         {
-            RelativesDiagnosis item = await _clinContext.RelativesDiagnoses.FirstAsync(rd => rd.TumourID == id);
+            RelativesDiagnosis item = await _clinContext.RelativesDiagnoses.FirstOrDefaultAsync(rd => rd.TumourID == id);
             return item;
         }
 

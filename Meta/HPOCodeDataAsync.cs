@@ -86,14 +86,14 @@ namespace ClinicalXPDataConnections.Meta
 
         public async Task<HPOTerm> GetHPOTermByTermCode(string hpoTermCode) //Get list of all possible HPO codes
         {
-            HPOTerm term = await _clinContext.HPOTerms.FirstAsync(t => t.TermCode == hpoTermCode);
+            HPOTerm term = await _clinContext.HPOTerms.FirstOrDefaultAsync(t => t.TermCode == hpoTermCode);
 
             return term;
         }
 
         public async Task<HPOTerm> GetHPOTermByID(int id) //Get list of all possible HPO codes
         {
-            HPOTerm term = await _clinContext.HPOTerms.FirstAsync(t => t.ID == id);
+            HPOTerm term = await _clinContext.HPOTerms.FirstOrDefaultAsync(t => t.ID == id);
 
             return term;
         }

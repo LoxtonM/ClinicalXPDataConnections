@@ -65,7 +65,7 @@ namespace ClinicalXPDataConnections.Meta
 
         public async Task<ICPCancerReviewAction> GetICPCancerAction(int id)
         {
-            ICPCancerReviewAction action = await _clinContext.ICPCancerReviewActionsList.FirstAsync(a => a.ID == id);
+            ICPCancerReviewAction action = await _clinContext.ICPCancerReviewActionsList.FirstOrDefaultAsync(a => a.ID == id);
 
             return action;
         }

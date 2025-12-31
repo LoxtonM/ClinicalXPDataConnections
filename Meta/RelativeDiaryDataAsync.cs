@@ -28,7 +28,7 @@ namespace ClinicalXPDataConnections.Meta
 
         public async Task<RelativeDiary> GetRelativeDiaryDetails(int diaryID)
         {
-            RelativeDiary rd = await _context.RelativesDiary.FirstAsync(d => d.DiaryID == diaryID);
+            RelativeDiary rd = await _context.RelativesDiary.FirstOrDefaultAsync(d => d.DiaryID == diaryID);
 
             return rd;
         }

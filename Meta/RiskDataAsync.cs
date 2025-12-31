@@ -44,7 +44,7 @@ namespace ClinicalXPDataConnections.Meta
 
         public async Task<Risk> GetRiskDetails(int riskID) //Get details of risk item by RiskID
         {
-            Risk risk = await _clinContext.Risk.FirstAsync(c => c.RiskID == riskID);
+            Risk risk = await _clinContext.Risk.FirstOrDefaultAsync(c => c.RiskID == riskID);
             return risk;
         }
 

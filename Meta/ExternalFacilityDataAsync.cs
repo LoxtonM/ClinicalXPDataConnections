@@ -24,7 +24,7 @@ namespace ClinicalXPDataConnections.Meta
 
         public async Task<ExternalFacility> GetFacilityDetails(string sref) //Get details of external/referring facility
         {
-            ExternalFacility item = await _clinContext.ExternalFacility.FirstAsync(f => f.MasterFacilityCode == sref);
+            ExternalFacility item = await _clinContext.ExternalFacility.FirstOrDefaultAsync(f => f.MasterFacilityCode == sref);
             
             return item;
         }        

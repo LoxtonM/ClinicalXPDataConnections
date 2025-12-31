@@ -34,20 +34,20 @@ namespace ClinicalXPDataConnections.Meta
                 
         public async Task<ICP> GetICPDetails(int icpID)
         {
-            ICP icp = await _clinContext.ICP.FirstAsync(i => i.ICPID == icpID);
+            ICP icp = await _clinContext.ICP.FirstOrDefaultAsync(i => i.ICPID == icpID);
 
             return icp;
         }
 
         public async Task<ICP> GetICPDetailsByRefID(int refID)
         {
-            ICP icp = await _clinContext.ICP.FirstAsync(i => i.REFID == refID);
+            ICP icp = await _clinContext.ICP.FirstOrDefaultAsync(i => i.REFID == refID);
 
             return icp;
         }
         public async Task<Triage> GetTriageDetails(int? icpID) //Get details of ICP from the IcpID
         {
-            Triage icp = await _clinContext.Triages.FirstAsync(i => i.ICPID == icpID);
+            Triage icp = await _clinContext.Triages.FirstOrDefaultAsync(i => i.ICPID == icpID);
 
             return icp;
         }
@@ -73,7 +73,7 @@ namespace ClinicalXPDataConnections.Meta
 
         public async Task<List<ICPCancer>> GetCancerICPList(string username) //Get list of all open Cancer ICP Reviews for a specific user (by login name)
         {
-            StaffMember user = await _clinContext.StaffMembers.FirstAsync(s => s.EMPLOYEE_NUMBER == username);
+            StaffMember user = await _clinContext.StaffMembers.FirstOrDefaultAsync(s => s.EMPLOYEE_NUMBER == username);
             string staffCode = user.STAFF_CODE;
 
             IQueryable<ICPCancer> icps = from i in _clinContext.ICPCancer

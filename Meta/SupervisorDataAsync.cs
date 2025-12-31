@@ -20,14 +20,14 @@ namespace ClinicalXPDataConnections.Meta
 
         public async Task<bool> GetIsGCSupervisor(string staffCode)
         {
-            Supervisors sup = await _clinContext.Supervisors.FirstAsync(s => s.StaffCode == staffCode);
+            Supervisors sup = await _clinContext.Supervisors.FirstOrDefaultAsync(s => s.StaffCode == staffCode);
             
             return sup.isGCSupervisor;
         }
 
         public async Task<bool> GetIsConsSupervisor(string staffCode)
         {
-            Supervisors sup = await _clinContext.Supervisors.FirstAsync(s => s.StaffCode == staffCode);
+            Supervisors sup = await _clinContext.Supervisors.FirstOrDefaultAsync(s => s.StaffCode == staffCode);
             
             return sup.isConsSupervisor;
         }

@@ -47,11 +47,11 @@ namespace ClinicalXPDataConnections.Meta
 
             if (clinicID != null) //because of course there are nulls. Why would there not be nulls?
             {
-                waitingList = await _context.WaitingList.FirstAsync(w => w.IntID == intID && w.ClinicID == clinicID && w.ClinicianID == clinicianID);
+                waitingList = await _context.WaitingList.FirstOrDefaultAsync(w => w.IntID == intID && w.ClinicID == clinicID && w.ClinicianID == clinicianID);
             }
             else
             {
-                waitingList = await _context.WaitingList.FirstAsync(w => w.IntID == intID && w.ClinicID == "" && w.ClinicianID == clinicianID);
+                waitingList = await _context.WaitingList.FirstOrDefaultAsync(w => w.IntID == intID && w.ClinicID == "" && w.ClinicianID == clinicianID);
             }
 
             return waitingList;
@@ -59,7 +59,7 @@ namespace ClinicalXPDataConnections.Meta
 
         public async Task<WaitingList> GetWaitingListEntryByID(int id)
         {
-            WaitingList waitingList = await _context.WaitingList.FirstAsync(w => w.ID == id);
+            WaitingList waitingList = await _context.WaitingList.FirstOrDefaultAsync(w => w.ID == id);
             
             return waitingList;
         }        
