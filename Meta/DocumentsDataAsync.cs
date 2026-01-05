@@ -10,6 +10,7 @@ namespace ClinicalXPDataConnections.Meta
         public Task<DocumentsContent> GetDocumentDetails(int id);
         public Task<DocumentsContent> GetDocumentDetailsByDocCode(string docCode);
         public Task<List<Document>> GetDocumentsList();
+        public Task<List<DocumentsContent>> GetDocumentsContentList();
         public Task<Document> GetDocumentData(string docCode);
     }
     public class DocumentsDataAsync : IDocumentsDataAsync
@@ -49,6 +50,15 @@ namespace ClinicalXPDataConnections.Meta
 
             return doc;
         }
-        
+
+        public async Task<List<DocumentsContent>> GetDocumentsContentList()
+        {
+            IQueryable<DocumentsContent> docs = from d in _docContext.DocumentsContent                                        
+                                        select d;
+
+            return await docs.ToListAsync();
+        }
+
+
     }
 }

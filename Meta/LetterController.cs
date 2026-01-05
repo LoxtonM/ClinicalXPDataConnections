@@ -347,7 +347,10 @@ namespace ClinicalXPDataConnections.Meta
 
                 if (_lvm.documentsContent.LetterTo == "RD")
                 {
-                    address = _add.GetAddress("RD", refID);
+                    if (!_lvm.documentsContent.DocCode.Contains("O4")) //because somebody hard-coded this overriding feature in CGU_DB                    
+                    {
+                        address = _add.GetAddress("RD", refID);
+                    }
                 }
 
                 if (_lvm.documentsContent.LetterTo == "GP")
@@ -355,7 +358,7 @@ namespace ClinicalXPDataConnections.Meta
                     address = _add.GetAddress("GP", refID);
                 }
 
-                if (_lvm.documentsContent.LetterTo == "Other" || _lvm.documentsContent.LetterTo == "Histo")
+                if (_lvm.documentsContent.LetterTo == "Other" || _lvm.documentsContent.LetterTo == "Histo" || _lvm.documentsContent.DocCode.Contains("O4"))
                 {
                     ExternalClinician clinician = _externalClinicianData.GetClinicianDetails(clinicianCode);
                     name = clinician.TITLE + " " + clinician.FIRST_NAME + " " + clinician.NAME;
@@ -1836,7 +1839,7 @@ namespace ClinicalXPDataConnections.Meta
 
                     int ccLength = 50;
                     spacer = section.AddParagraph();
-                    Paragraph contentCC = section.AddParagraph("cc:");
+                    //Paragraph contentCC = section.AddParagraph("cc:");
 
                     //Add a page for all of the CC addresses (must be declared here or we can't use it)            
                     for (int i = 0; i < ccs.Length; i++)
