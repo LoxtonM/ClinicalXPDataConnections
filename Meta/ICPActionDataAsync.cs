@@ -12,7 +12,10 @@ namespace ClinicalXPDataConnections.Meta
         public Task<List<ICPGeneralAction2>> GetICPGeneralActionsList2();
         public Task<List<ICPCancerReviewAction>> GetICPCancerReviewActionsList();
         public Task<ICPCancerReviewAction> GetICPCancerAction(int id);
-        
+        public Task<ICPAction> GetCancerReferralAction(int id);
+        public Task<ICPGeneralAction> GetGeneralReferralAction1(int id);
+        public Task<ICPGeneralAction2> GetGeneralReferralAction2(int id);
+
     }
     public class ICPActionDataAsync : IICPActionDataAsync
     {
@@ -69,7 +72,28 @@ namespace ClinicalXPDataConnections.Meta
 
             return action;
         }
-       
+
+        public async Task<ICPAction> GetCancerReferralAction(int id)
+        {
+            ICPAction action = await _clinContext.ICPCancerActionsList.FirstOrDefaultAsync(a => a.ID == id);
+
+            return action;
+        }
+
+        public async Task<ICPGeneralAction> GetGeneralReferralAction1(int id)
+        {
+            ICPGeneralAction action = await _clinContext.ICPGeneralActionsList.FirstOrDefaultAsync(a => a.ID == id);
+
+            return action;
+        }
+
+        public async Task<ICPGeneralAction2> GetGeneralReferralAction2(int id)
+        {
+            ICPGeneralAction2 action = await _clinContext.ICPGeneralActionsList2.FirstOrDefaultAsync(a => a.ID == id);
+
+            return action;
+        }
+
 
     }
 }

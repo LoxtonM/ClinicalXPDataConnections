@@ -449,6 +449,12 @@ namespace ClinicalXPDataConnections.Models
         public int? TreatPath { get; set; }
         public int? TreatPath2 { get; set; }        
         public bool? ConsWLForSPR { get; set; }
+        public string? ConsWLClinician { get; set; }
+        public string? ConsWLClinic { get; set; }
+        public bool ConsWLAdded { get; set; }
+        public string? GCWLClinician { get; set; }
+        public string? GCWLClinic { get; set; }
+        public bool GCWLAdded { get; set; }
     }
 
     [Table("ViewPatientCancerICP", Schema = "dbo")] //Cancer ICP
