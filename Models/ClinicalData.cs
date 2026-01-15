@@ -70,6 +70,7 @@ namespace ClinicalXPDataConnections.Models
         public string? PtTelMobile { get; set; }               
         public string? EmailCommsConsent { get; set; }
         public string? EmailAddress { get; set; }
+        public string? EmailAddressUnconfirmed { get; set; }
         public string? PrimaryLanguage { get; set; }
         public string? IsInterpreterReqd { get; set; }
         public string? GP { get; set; }
@@ -454,6 +455,12 @@ namespace ClinicalXPDataConnections.Models
         public int? TreatPath { get; set; }
         public int? TreatPath2 { get; set; }        
         public bool? ConsWLForSPR { get; set; }
+        public string? ConsWLClinician { get; set; }
+        public string? ConsWLClinic { get; set; }
+        public bool ConsWLAdded { get; set; }
+        public string? GCWLClinician { get; set; }
+        public string? GCWLClinic { get; set; }
+        public bool GCWLAdded { get; set; }
     }
 
     [Table("ViewPatientCancerICP", Schema = "dbo")] //Cancer ICP
@@ -534,6 +541,7 @@ namespace ClinicalXPDataConnections.Models
         public string PASSWORD { get; set; }
         public string? GMCNumber { get; set; }
         public Int16? SYSTEM_ADMINISTRATOR { get; set; }
+        public bool isDutyClinician { get; set; }
     }
 
     [Table("ViewPatientDiagnosisDetails", Schema = "dbo")] //Patients' diagnoses

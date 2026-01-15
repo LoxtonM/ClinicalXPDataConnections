@@ -1,15 +1,16 @@
-﻿using ClinicalXPDataConnections.ViewModels;
-using ClinicalXPDataConnections.Data;
-using ClinicalXPDataConnections.Models;
+﻿using ClinicalXPDataConnections.Data;
 using ClinicalXPDataConnections.Meta;
-using System.Text.RegularExpressions;
+using ClinicalXPDataConnections.Models;
+using ClinicalXPDataConnections.ViewModels;
 using MigraDoc.DocumentObjectModel;
+using MigraDoc.DocumentObjectModel.Tables;
 using MigraDoc.Rendering;
 using PdfSharpCore.Drawing;
 using PdfSharpCore.Drawing.Layout;
 using PdfSharpCore.Pdf;
 using System.Drawing;
-using MigraDoc.DocumentObjectModel.Tables;
+using System.Security.Cryptography;
+using System.Text.RegularExpressions;
 
 
 namespace ClinicalXPDataConnections.Meta
@@ -206,8 +207,12 @@ namespace ClinicalXPDataConnections.Meta
                 string refIDString = _lvm.dictatedLetter.RefID.ToString();
                 string dateTimeString = DateTime.Now.ToString("yyyyMMddHHmmss");
 
+                string edmspath = _constantsData.GetConstant("PrintPathEDMS", 1);
 
-                System.IO.File.Copy($"wwwroot\\DOTLetterPreviews\\preview-{user}.pdf", $@"C:\CGU_DB\Letters\DOTLetter-{fileCGU}-DOT-{mpiString}-0-{refIDString}-{printCount.ToString()}-{dateTimeString}-{dID.ToString()}.pdf");
+
+                System.IO.File.Copy($"wwwroot\\DOTLetterPreviews\\preview-{user}.pdf", $@"{edmspath}\DOTLetter-{fileCGU}-DOT-{mpiString}-0-{refIDString}-{printCount.ToString()}-{dateTimeString}-{dID.ToString()}.pdf");
+
+                //System.IO.File.Copy($"wwwroot\\DOTLetterPreviews\\preview-{user}.pdf", $@"C:\CGU_DB\Letters\DOTLetter-{fileCGU}-DOT-{mpiString}-0-{refIDString}-{printCount.ToString()}-{dateTimeString}-{dID.ToString()}.pdf");
 
                 /*                 
                 can't actually print it because there's no way to give it your username, so it'll all be under the server's name
@@ -347,7 +352,10 @@ namespace ClinicalXPDataConnections.Meta
 
                 if (_lvm.documentsContent.LetterTo == "RD")
                 {
-                    address = _add.GetAddress("RD", refID);
+                    if (!_lvm.documentsContent.DocCode.Contains("O4")) //because somebody hard-coded this overriding feature in CGU_DB                    
+                    {
+                        address = _add.GetAddress("RD", refID);
+                    }
                 }
 
                 if (_lvm.documentsContent.LetterTo == "GP")
@@ -355,7 +363,7 @@ namespace ClinicalXPDataConnections.Meta
                     address = _add.GetAddress("GP", refID);
                 }
 
-                if (_lvm.documentsContent.LetterTo == "Other" || _lvm.documentsContent.LetterTo == "Histo")
+                if (_lvm.documentsContent.LetterTo == "Other" || _lvm.documentsContent.LetterTo == "Histo" || _lvm.documentsContent.DocCode.Contains("O4"))
                 {
                     ExternalClinician clinician = _externalClinicianData.GetClinicianDetails(clinicianCode);
                     name = clinician.TITLE + " " + clinician.FIRST_NAME + " " + clinician.NAME;
@@ -1750,6 +1758,28 @@ namespace ClinicalXPDataConnections.Meta
                     signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                 }
 
+                if (docCode == "DNMRC")
+                {
+                    Paragraph letterContentPt = section.AddParagraph();
+                    letterContentPt.AddFormattedText(patName + ", " + patDOB, TextFormat.Bold);
+                    spacer = section.AddParagraph();
+
+                    Paragraph letterContent1 = section.AddParagraph(_lvm.documentsContent.Para1);
+                    spacer = section.AddParagraph();
+                    Paragraph letterContent2 = section.AddParagraph(_lvm.documentsContent.Para2);
+                    spacer = section.AddParagraph();
+                    Paragraph letterContent3 = section.AddParagraph(_lvm.documentsContent.Para3);
+                    spacer = section.AddParagraph();
+                    Paragraph letterContent4 = section.AddParagraph(_lvm.documentsContent.Para4);
+                    spacer = section.AddParagraph();
+                    Paragraph letterContent5 = section.AddParagraph(_lvm.documentsContent.Para5);
+
+                    StaffMember referralGC = _staffUser.GetStaffMemberDetailsByStaffCode(referral.GC_CODE);
+                    signOff = referralGC.NAME + Environment.NewLine + referralGC.POSITION;
+                }
+
+
+
                 if (hasPhenotipsQRCode) //checks for Phenotips QR code flag and creates the QR code if needed
                 {
                     if (qrCodeText != "")
@@ -1814,7 +1844,7 @@ namespace ClinicalXPDataConnections.Meta
 
                     int ccLength = 50;
                     spacer = section.AddParagraph();
-                    Paragraph contentCC = section.AddParagraph("cc:");
+                    //Paragraph contentCC = section.AddParagraph("cc:");
 
                     //Add a page for all of the CC addresses (must be declared here or we can't use it)            
                     for (int i = 0; i < ccs.Length; i++)
@@ -2293,7 +2323,10 @@ namespace ClinicalXPDataConnections.Meta
 
             if (!isPreview.GetValueOrDefault())
             {
-                System.IO.File.Copy($"wwwroot\\StandardLetterPreviews\\preview-{user}.pdf", $@"C:\CGU_DB\Letters\CaStdLetter-{fileCGU}-{docCode}-{mpiString}-0-{refIDString}-1-{dateTimeString}-{diaryIDString}.pdf");
+                //System.IO.File.Copy($"wwwroot\\StandardLetterPreviews\\preview-{user}.pdf", $@"C:\CGU_DB\Letters\CaStdLetter-{fileCGU}-{docCode}-{mpiString}-0-{refIDString}-1-{dateTimeString}-{diaryIDString}.pdf");
+                string edmspath = _constantsData.GetConstant("PrintPathEDMS", 1);
+
+                System.IO.File.Copy($"wwwroot\\DOTLetterPreviews\\preview-{user}.pdf", $@"{edmspath}\Letters\CaStdLetter-{fileCGU}-{docCode}-{mpiString}-0-{refIDString}-1-{dateTimeString}-{diaryIDString}.pdf");
             }
         }
 
