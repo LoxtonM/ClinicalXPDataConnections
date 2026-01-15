@@ -136,7 +136,13 @@ namespace ClinicalXPDataConnections.Models
         public string? RelAdd3 { get; set; }
         public string? RelAdd4 { get; set; }
         public string? RelAdd5 { get; set; }
-        public string? RelPC1 { get; set; }        
+        public string? RelPC1 { get; set; }    
+        public string? RelSalutation { get; set; }
+        public string? RelSurnamePrevious { get; set; }
+        public string? RelTel { get; set; }
+        public string? RelNHSNo { get; set; }
+        public string? DeathAge { get; set; }
+        public string? Notes { get; set; }
     }
 
     [Table("RelativesDiary", Schema = "dbo")]
