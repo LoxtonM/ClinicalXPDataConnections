@@ -144,6 +144,8 @@ namespace ClinicalXPDataConnections.Models
         public string? RelNHSNo { get; set; }
         public string? DeathAge { get; set; }
         public string? Notes { get; set; }
+        public string? RelOTher { get; set; }
+        public string? MatPat { get; set; }
     }
 
     [Table("RelativesDiary", Schema = "dbo")]
