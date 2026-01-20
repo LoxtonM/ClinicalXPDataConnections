@@ -7,6 +7,7 @@ namespace ClinicalXPDataConnections.Meta
     public interface IPatientSearchDataAsync
     {        
         public Task<List<Patient>> GetPatientsListByCGUNo(string? cguNo);
+        public Task<List<Patient>> GetPatientsListByPedNo(string? pedNo);
         public Task<List<Patient>> GetPatientsListByName(string? firstname, string? lastname);
         public Task<List<Patient>> GetPatientsListByNHS(string? nhsNo);
         public Task<List<Patient>> GetPatientsListByDOB(DateTime dob);
@@ -31,6 +32,13 @@ namespace ClinicalXPDataConnections.Meta
         {
             IQueryable<Patient> patients = _clinContext.Patients.Where(p => p.CGU_No.Contains(cguNo));            
             
+            return await patients.ToListAsync();
+        }
+
+        public async Task<List<Patient>> GetPatientsListByPedNo(string pedNo)
+        {
+            IQueryable<Patient> patients = _clinContext.Patients.Where(p => p.PEDNO == pedNo);
+
             return await patients.ToListAsync();
         }
         public async Task<List<Patient>> GetPatientsListByName(string? firstname, string? lastname)

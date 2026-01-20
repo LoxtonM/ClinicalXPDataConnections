@@ -155,7 +155,7 @@ namespace ClinicalXPDataConnections.Models
         public int DiaryID { get; set; }
         public int RelsID { get; set; }
         public string? DiaryAction { get; set; }
-        public DateTime DiaryDate { get; set; }
+        public DateTime? DiaryDate { get; set; }
         public DateTime? DiaryRec { get; set; }
         public string? DocCode { get; set; }
         public bool NotReturned { get; set; }
@@ -789,8 +789,8 @@ namespace ClinicalXPDataConnections.Models
         public DateTime? BookedDate { get; set; }
         public DateTime? BookedTime { get; set; }
         public string? State { get; set; }
-        public string CGU_No { get; set; }
-        public string Name { get; set; }
+        public string? CGU_No { get; set; }
+        public string? Name { get; set; }
         public string Clinician { get; set; }
     }
 

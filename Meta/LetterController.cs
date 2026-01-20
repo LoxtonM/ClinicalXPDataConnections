@@ -11,6 +11,7 @@ using PdfSharpCore.Pdf;
 using System.Drawing;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 
 namespace ClinicalXPDataConnections.Meta
@@ -220,7 +221,7 @@ namespace ClinicalXPDataConnections.Meta
             }
         }
 
-        public void DoPDF(int id, int mpi, int refID, string user, string referrer, string? additionalText = "", string? enclosures = "", int? reviewAtAge = 0,
+        public async Task DoPDF(int id, int mpi, int refID, string user, string referrer, string? additionalText = "", string? enclosures = "", int? reviewAtAge = 0,
             string? tissueType = "", bool? isResearchStudy = false, bool? isScreeningRels = false, int? diaryID = 0, string? freeText1 = "", string? freeText2 = "",
             int? relID = 0, string? clinicianCode = "", string? siteText = "", DateTime? diagDate = null, bool? isPreview = false, string? qrCodeText = "", int? leafletID = 0)
         {
@@ -1778,23 +1779,28 @@ namespace ClinicalXPDataConnections.Meta
                     signOff = referralGC.NAME + Environment.NewLine + referralGC.POSITION;
                 }
 
+                string phenotipsAvailable = _constantsData.GetConstant("PhenotipsURL", 2);
 
 
-                if (hasPhenotipsQRCode) //checks for Phenotips QR code flag and creates the QR code if needed
+                if (phenotipsAvailable == "1")
                 {
-                    if (qrCodeText != "")
+                    if (hasPhenotipsQRCode) //checks for Phenotips QR code flag and creates the QR code if needed
                     {
-                        CreateQRImageFile(qrCodeText, user);
+                        
+                        if (qrCodeText != "")
+                        {
+                            CreateQRImageFile(qrCodeText, user);
 
-                        spacer = section.AddParagraph();
-                        Paragraph contentQRText = section.AddParagraph("Please scan the QR code below to access the online pre-clinic questionaire. If you would prefer to " +
-                            "receive an emailed link, let us know by contacting the department using the details above.");
-                        spacer = section.AddParagraph();
-                        Paragraph contentQR = section.AddParagraph();
-                        MigraDoc.DocumentObjectModel.Shapes.Image imgQRCode = contentQR.AddImage($"wwwroot\\Images\\qrCode-{user}.jpg");
-                        imgQRCode.ScaleWidth = new Unit(1.5, UnitType.Point);
-                        imgQRCode.ScaleHeight = new Unit(1.5, UnitType.Point);
-                        contentQR.Format.Alignment = ParagraphAlignment.Center;
+                            spacer = section.AddParagraph();
+                            Paragraph contentQRText = section.AddParagraph("Please scan the QR code below to access the online pre-clinic questionaire. If you would prefer to " +
+                                "receive an emailed link, let us know by contacting the department using the details above.");
+                            spacer = section.AddParagraph();
+                            Paragraph contentQR = section.AddParagraph();
+                            MigraDoc.DocumentObjectModel.Shapes.Image imgQRCode = contentQR.AddImage($"wwwroot\\Images\\qrCode-{user}.jpg");
+                            imgQRCode.ScaleWidth = new Unit(1.5, UnitType.Point);
+                            imgQRCode.ScaleHeight = new Unit(1.5, UnitType.Point);
+                            contentQR.Format.Alignment = ParagraphAlignment.Center;
+                        }                        
                     }
                 }
 
