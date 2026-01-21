@@ -757,6 +757,8 @@ namespace ClinicalXPDataConnections.Models
         public string? GeneticCounsellor { get; set; }
         public string? Comments { get; set; }
         public string? Enclosures { get; set; }
+        public DateTime? ApprovedDate { get; set; }
+        public string? ApprovedBy { get; set; }
     }
 
     [Table("DictatedLettersPatients", Schema = "dbo")] //Patients added to DOT
