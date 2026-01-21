@@ -15,6 +15,8 @@ namespace ClinicalXPDataConnections.Meta
         public Task<List<Referral>> GetActiveReferralsList();
         public Task<List<Referral>> GetActiveReferralsListForPatient(int id);
         public Task<List<Referral>> GetUnassignedReferrals();
+        public Task<ReferralDeleteStatusDto> GetDeletionStatusAsync(int mpi, int refId);
+
     }
     public class ReferralDataAsync : IReferralDataAsync
     {
@@ -88,6 +90,21 @@ namespace ClinicalXPDataConnections.Meta
             IQueryable<Referral> referrals = _clinContext.Referrals.Where(r => r.RefType.Contains("Refer") && r.COMPLETE == "Missing Data");
 
             return await referrals.ToListAsync();
+        }
+
+        public async Task<ReferralDeleteStatusDto> GetDeletionStatusAsync(int mpi, int refId)
+        {
+            var result = await _clinContext.DeletedReferrals
+                .Where(r => r.Mpi == mpi && r.RefId == refId)
+                .OrderByDescending(r => r.DeletedRefId)
+                .Select(r => new ReferralDeleteStatusDto
+                {
+                    Reason = r.DeleteReason,
+                    IsDeleted = r.DeleteStatus == 1
+                })
+                .FirstOrDefaultAsync();
+
+            return result ?? new ReferralDeleteStatusDto { Reason = "", IsDeleted = false };
         }
     }
 }
