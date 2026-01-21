@@ -79,5 +79,6 @@ namespace ClinicalXPDataConnections.Data
         public DbSet<PhenotipsPatient> PhenotipsPatient { get; set; }
 
         public DbSet<ActivityType> ActivityType { get; set; }
+        public DbSet<DeletedReferral> DeletedReferrals { get; set; }
     }
 }

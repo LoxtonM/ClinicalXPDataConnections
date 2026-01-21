@@ -1,5 +1,6 @@
 ﻿using ClinicalXPDataConnections.Data;
 using ClinicalXPDataConnections.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Data;
 
 namespace ClinicalXPDataConnections.Meta
@@ -12,8 +13,6 @@ namespace ClinicalXPDataConnections.Meta
         public List<Referral> GetReferralsByStaffMember(string staffCode, DateTime? startDate, DateTime? endDate);
         public List<Referral> GetActiveReferralsList();
         public List<Referral> GetActiveReferralsListForPatient(int id);
-
-        public List<Referral> GetUnassignedReferrals();
     }
     public class ReferralData : IReferralData
     {
@@ -88,5 +87,7 @@ namespace ClinicalXPDataConnections.Meta
 
             return referrals.ToList();
         }
+
+        
     }
 }

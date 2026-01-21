@@ -1212,4 +1212,21 @@ namespace ClinicalXPDataConnections.Models
         public bool ISAPPT { get; set; }
         public bool ISSTUDY { get; set; }
     }
+
+    [Keyless]
+    [Table("DeletedReferrals", Schema = "dbo")]
+    public class DeletedReferral
+    {
+        public int DeletedRefId { get; set; } 
+        public int Mpi { get; set; }
+        public int RefId { get; set; }
+        public string DeleteReason { get; set; }
+        public short DeleteStatus { get; set; } 
+    }
+
+    public class ReferralDeleteStatusDto
+    {
+        public string Reason { get; set; }
+        public bool IsDeleted { get; set; }
+    }
 }
