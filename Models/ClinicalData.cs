@@ -267,6 +267,7 @@ namespace ClinicalXPDataConnections.Models
         public int refid { get; set; }
         public int MPI { get; set; }
         public string? CGU_No {  get; set; }
+        public string? NHSNo {  get; set; }
         public string? FIRSTNAME { get; set; }
         public string? LASTNAME { get; set; }
         public string CLINICNO { get; set; }
