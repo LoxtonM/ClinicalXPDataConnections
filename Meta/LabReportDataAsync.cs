@@ -29,8 +29,8 @@ namespace ClinicalXPDataConnections.Meta
         public async Task<List<LabPatient>> GetPatients(string? firstname, string? lastname, string? nhsno, string? postcode, DateTime? dob)
         {
             IQueryable<LabPatient> patients = from p in _labContext.labPatient               //_labContext.labPatient;
-                                              where (firstname == null || p.FIRSTNAME == firstname)
-                                              && (lastname == null || p.LASTNAME == lastname)
+                                              where (firstname == null || p.FIRSTNAME.Contains(firstname))
+                                              && (lastname == null || p.LASTNAME.Contains(lastname))
                                               && (nhsno == null || p.SOCIAL_SECURITY == nhsno)
                                               && (dob == null || p.DOB == dob)
 

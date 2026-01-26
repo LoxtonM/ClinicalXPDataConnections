@@ -12,6 +12,7 @@ namespace ClinicalXPDataConnections.Meta
         public Task<Patient> GetPatientDetailsByDemographicData(string firstname, string lastname, string nhsno, DateTime dob);
         public Task<Patient> GetPatientDetailsByIntID(int intID);
         public Task<Patient> GetPatientDetailsByCGUNo(string cguNo);
+        public Task<List<Patient>> GetMatchingPatientsByCGUNo(string cguNo);
         public Task<List<Patient>> GetFamilyMembers(int mpi);
         public Task<List<Patient>> GetPatientsInPedigree(string pedno);
         public Task<List<Patient>> GetPatientsWithoutCGUNumbers();
@@ -56,6 +57,13 @@ namespace ClinicalXPDataConnections.Meta
             Patient pt = await _clinContext.Patients.FirstOrDefaultAsync(p => p.CGU_No == cguNo);
 
             return pt;
+        }
+
+        public async Task<List<Patient>> GetMatchingPatientsByCGUNo(string cguNo)
+        {
+            IQueryable<Patient> pt = _clinContext.Patients.Where(p => p.CGU_No.Contains(cguNo));
+
+            return await pt.ToListAsync();
         }
 
         public async Task<List<Patient>> GetFamilyMembers(int mpi)
