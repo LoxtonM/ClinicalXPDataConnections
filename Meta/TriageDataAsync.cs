@@ -115,7 +115,7 @@ namespace ClinicalXPDataConnections.Meta
 
         public async Task<ICPGeneral> GetGeneralICPDetailsByICPID(int? icpID) //Get details of a general ICP by the IcpID
         {
-            ICPGeneral icp = await _clinContext.ICPGeneral.FirstOrDefaultAsync(c => c.ICPID == icpID);
+            ICPGeneral icp = await _clinContext.ICPGeneral.FirstOrDefaultAsync(c => c.ICPID == icpID && !c.LogicalDelete);
 
             return icp;
         }
@@ -129,7 +129,7 @@ namespace ClinicalXPDataConnections.Meta
 
         public async Task<ICPCancer> GetCancerICPDetailsByICPID(int? icpID) //Get details of a cancer ICP by the IcpID
         {
-            ICPCancer icp = await _clinContext.ICPCancer.FirstOrDefaultAsync(c => c.ICPID == icpID);
+            ICPCancer icp = await _clinContext.ICPCancer.FirstOrDefaultAsync(c => c.ICPID == icpID && !c.LogicalDelete);
 
             return icp;
         }

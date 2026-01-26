@@ -464,6 +464,7 @@ namespace ClinicalXPDataConnections.Models
         public string? GCWLClinician { get; set; }
         public string? GCWLClinic { get; set; }
         public bool GCWLAdded { get; set; }
+        public bool LogicalDelete { get; set; }
     }
 
     [Table("ViewPatientCancerICP", Schema = "dbo")] //Cancer ICP
@@ -506,7 +507,7 @@ namespace ClinicalXPDataConnections.Models
         public string? ToBeReviewedby { get; set; }
         public string? Status_Admin { get; set; }
         public string? COMPLETE { get; set; }
-
+        public bool LogicalDelete { get; set; }
     }
 
     [Table("CLIN_FACILITIES", Schema = "dbo")] //Facilities where we hold clinics
