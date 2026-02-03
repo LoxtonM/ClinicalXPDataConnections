@@ -15,6 +15,8 @@ namespace ClinicalXPDataConnections.Meta
         public Task<List<Patient>> GetFamilyMembers(int mpi);
         public Task<List<Patient>> GetPatientsInPedigree(string pedno);
         public Task<List<Patient>> GetPatientsWithoutCGUNumbers();
+        public List<EpicPatientDTO> GetEpicPatientsWithReferralDetails();
+
     }
     public class PatientDataAsync : IPatientDataAsync 
     {
@@ -79,5 +81,34 @@ namespace ClinicalXPDataConnections.Meta
 
             return await patients.ToListAsync();
         }
+
+        public List<EpicPatientDTO> GetEpicPatientsWithReferralDetails()
+        {
+            var data = _clinContext.Patients
+                .Where(p => p.ExternalID != null && (p.CGU_No == "." || p.CGU_No == null))
+                .Select(p => new EpicPatientDTO
+                {
+                    MPI = p.MPI,
+                    Title = p.Title,
+                    FIRSTNAME = p.FIRSTNAME,
+                    LASTNAME = p.LASTNAME,
+                    DOB = p.DOB,
+                    SOCIAL_SECURITY = p.SOCIAL_SECURITY,
+                    ExternalID = p.ExternalID,
+                    PATHWAY = _clinContext.DownstreamReferrals
+                                .Where(d => d.PatientID == p.ExternalID)
+                                .Select(d => d.Pathway)
+                                .FirstOrDefault(),
+                    REFERRAL_DATE = _clinContext.DownstreamReferrals
+                                .Where(d => d.PatientID == p.ExternalID)
+                                .Select(d => d.ReferralDate)
+                                .FirstOrDefault()
+                })
+                .ToList();
+
+            return data;
+        }
+
+        
     }
 }

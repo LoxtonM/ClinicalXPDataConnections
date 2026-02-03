@@ -1230,4 +1230,27 @@ namespace ClinicalXPDataConnections.Models
         public string Reason { get; set; }
         public bool IsDeleted { get; set; }
     }
+
+    [Keyless]
+    public class EpicPatientDTO
+    {
+        public int MPI { get; set; }
+        public string Title { get; set; }
+        public string FIRSTNAME { get; set; }
+        public string LASTNAME { get; set; }
+        public DateTime? DOB { get; set; }
+        public string SOCIAL_SECURITY { get; set; }
+        public string ExternalID { get; set; }
+        public string PATHWAY { get; set; }
+        public DateTime? REFERRAL_DATE { get; set; }
+    }
+
+    [Table("DownstreamReferralStagingTable", Schema = "dbo")] 
+    public class DownstreamReferral
+    {
+        [Key]
+        public string? PatientID { get; set; }
+        public DateTime? ReferralDate { get; set; }
+        public string? Pathway { get; set; }
+    }
 }

@@ -80,5 +80,7 @@ namespace ClinicalXPDataConnections.Data
 
         public DbSet<ActivityType> ActivityType { get; set; }
         public DbSet<DeletedReferral> DeletedReferrals { get; set; }
+        public DbSet<EpicPatientDTO> EpicPatientDTO { get; set; }
+        public DbSet<DownstreamReferral> DownstreamReferrals { get; set; }
     }
 }
