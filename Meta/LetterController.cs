@@ -147,6 +147,8 @@ namespace ClinicalXPDataConnections.Meta
 
             string letterContent = RemoveHTML(_lvm.dictatedLetter.LetterContent);
 
+            letterContent = letterContent.Replace("&nbsp;", " ");
+
             Paragraph contentLetterContent = section.AddParagraph(letterContent);
 
             string signOff = _lvm.dictatedLetter.LetterFrom;                        
@@ -1020,9 +1022,28 @@ namespace ClinicalXPDataConnections.Meta
                     _riskList = _rData.GetRiskListByRefID(refID);
 
                     content1 = _lvm.documentsContent.Para1;
-                    content2 = _lvm.documentsContent.Para2;
-                    content3 = _lvm.documentsContent.Para3;
-                    content4 = _lvm.documentsContent.Para4;
+                    content2 = _lvm.documentsContent.Para7;
+                    //content4 = _lvm.documentsContent.Para3;
+
+                    string selectDistrict = "";
+                    string survWhen = "";
+                    int selectTeam = 0;
+
+                    if(selectDistrict == "A45")
+                    {
+                        content3 = _lvm.documentsContent.Para4;
+                    }
+                    else if(selectDistrict == "A47")
+                    {
+                        content3 = _lvm.documentsContent.Para5;
+                    }
+                    else
+                    {
+                        content3 = _lvm.documentsContent.Para2 + Environment.NewLine + Environment.NewLine + _lvm.documentsContent.Para3;
+                    }                    
+
+                    selectDistrict = _lvm.patient.PtAreaCode;
+
 
                     Paragraph letterContent1 = section.AddParagraph(content1);
                     spacer = section.AddParagraph();
