@@ -147,6 +147,8 @@ namespace ClinicalXPDataConnections.Meta
 
             string letterContent = RemoveHTML(_lvm.dictatedLetter.LetterContent);
 
+            letterContent = letterContent.Replace("&nbsp;", " ");
+
             Paragraph contentLetterContent = section.AddParagraph(letterContent);
 
             string signOff = _lvm.dictatedLetter.LetterFrom;                        
@@ -172,7 +174,7 @@ namespace ClinicalXPDataConnections.Meta
 
             int printCount = 1;
 
-            string[] ccs = { "", "", "" };
+            //string[] ccs = { "", "", "" };
 
             List<DictatedLettersCopy> ccList = _dictatedLetterData.GetDictatedLettersCopiesList(_lvm.dictatedLetter.DoTID);
 
@@ -181,15 +183,31 @@ namespace ClinicalXPDataConnections.Meta
             {
                 spacer = section.AddParagraph();
                 spacer = section.AddParagraph();
-                Paragraph ccHead = section.AddParagraph("CC:");
+                //Paragraph ccHead = section.AddParagraph("CC:");
+
+                MigraDoc.DocumentObjectModel.Tables.Table tableCCs = section.AddTable();
+                MigraDoc.DocumentObjectModel.Tables.Column ccHead = tableCCs.AddColumn();                
+                MigraDoc.DocumentObjectModel.Tables.Column ccAddress = tableCCs.AddColumn();
+                ccHead.Width = 20;
+                ccAddress.Width = 200;
 
                 foreach (var item in ccList)
                 {
+                    MigraDoc.DocumentObjectModel.Tables.Row ccSpacer = tableCCs.AddRow();
+                    ccSpacer.Height = 20;
+                    MigraDoc.DocumentObjectModel.Tables.Row ccRow = tableCCs.AddRow();
+                    ccRow.Height = 120;
+
+                    ccRow.Cells[0].AddParagraph("cc:");                    
+                    ccRow.Cells[1].AddParagraph(item.CC);
+
+                    /*
                     spacer = section.AddParagraph();
                     spacer = section.AddParagraph();
-                    Paragraph contentCC = section.AddParagraph(item.CC);
+                    Paragraph contentCC = section.AddParagraph("cc:" + item.CC);
                     spacer = section.AddParagraph();
                     spacer = section.AddParagraph();
+                    */
                     printCount = printCount += 1;
                 }
             }
@@ -1004,9 +1022,28 @@ namespace ClinicalXPDataConnections.Meta
                     _riskList = _rData.GetRiskListByRefID(refID);
 
                     content1 = _lvm.documentsContent.Para1;
-                    content2 = _lvm.documentsContent.Para2;
-                    content3 = _lvm.documentsContent.Para3;
-                    content4 = _lvm.documentsContent.Para4;
+                    content2 = _lvm.documentsContent.Para7;
+                    //content4 = _lvm.documentsContent.Para3;
+
+                    string selectDistrict = "";
+                    string survWhen = "";
+                    int selectTeam = 0;
+
+                    if(selectDistrict == "A45")
+                    {
+                        content3 = _lvm.documentsContent.Para4;
+                    }
+                    else if(selectDistrict == "A47")
+                    {
+                        content3 = _lvm.documentsContent.Para5;
+                    }
+                    else
+                    {
+                        content3 = _lvm.documentsContent.Para2 + Environment.NewLine + Environment.NewLine + _lvm.documentsContent.Para3;
+                    }                    
+
+                    selectDistrict = _lvm.patient.PtAreaCode;
+
 
                     Paragraph letterContent1 = section.AddParagraph(content1);
                     spacer = section.AddParagraph();

@@ -16,7 +16,7 @@ namespace ClinicalXPDataConnections.Meta
         public Task<List<ExternalClinician>> GetGPList();
         public Task<List<string>> GetClinicianTypeList();
         public Task<List<ExternalCliniciansAndFacilities>> GetExternalCliniciansByType(string type);
-        public Task<List<ExternalClinician>> GetGPsByPracticeCode(string practiceCode);
+        public Task<List<ExternalCliniciansAndFacilities>> GetGPsByPracticeCode(string practiceCode);
     }
 
     public class ExternalClinicianDataAsync : IExternalClinicianDataAsync
@@ -114,12 +114,11 @@ namespace ClinicalXPDataConnections.Meta
             return await clins.ToListAsync();
         }
 
-        public async Task<List<ExternalClinician>> GetGPsByPracticeCode(string practiceCode)
+        public async Task<List<ExternalCliniciansAndFacilities>> GetGPsByPracticeCode(string practiceCode)
         {
-            return await _clinContext.ExternalClinician
-                                 .Where(x => x.FACILITY == practiceCode && x.NON_ACTIVE == 0)
-                                 .OrderBy(x => x.NAME)
-                                 .ToListAsync();
+            IQueryable<ExternalCliniciansAndFacilities> clins = _clinContext.ExternalCliniciansAndFacilities.Where(c => c.FACILITY != practiceCode);
+
+            return await clins.ToListAsync();
         }
     }
 }

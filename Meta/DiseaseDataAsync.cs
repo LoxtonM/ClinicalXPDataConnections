@@ -11,6 +11,7 @@ namespace ClinicalXPDataConnections.Meta
         public Task<List<Diagnosis>> GetDiseaseListByPatient(int mpi);
         public Task<List<DiseaseStatus>> GetStatusList();
         public Task<Diagnosis> GetDiagnosisDetails(int id);
+        public Task<List<Diagnosis>> GetDiagnosisListByType(string diagID);
     }
     public class DiseaseDataAsync : IDiseaseDataAsync
     {
@@ -65,5 +66,13 @@ namespace ClinicalXPDataConnections.Meta
             return await items.ToListAsync();
         }
 
+        public async Task<List<Diagnosis>> GetDiagnosisListByType(string diagID)
+        {
+            IQueryable<Diagnosis> diags = from d in _clinContext.Diagnosis
+                                          where d.DISEASE_CODE == diagID
+                                          select d;
+
+            return await diags.ToListAsync();
+        }
     }
 }
