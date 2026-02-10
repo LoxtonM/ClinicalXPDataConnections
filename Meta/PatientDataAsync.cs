@@ -16,6 +16,8 @@ namespace ClinicalXPDataConnections.Meta
         public Task<List<Patient>> GetFamilyMembers(int mpi);
         public Task<List<Patient>> GetPatientsInPedigree(string pedno);
         public Task<List<Patient>> GetPatientsWithoutCGUNumbers();
+        public Task<List<EpicPatientDTO>> GetEpicPatientsWithReferralDetails();
+
     }
     public class PatientDataAsync : IPatientDataAsync 
     {
@@ -87,5 +89,43 @@ namespace ClinicalXPDataConnections.Meta
 
             return await patients.ToListAsync();
         }
+
+        public async Task<List<EpicPatientDTO>> GetEpicPatientsWithReferralDetails()
+        {
+            var data = await _clinContext.Patients
+        .Where(p => p.ExternalID != null && (p.CGU_No == "." || p.CGU_No == null))
+        //.Where(p =>
+        //    p.SOCIAL_SECURITY == null || p.SOCIAL_SECURITY == ""
+        //    || p.SOCIAL_SECURITY == "0000000000"
+        //    || p.SOCIAL_SECURITY == "1111111111"
+        //    || _clinContext.Patients.Any(existing => existing.SOCIAL_SECURITY == p.SOCIAL_SECURITY
+        //    && existing.CGU_No != "." && existing.CGU_No != null)
+        //)
+        .GroupJoin(
+            _clinContext.DownstreamReferrals,
+            p => p.ExternalID,
+            d => d.PatientID,
+            (p, referrals) => new EpicPatientDTO
+            {
+                MPI = p.MPI,
+                Title = p.Title,
+                FIRSTNAME = p.FIRSTNAME,
+                LASTNAME = p.LASTNAME,
+                DOB = p.DOB,
+                SOCIAL_SECURITY = p.SOCIAL_SECURITY,
+                ExternalID = p.ExternalID,
+                PATHWAY = referrals.Select(d => d.Pathway).FirstOrDefault(),
+                REFERRAL_DATE = referrals.Select(d => d.ReferralDate).FirstOrDefault()
+            }
+        )
+        .ToListAsync();
+
+            return data;
+        }
+
+       
+
+
+
     }
 }
