@@ -116,7 +116,7 @@ namespace ClinicalXPDataConnections.Meta
 
         public async Task<List<ExternalCliniciansAndFacilities>> GetGPsByPracticeCode(string practiceCode)
         {
-            IQueryable<ExternalCliniciansAndFacilities> clins = _clinContext.ExternalCliniciansAndFacilities.Where(c => c.FACILITY != practiceCode);
+            IQueryable<ExternalCliniciansAndFacilities> clins = _clinContext.ExternalCliniciansAndFacilities.Where(c => c.MasterFacilityCode == practiceCode);
 
             return await clins.ToListAsync();
         }
