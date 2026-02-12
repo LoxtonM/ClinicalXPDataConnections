@@ -46,7 +46,8 @@ namespace ClinicalXPDataConnections.Meta
         public async Task<List<Referral>> GetTempRegList(int id) //Get list of temp reges for patient by MPI
         {
             IQueryable<Referral> treg = from r in _clinContext.Referrals
-                                             where r.MPI == id & r.RefType.Contains("Temp")
+                                             where r.MPI == id & r.RefType.Contains("Temp") 
+                                             && r.COMPLETE != null
                                              orderby r.RefDate
                                              select r;
 
