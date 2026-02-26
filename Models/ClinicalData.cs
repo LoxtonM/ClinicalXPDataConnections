@@ -1003,6 +1003,7 @@ namespace ClinicalXPDataConnections.Models
         public int ID { get; set; }
         public string Action { get; set; }
         public bool InUse { get; set; }
+        public bool LetterRequired { get; set; }
         public int? RelatedLetterID { get; set; }
     }
 

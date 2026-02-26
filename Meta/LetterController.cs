@@ -136,9 +136,13 @@ namespace ClinicalXPDataConnections.Meta
             spacer = section.AddParagraph();
             Paragraph contentSalutation = section.AddParagraph($"Dear {_lvm.dictatedLetter.LetterToSalutation}");
             spacer = section.AddParagraph();
-            Paragraph contentLetterRe = section.AddParagraph();
-            contentLetterRe.AddFormattedText(_lvm.dictatedLetter.LetterRe, TextFormat.Bold);
-            spacer = section.AddParagraph();
+            if (_lvm.dictatedLetter.LetterRe != null)
+            {
+                Paragraph contentLetterRe = section.AddParagraph();
+                contentLetterRe.AddFormattedText(_lvm.dictatedLetter.LetterRe, TextFormat.Bold);
+                spacer = section.AddParagraph();
+
+            }
             Paragraph contentSummary = section.AddParagraph();
             string letterContentBold = "";
             if(_lvm.dictatedLetter.LetterContentBold != null) { letterContentBold = _lvm.dictatedLetter.LetterContentBold; }
@@ -147,9 +151,40 @@ namespace ClinicalXPDataConnections.Meta
 
             string letterContent = RemoveHTML(_lvm.dictatedLetter.LetterContent);
 
-            letterContent = letterContent.Replace("&nbsp;", " ");
+            //letterContent = letterContent.Replace("newline", System.Environment.NewLine);
 
-            Paragraph contentLetterContent = section.AddParagraph(letterContent);
+
+            //Paragraph contentLetterContent = section.AddParagraph(letterContent);
+            Paragraph contentLetterContent = section.AddParagraph();
+            contentLetterContent.Format.Font.Size = 10;
+
+
+            if (letterContent.Contains("[[strong]]") || letterContent.Contains("<b>")) //This is all required because there's no other way to get the bold text into the letter!!
+            {
+                List<string> letterContentParts = ParseBold(letterContent);
+
+                foreach (var item in letterContentParts)
+                {
+                    if (item.Contains("NOTBOLD"))
+                    {
+                        contentLetterContent.AddFormattedText(item.Replace("NOTBOLD", ""), TextFormat.NotBold);
+                    }
+                    else if (item.Contains("BOLD"))
+                    {
+                        contentLetterContent.AddFormattedText(item.Replace("BOLD", ""), TextFormat.Bold);
+                    }
+                    else
+                    {
+                        contentLetterContent.AddFormattedText(item, TextFormat.NotBold);
+                    }
+                }
+            }
+            else
+            {
+                contentLetterContent.AddFormattedText(letterContent, TextFormat.NotBold);
+            }
+
+
 
             string signOff = _lvm.dictatedLetter.LetterFrom;                        
             StaffMember signatory = _staffUser.GetStaffMemberDetailsByStaffCode(_lvm.dictatedLetter.LetterFromCode);
@@ -439,6 +474,25 @@ namespace ClinicalXPDataConnections.Meta
                 string dateTimeString = DateTime.Now.ToString("yyyyMMddHHmmss");
                 string diaryIDString = diaryID.ToString();
 
+                switch (_lvm.documentsContent.LetterFrom)
+                {
+                    case "GC":
+                        var gc = _staffUser.GetStaffMemberDetailsByStaffCode(referral.GC_CODE);
+                        signOff = gc.NAME + Environment.NewLine + gc.POSITION;
+                        sigFilename = gc.StaffForename + gc.StaffSurname.Replace("'", "").Replace(" ", "") + ".jpg";
+                        break;
+                    case "Cons":
+                        var cons = _staffUser.GetStaffMemberDetailsByStaffCode(referral.PATIENT_TYPE_CODE);
+                        signOff = cons.NAME + Environment.NewLine + cons.POSITION;
+                        sigFilename = cons.StaffForename + cons.StaffSurname.Replace("'", "").Replace(" ", "") + ".jpg";
+                        break;
+                    case "Logon":
+                        signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
+                        break;
+                    default:
+                        signOff = "";
+                        break;
+                }
 
 
                 ///////////////////////////////////////////////////////////////////////////////////////
@@ -454,7 +508,7 @@ namespace ClinicalXPDataConnections.Meta
                 {
                     content1 = _lvm.documentsContent.Para1;
                     Paragraph letterContent = section.AddParagraph(content1);
-                    signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
+                    ////signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
 
                 }
 
@@ -535,7 +589,7 @@ namespace ClinicalXPDataConnections.Meta
                     Paragraph letterContent1 = section.AddParagraph(content1);
                     spacer = section.AddParagraph();
                     Paragraph letterContent2 = section.AddParagraph(content2);
-                    signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
+                    ////signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                 }
 
                 if (docCode == "K")
@@ -557,7 +611,7 @@ namespace ClinicalXPDataConnections.Meta
                     Paragraph letterContent5 = section.AddParagraph(content5);
                     spacer = section.AddParagraph();
 
-                    signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
+                    ////signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                 }
 
                 if (docCode == "Krem")
@@ -571,7 +625,7 @@ namespace ClinicalXPDataConnections.Meta
                     content3 = _lvm.documentsContent.Para3;
                     Paragraph letterContent3 = section.AddParagraph(content3);
 
-                    signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
+                    ////signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                 }
 
 
@@ -581,7 +635,7 @@ namespace ClinicalXPDataConnections.Meta
 
 
 
-                    signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
+                    ////signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                 }
 
                 if (docCode == "EndoRem")
@@ -589,7 +643,7 @@ namespace ClinicalXPDataConnections.Meta
 
 
 
-                    signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
+                    ////signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                 }
 
 
@@ -599,7 +653,7 @@ namespace ClinicalXPDataConnections.Meta
 
 
 
-                    signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
+                    ////signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                 }
 
                 if (docCode == "CardRem")
@@ -607,7 +661,7 @@ namespace ClinicalXPDataConnections.Meta
 
 
 
-                    signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
+                    ////signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                 }
 
 
@@ -623,7 +677,7 @@ namespace ClinicalXPDataConnections.Meta
                     Paragraph letterContent3 = section.AddParagraph(_lvm.documentsContent.Para4);
                     spacer = section.AddParagraph();
                     Paragraph letterContent4 = section.AddParagraph(_lvm.documentsContent.Para5);
-                    signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
+                    ////signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                 }
 
                 if (docCode == "RejFHAW")
@@ -640,7 +694,7 @@ namespace ClinicalXPDataConnections.Meta
                     spacer = section.AddParagraph();
                     Paragraph letterContent5 = section.AddParagraph(_lvm.documentsContent.Para5);
 
-                    signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
+                    ////signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                 }
 
                 //OOR1
@@ -709,7 +763,7 @@ namespace ClinicalXPDataConnections.Meta
                     spacer = section.AddParagraph();
                     Paragraph letterContent4 = section.AddParagraph(content4);
 
-                    signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
+                    ////signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                 }
 
                 //O1 letter
@@ -732,7 +786,7 @@ namespace ClinicalXPDataConnections.Meta
                     Paragraph letterContent3 = section.AddParagraph(content3);
                     spacer = section.AddParagraph();
                     Paragraph letterContent4 = section.AddParagraph(content4);
-                    signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
+                    ////signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                     ccs[0] = referrerName;
                     ccs[1] = gpName;
                 }
@@ -787,7 +841,7 @@ namespace ClinicalXPDataConnections.Meta
                     }
                     Paragraph letterContent5 = section.AddParagraph(content5);
                     spacer = section.AddParagraph();
-                    signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
+                    ////signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                     ccs[0] = referrerName;
                     ccs[1] = gpName;
                 }
@@ -819,7 +873,7 @@ namespace ClinicalXPDataConnections.Meta
                         Paragraph letterContent3 = section.AddParagraph(content3);
                         spacer = section.AddParagraph();
                     }
-                    signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
+                    ////signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                     ccs[0] = referrerName;
                     ccs[1] = gpName;
                 }
@@ -874,7 +928,7 @@ namespace ClinicalXPDataConnections.Meta
                         Paragraph letterContent5 = section.AddParagraph(content5);
                         spacer = section.AddParagraph();
                     }
-                    signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
+                    ////signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                     ccs[0] = referrerName;
                     ccs[1] = gpName;
                 }
@@ -932,7 +986,7 @@ namespace ClinicalXPDataConnections.Meta
                         Paragraph letterContent5 = section.AddParagraph(content5);
                         spacer = section.AddParagraph();
                     }
-                    signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
+                    ////signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                     ccs[0] = referrerName;
                     ccs[1] = gpName;
                 }
@@ -949,7 +1003,7 @@ namespace ClinicalXPDataConnections.Meta
                     spacer = section.AddParagraph();
                     Paragraph letterContent3 = section.AddParagraph(content3);
                     spacer = section.AddParagraph();
-                    signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
+                    ////signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                     ccs[0] = referrerName;
                     ccs[1] = gpName;
                 }
@@ -986,7 +1040,7 @@ namespace ClinicalXPDataConnections.Meta
                     spacer = section.AddParagraph();
                     Paragraph letterContent5 = section.AddParagraph(content5);
                     spacer = section.AddParagraph();
-                    signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
+                    // //signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                     ccs[0] = referrerName;
                     ccs[1] = gpName;
                 }
@@ -1007,7 +1061,7 @@ namespace ClinicalXPDataConnections.Meta
                     spacer = section.AddParagraph();
                     Paragraph letterContent4 = section.AddParagraph(content4);
                     spacer = section.AddParagraph();
-                    signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
+                    // //signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                     ccs[0] = referrerName;
                     ccs[1] = gpName;
                 }
@@ -1029,18 +1083,18 @@ namespace ClinicalXPDataConnections.Meta
                     string survWhen = "";
                     int selectTeam = 0;
 
-                    if(selectDistrict == "A45")
+                    if (selectDistrict == "A45")
                     {
                         content3 = _lvm.documentsContent.Para4;
                     }
-                    else if(selectDistrict == "A47")
+                    else if (selectDistrict == "A47")
                     {
                         content3 = _lvm.documentsContent.Para5;
                     }
                     else
                     {
                         content3 = _lvm.documentsContent.Para2 + Environment.NewLine + Environment.NewLine + _lvm.documentsContent.Para3;
-                    }                    
+                    }
 
                     selectDistrict = _lvm.patient.PtAreaCode;
 
@@ -1098,7 +1152,7 @@ namespace ClinicalXPDataConnections.Meta
                     spacer = section.AddParagraph();
                     Paragraph letterContent5 = section.AddParagraph(content4);
                     spacer = section.AddParagraph();
-                    signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
+                    //  //signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                     ccs[0] = referrerName;
                     ccs[1] = gpName;
                 }
@@ -1196,7 +1250,7 @@ namespace ClinicalXPDataConnections.Meta
                     Paragraph letterContent4 = section.AddParagraph(content4);
 
                     spacer = section.AddParagraph();
-                    signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
+                    //     //signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                     ccs[0] = referrerName;
                 }
 
@@ -1214,7 +1268,7 @@ namespace ClinicalXPDataConnections.Meta
                     spacer = section.AddParagraph();
                     Paragraph letterContent5 = section.AddParagraph(_lvm.documentsContent.Para5);
 
-                    signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
+                    //signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                 }
 
 
@@ -1258,7 +1312,7 @@ namespace ClinicalXPDataConnections.Meta
                     Paragraph letterContent4 = section.AddParagraph(_lvm.documentsContent.Para4);
 
 
-                    signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
+                    // //signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                 }
 
                 //DT01
@@ -1289,7 +1343,7 @@ namespace ClinicalXPDataConnections.Meta
 
                     spacer = section.AddParagraph();
 
-                    signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
+                    // //signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
 
                     enclosures = "Two copies of consent form (Letter code CF02) Letter to give to your GP or hospital (Letter code DT03) " +
                         "Blood sampling kit (containing the relevant tubes, form and packaging) Pre-paid envelope";
@@ -1319,7 +1373,7 @@ namespace ClinicalXPDataConnections.Meta
                     Paragraph letterContent4 = section.AddParagraph(content4);
                     spacer = section.AddParagraph();
 
-                    signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
+                    //   //signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                 }
 
                 //DT11
@@ -1346,7 +1400,7 @@ namespace ClinicalXPDataConnections.Meta
                     Paragraph letterContent5 = section.AddParagraph(content5);
                     spacer = section.AddParagraph();
 
-                    signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
+                    //     //signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                     enclosures = "copy of completed consent form (Letter code CF04)";
                     pageCount += 1; //because it's impossible to force it to go to the next page otherwise!
                     ccs[0] = clin.TITLE + " " + clin.FIRST_NAME + clin.NAME;
@@ -1381,7 +1435,7 @@ namespace ClinicalXPDataConnections.Meta
                     spacer = section.AddParagraph();
 
                     enclosures = "copy of completed consent form (Letter code CF04)";
-                    signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
+                    //   //signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                     ccs[0] = recipient;
                 }
 
@@ -1410,7 +1464,7 @@ namespace ClinicalXPDataConnections.Meta
                     content4 = _lvm.documentsContent.Para4;
                     Paragraph letterContent4 = section.AddParagraph(content4);
                     spacer = section.AddParagraph();
-                    signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
+                    //   //signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                 }
 
                 //DT15
@@ -1536,7 +1590,7 @@ namespace ClinicalXPDataConnections.Meta
                     Paragraph letterContentClinDets = section.AddParagraph();
                     letterContentClinDets.AddFormattedText("Section 5: Clinician details", TextFormat.Bold);
                     spacer = section.AddParagraph();
-                    signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
+                    //     //signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                 }
 
                 //PC01
@@ -1558,7 +1612,7 @@ namespace ClinicalXPDataConnections.Meta
                     spacer = section.AddParagraph();
                     Paragraph letterContent3 = section.AddParagraph(content3);
                     spacer = section.AddParagraph();
-                    signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
+                    //      //signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                 }
 
                 //GR01
@@ -1573,7 +1627,7 @@ namespace ClinicalXPDataConnections.Meta
                     content2 = _lvm.documentsContent.Para2;
                     Paragraph letterContent2 = section.AddParagraph(content2);
                     spacer = section.AddParagraph();
-                    signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
+                    //   //signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                     enclosures = "Consent form (letter code CF01)";
                 }
 
@@ -1598,7 +1652,7 @@ namespace ClinicalXPDataConnections.Meta
                     Paragraph letterContent4 = section.AddParagraph(content4);
                     spacer = section.AddParagraph();
 
-                    signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
+                    //     //signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                     enclosures = "Consent form (letter code CF01)";
                 }
 
@@ -1623,7 +1677,7 @@ namespace ClinicalXPDataConnections.Meta
                     content5 = _lvm.documentsContent.Para9;
                     Paragraph letterContent5 = section.AddParagraph(content5);
 
-                    signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
+                    //      //signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                 }
 
                 if (docCode == "VHRProC")
@@ -1634,7 +1688,7 @@ namespace ClinicalXPDataConnections.Meta
                     spacer = section.AddParagraph();
                     Paragraph letterContent2 = section.AddParagraph(content2);
                     spacer = section.AddParagraph();
-                    signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
+                    //     //signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                     ccs[0] = gpName;
                     ccs[1] = otherName;
                 }
@@ -1655,7 +1709,7 @@ namespace ClinicalXPDataConnections.Meta
                     Paragraph letterContent4 = section.AddParagraph(content4);
                     spacer = section.AddParagraph();
 
-                    signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
+                    //signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                     //File.Delete($"wwwroot\\Images\\qrCode-{user}.jpg");
                     ccs[0] = referrerName;
                     if (referrerName != gpName)
@@ -1677,7 +1731,7 @@ namespace ClinicalXPDataConnections.Meta
                     spacer = section.AddParagraph();
                     ccs[0] = referrerName;
 
-                    signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
+                    //signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                 }
 
                 if (docCode == "ClicsStop")
@@ -1697,7 +1751,7 @@ namespace ClinicalXPDataConnections.Meta
                         ccs[1] = gpName;
                     }
 
-                    signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
+                    //signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                 }
 
                 if (docCode == "ClicsMR01")
@@ -1719,7 +1773,7 @@ namespace ClinicalXPDataConnections.Meta
                     Paragraph letterContent5 = section.AddParagraph(content5);
                     spacer = section.AddParagraph();
 
-                    signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
+                    //signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                 }
 
                 if (docCode == "ClicsMR03")
@@ -1745,7 +1799,7 @@ namespace ClinicalXPDataConnections.Meta
                     Paragraph letterContent5 = section.AddParagraph(content5);
                     spacer = section.AddParagraph();
 
-                    signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
+                    //signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                 }
 
                 if (docCode == "ClicsMRR")
@@ -1763,7 +1817,7 @@ namespace ClinicalXPDataConnections.Meta
                     content4 = _lvm.documentsContent.Para4;
                     Paragraph letterContent4 = section.AddParagraph(content4);
 
-                    signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
+                    //signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                 }
 
                 //DNA letters
@@ -1775,7 +1829,7 @@ namespace ClinicalXPDataConnections.Meta
                     content2 = _lvm.documentsContent.Para3;
                     Paragraph letterContent2 = section.AddParagraph(content2);
 
-                    signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
+                    //signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                 }
 
 
@@ -1793,7 +1847,7 @@ namespace ClinicalXPDataConnections.Meta
                     content3 = _lvm.documentsContent.Para5;
                     Paragraph letterContent3 = section.AddParagraph(content3);
 
-                    signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
+                    //signOff = _lvm.staffMember.NAME + Environment.NewLine + _lvm.staffMember.POSITION;
                 }
 
                 if (docCode == "DNMRC")
@@ -1823,7 +1877,7 @@ namespace ClinicalXPDataConnections.Meta
                 {
                     if (hasPhenotipsQRCode) //checks for Phenotips QR code flag and creates the QR code if needed
                     {
-                        
+
                         if (qrCodeText != "")
                         {
                             CreateQRImageFile(qrCodeText, user);
@@ -1837,14 +1891,14 @@ namespace ClinicalXPDataConnections.Meta
                             imgQRCode.ScaleWidth = new Unit(1.5, UnitType.Point);
                             imgQRCode.ScaleHeight = new Unit(1.5, UnitType.Point);
                             contentQR.Format.Alignment = ParagraphAlignment.Center;
-                        }                        
+                        }
                     }
                 }
 
 
                 //tf.DrawString("Letter code: " + docCode, font, XBrushes.Black, new XRect(400, 800, 500, 20));
                 spacer = section.AddParagraph();
-                sigFilename = _lvm.staffMember.StaffForename + _lvm.staffMember.StaffSurname.Replace("'", "").Replace(" ", "") + ".jpg";
+                //sigFilename = _lvm.staffMember.StaffForename + _lvm.staffMember.StaffSurname.Replace("'", "").Replace(" ", "") + ".jpg";
 
                 if (docCode != "DT15")
                 {
@@ -2384,25 +2438,114 @@ namespace ClinicalXPDataConnections.Meta
             }
         }
 
-
         string RemoveHTML(string text)
         {
-
-            text = text.Replace("&nbsp;", System.Environment.NewLine);
+            //text = text.Replace("<div>", "");
+            text = text.Replace("<div><br></div>", "newlinenewlinenewlinenewline");
+            text = text.Replace("</div>", "newlinenewline");
             text = text.Replace(System.Environment.NewLine, "newline");
+            text = text.Replace("<div>&nbsp;</div>", "newlinenewlinenewlinenewline");
+            text = text.Replace("newlinenewlinenewlinenewlinenewlinenewlinenewlinenewline", System.Environment.NewLine + System.Environment.NewLine); //don't fucking ask!!!
+            text = text.Replace("newlinenewlinenewlinenewlinenewlinenewline", System.Environment.NewLine + System.Environment.NewLine);
+            text = text.Replace("newlinenewlinenewlinenewline", System.Environment.NewLine);// + System.Environment.NewLine);            
+            text = text.Replace("newlinenewline", System.Environment.NewLine);
+            text = text.Replace("newline", " ");
+            text = text.Replace("&nbsp;", " ");
+
+            text = text.Replace("&amp;", "&");
+
+            text = text.Replace("</p>", System.Environment.NewLine);
+            text = text.Replace("<o:p></o:p>", "");
+
+            text = text.Replace("<br>", System.Environment.NewLine + System.Environment.NewLine);
+
+            text = text.Replace("<sup>", "");
+            text = text.Replace("</sup>", " ");
+            //text = text.Replace("<font color=\"red\">", "");
+            //text = text.Replace("</font>", "");
+
+            text = text.Replace("<b>", "[[strong]]"); //we have to do this, or the bold tags will get wiped by the "everything" tag
+            text = text.Replace("</b>", "[[/strong]]");
+            text = text.Replace("<strong>", "[[strong]]");
+            text = text.Replace("</strong>", "[[/strong]]");
+
+            //if (text.Contains("<a"))
+            //{            
+            text = Regex.Replace(text, @"<[^>]+>", "").Trim(); //for everything else
+            //}
+
+            text = text.Replace("&lt;", "<");
+            text = text.Replace("&gt;", ">"); //because sometimes clinicians like to actually use those symbols
+
+            return text;
+        }
+
+
+        string RemoveHTMLOLD(string text)
+        {
+            text = text.Replace("<div>&nbsp;</div>", "&nbsp;");
+            text = text.Replace("&nbsp;", "newline");
+            //text = text.Replace(System.Environment.NewLine, "newline");
             text = Regex.Replace(text, @"<[^>]+>", "").Trim();
             //text = Regex.Replace(text, @"\n{2,}", " ");
             text = text.Replace("&lt;", "<");
             text = text.Replace("&gt;", ">"); //because sometimes clinicians like to actually use those symbols
-            text = text.Replace("newlinenewline", System.Environment.NewLine);
-            text = text.Replace("newline", "");
+            text = text.Replace("newlinenewline", "newline");
+            //text = text.Replace("newline", "");
             //this is the ONLY way to strip out the excessive new lines!! (and still can't remove all of them)
 
             return text;
         }
 
 
+        List<string> ParseBold(string text)
+        {
+            List<string> newText = new List<string>();
 
+            if (text.Contains("[strong]"))
+            {
+                string[] textBlocks = text.Split("strong]]");
+
+                foreach (var item in textBlocks)
+                {
+                    if (item.Contains("[[/"))
+                    {
+                        newText.Add(item.Replace("[[/", "") + "BOLD ");
+                    }
+                    else if (item.Contains("[["))
+                    {
+                        newText.Add(item.Replace("[[", "") + "NOTBOLD ");
+                    }
+                    else
+                    {
+                        newText.Add(item);
+                    }
+                }
+            }
+
+            if (text.Contains("<b>")) //because sometimes it's <b> and sometimes it's <strong> - don't fucking ask!!!
+            {
+                string[] textBlocks = text.Split("b>");
+
+                foreach (var item in textBlocks)
+                {
+                    if (item.Contains("</"))
+                    {
+                        newText.Add(item.Replace("</", "") + "BOLD ");
+                    }
+                    else if (item.Contains("<"))
+                    {
+                        newText.Add(item.Replace("<", "") + "NOTBOLD ");
+                    }
+                    else
+                    {
+                        newText.Add(item);
+                    }
+                }
+            }
+
+            return newText;
+        }
 
     }
 }

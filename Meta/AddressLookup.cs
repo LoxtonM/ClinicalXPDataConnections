@@ -72,16 +72,19 @@ namespace ClinicalXPDataConnections.Meta
             if (recipientCode == "RD")
             {
                 ExternalClinician refphys = _clinician.GetClinicianDetails(referral.ReferrerCode);
-                ExternalFacility reffac = _facility.GetFacilityDetails(refphys.FACILITY);
+                if (refphys != null)
+                {
+                    ExternalFacility reffac = _facility.GetFacilityDetails(refphys.FACILITY);
 
-                if (refphys.TITLE != null) { address = refphys.TITLE + " "; }
-                if (refphys.FIRST_NAME != null) { address = address + refphys.FIRST_NAME + " "; }
-                if (refphys.NAME != null) { address = address + refphys.NAME; }
-                address = address + Environment.NewLine;
-                if (reffac.ADDRESS != null) { address = address + reffac.ADDRESS + Environment.NewLine; }
-                if (reffac.CITY != null) { address = address + reffac.CITY + Environment.NewLine; }
-                if (reffac.STATE != null) { address = address + reffac.STATE + Environment.NewLine; }
-                if (reffac.ZIP != null) { address = address + reffac.ZIP + Environment.NewLine; }
+                    if (refphys.TITLE != null) { address = refphys.TITLE + " "; }
+                    if (refphys.FIRST_NAME != null) { address = address + refphys.FIRST_NAME + " "; }
+                    if (refphys.NAME != null) { address = address + refphys.NAME; }
+                    address = address + Environment.NewLine;
+                    if (reffac.ADDRESS != null) { address = address + reffac.ADDRESS + Environment.NewLine; }
+                    if (reffac.CITY != null) { address = address + reffac.CITY + Environment.NewLine; }
+                    if (reffac.STATE != null) { address = address + reffac.STATE + Environment.NewLine; }
+                    if (reffac.ZIP != null) { address = address + reffac.ZIP + Environment.NewLine; }
+                }
             }
 
             if (recipientCode == "GP")
