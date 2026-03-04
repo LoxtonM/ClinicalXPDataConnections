@@ -34,11 +34,15 @@ namespace ClinicalXPDataConnections.Meta
                 Patient proband = await _clinContext.Patients.FirstOrDefaultAsync(i => i.CGU_No == pedno + ".0");
                 //family file's WMFACSID is different to patient's WMFACSID
                 int wmfacsID = proband.WMFACSID;
-
-                IQueryable<Relative> rels = from r in _clinContext.Relatives
+                if (wmfacsID != null)
+                {
+                    IQueryable<Relative> rels = from r in _clinContext.Relatives
                                                 where r.WMFACSID == wmfacsID
                                                 select r;
-                relative = await rels.ToListAsync(); //because apparently I can't create an empty Iqueryable anymore for some reason, even though it worked before!!!
+                    relative = await rels.ToListAsync();
+                }
+
+               //because apparently I can't create an empty Iqueryable anymore for some reason, even though it worked before!!!
             }
 
             return relative;
