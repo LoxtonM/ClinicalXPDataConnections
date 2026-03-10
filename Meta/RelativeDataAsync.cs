@@ -23,22 +23,57 @@ namespace ClinicalXPDataConnections.Meta
         }
 
 
+        //public async Task<List<Relative>> GetRelativesList(int id) //Get list of relatives of patient by MPI
+        //{
+        //    Patient patient = await _clinContext.Patients.FirstOrDefaultAsync(i => i.MPI == id);
+        //    string pedno = patient.PEDNO;
+        //    List<Relative> relative = new List<Relative>();
+
+        //    if (patient.PEDNO != null)
+        //    {
+        //        Patient proband = await _clinContext.Patients.FirstOrDefaultAsync(i => i.CGU_No == pedno + ".0");
+        //        //family file's WMFACSID is different to patient's WMFACSID
+        //        int wmfacsID = proband.WMFACSID;
+
+        //        IQueryable<Relative> rels = from r in _clinContext.Relatives
+        //                                    where r.WMFACSID == wmfacsID
+        //                                    select r;
+        //        relative = await rels.ToListAsync(); //because apparently I can't create an empty Iqueryable anymore for some reason, even though it worked before!!!
+        //    }
+
+        //    return relative;
+        //}
+
         public async Task<List<Relative>> GetRelativesList(int id) //Get list of relatives of patient by MPI
         {
             Patient patient = await _clinContext.Patients.FirstOrDefaultAsync(i => i.MPI == id);
-            string pedno = patient.PEDNO;
             List<Relative> relative = new List<Relative>();
 
-            if (patient.PEDNO != null)
+            // Use the null-conditional operator to ensure patient isn't null either
+            if (patient?.PEDNO != null)
             {
-                Patient proband = await _clinContext.Patients.FirstOrDefaultAsync(i => i.CGU_No == pedno + ".0");
-                //family file's WMFACSID is different to patient's WMFACSID
-                int wmfacsID = proband.WMFACSID;
+                string cleanPedno = patient.PEDNO.Replace(" ", "");
+                string targetCguNo = cleanPedno + ".0";
 
-                IQueryable<Relative> rels = from r in _clinContext.Relatives
-                                            where r.WMFACSID == wmfacsID
-                                            select r;
-                relative = await rels.ToListAsync(); //because apparently I can't create an empty Iqueryable anymore for some reason, even though it worked before!!!
+                Patient proband = await _clinContext.Patients
+                    .FirstOrDefaultAsync(i => i.CGU_No != null && i.CGU_No.Replace(" ", "") == targetCguNo);
+
+                if (proband != null)
+                {
+                    int wmfacsID = proband.WMFACSID;
+
+                    relative = await _clinContext.Relatives
+                                                 .Where(r => r.WMFACSID == wmfacsID)
+                                                 .ToListAsync();
+                }
+                else
+                {
+                    // If the .0 proband is missing
+
+                    relative = await _clinContext.Relatives
+                                                 .Where(r => r.WMFACSID == patient.WMFACSID)
+                                                 .ToListAsync();
+                }
             }
 
             return relative;
