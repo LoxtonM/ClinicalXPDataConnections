@@ -17,17 +17,18 @@ namespace ClinicalXPDataConnections.Meta
         public Task<List<string>> GetClinicianTypeList();
         public Task<List<ExternalCliniciansAndFacilities>> GetExternalCliniciansByType(string type);
         public Task<List<ExternalCliniciansAndFacilities>> GetGPsByPracticeCode(string practiceCode);
+        public Task<List<ExternalCliniciansAndFacilities>> GetCliniciansByHospital(string hospital);
     }
 
     public class ExternalClinicianDataAsync : IExternalClinicianDataAsync
     {
         private readonly ClinicalContext _clinContext;
-        
+
         public ExternalClinicianDataAsync(ClinicalContext context)
         {
             _clinContext = context;
         }
-                
+
         public async Task<string> GetCCDetails(ExternalClinician referrer) //Get details of CC address
         {
             string cc = "";
@@ -51,10 +52,10 @@ namespace ClinicalXPDataConnections.Meta
         public async Task<List<ExternalCliniciansAndFacilities>> GetClinicianList() //Get list of all external/referring clinicians with their facilities (no GPs)
         {
             IQueryable<ExternalCliniciansAndFacilities> clinicians = from rf in _clinContext.ExternalCliniciansAndFacilities
-                             where rf.NON_ACTIVE == 0 & rf.Is_GP == 0
-                             orderby rf.LAST_NAME
-                             select rf;
-            
+                                                                     where rf.NON_ACTIVE == 0 & rf.Is_GP == 0
+                                                                     orderby rf.LAST_NAME
+                                                                     select rf;
+
             return await clinicians.Distinct().ToListAsync();
         }
 
@@ -70,9 +71,9 @@ namespace ClinicalXPDataConnections.Meta
         public async Task<List<ExternalClinician>> GetAllCliniciansList() //Get list of all external/referring clinicians
         {
             IQueryable<ExternalClinician> clinicians = from rf in _clinContext.ExternalClinician
-                                                                //where rf.NON_ACTIVE == 0
-                                                                 orderby rf.NAME
-                                                                 select rf;
+                                                           //where rf.NON_ACTIVE == 0
+                                                       orderby rf.NAME
+                                                       select rf;
 
             return await clinicians.Distinct().ToListAsync();
         }
@@ -80,9 +81,9 @@ namespace ClinicalXPDataConnections.Meta
         public async Task<List<ExternalClinician>> GetGPList() //Get list of all external/referring GPs
         {
             IQueryable<ExternalClinician> clinicians = from rf in _clinContext.ExternalClinician
-                             where rf.NON_ACTIVE == 0 & rf.Is_Gp == -1
-                             orderby rf.NAME
-                             select rf;
+                                                       where rf.NON_ACTIVE == 0 & rf.Is_Gp == -1
+                                                       orderby rf.NAME
+                                                       select rf;
 
             return await clinicians.Distinct().ToListAsync();
         }
@@ -118,6 +119,13 @@ namespace ClinicalXPDataConnections.Meta
         {
             IQueryable<ExternalCliniciansAndFacilities> clins = _clinContext.ExternalCliniciansAndFacilities.Where(c => c.MasterFacilityCode == practiceCode);
 
+            return await clins.ToListAsync();
+        }
+
+        public async Task<List<ExternalCliniciansAndFacilities>> GetCliniciansByHospital(string hospital)
+        {
+            IQueryable<ExternalCliniciansAndFacilities> clins = _clinContext.ExternalCliniciansAndFacilities.Where(c => c.FACILITY != null);
+            clins = clins.Where(c => c.FACILITY.Equals(hospital));
             return await clins.ToListAsync();
         }
     }
