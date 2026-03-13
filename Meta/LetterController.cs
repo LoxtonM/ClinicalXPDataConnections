@@ -1928,12 +1928,29 @@ namespace ClinicalXPDataConnections.Meta
 
                 Paragraph contentSignOffName = section.AddParagraph(signOff);
 
-                if (enclosures != "" && enclosures != null)
+                if ((enclosures != "" && enclosures != null) || leafletID != 0)
                 {
                     spacer = section.AddParagraph();
                     spacer = section.AddParagraph();
-                    Paragraph contentEncs = section.AddParagraph("Enc: " + enclosures);
+
+                    string paraEnclosures = "Enc: ";
+
+                    if (enclosures != "" && enclosures != null)
+                    {
+                        paraEnclosures = paraEnclosures + Environment.NewLine + enclosures;
+                    }
+
+                    if (leafletID != 0)
+                    {
+                        Leaflet enc = _leafletData.GetLeafletDetails(leafletID.GetValueOrDefault());
+                        paraEnclosures = paraEnclosures + Environment.NewLine + $"{enc.Code} Leaflet - ({enc.Name})";
+                    }
+
+                    Paragraph contentEncs = section.AddParagraph(paraEnclosures);
+                    contentEncs.Format.Font.Size = 12;
                 }
+
+                spacer = section.AddParagraph();
 
                 if (ccs[0] != "")
                 {
@@ -1995,16 +2012,7 @@ namespace ClinicalXPDataConnections.Meta
                     }
                 }
 
-                spacer = section.AddParagraph();
-
-                if (leafletID != 0)
-                {
-                    Leaflet enc = _leafletData.GetLeafletDetails(leafletID.GetValueOrDefault());
-
-                    Paragraph contentEnclosures = section.AddParagraph("Enc " + Environment.NewLine + $"{enc.Code} Leaflet - ({enc.Name})");
-                    contentEnclosures.Format.Font.Size = 12;
-                }
-                spacer = section.AddParagraph();
+                spacer = section.AddParagraph();               
 
                 Paragraph contentDocCode = section.AddParagraph("Letter code: " + docCode);
                 contentDocCode.Format.Alignment = ParagraphAlignment.Right;
