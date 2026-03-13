@@ -14,6 +14,7 @@ namespace ClinicalXPDataConnections.Meta
         public Task<List<Referral>> GetReferralsByStaffMember(string staffCode, DateTime? startDate, DateTime? endDate);
         public Task<List<Referral>> GetActiveReferralsList();
         public Task<List<Referral>> GetActiveReferralsListForPatient(int id);
+        public Task<List<Referral>> GetCompleteReferralsListForPatient(int id);
         public Task<List<Referral>> GetUnassignedReferrals();
         public Task<ReferralDeleteStatusDto> GetDeletionStatusAsync(int mpi, int refId);
 
@@ -79,6 +80,16 @@ namespace ClinicalXPDataConnections.Meta
         {
             var patientReferralsList = _clinContext.Referrals.Where(r => r.RefType.Contains("Refer")
                                                                         && r.COMPLETE != "Complete"
+                                                                        && r.logicaldelete == false
+                                                                        && r.MPI == id).OrderBy(r => r.WeeksFromReferral);
+
+            return await patientReferralsList.ToListAsync();
+        }
+
+        public async Task<List<Referral>> GetCompleteReferralsListForPatient(int id)
+        {
+            var patientReferralsList = _clinContext.Referrals.Where(r => r.RefType.Contains("Refer")
+                                                                        && r.COMPLETE == "Complete"
                                                                         && r.logicaldelete == false
                                                                         && r.MPI == id).OrderBy(r => r.WeeksFromReferral);
 
