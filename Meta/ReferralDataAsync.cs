@@ -48,7 +48,7 @@ namespace ClinicalXPDataConnections.Meta
         {
             IQueryable<Referral> treg = from r in _clinContext.Referrals
                                              where r.MPI == id & r.RefType.Contains("Temp") 
-                                             && r.COMPLETE != null
+                                            
                                              orderby r.RefDate
                                              select r;
 
