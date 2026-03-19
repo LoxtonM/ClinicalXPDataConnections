@@ -102,6 +102,7 @@ namespace ClinicalXPDataConnections.Models
         public int? BatchNumber { get; set; }
         public string? PhenotipsPushBy { get; set; }
         public DateTime? PhenotipsPushDate { get; set; }
+        public string? FILE_LOCATION { get; set; }
     }
 
     [Table("ViewPatientRelativeDetails", Schema = "dbo")] //Patients' relatives
