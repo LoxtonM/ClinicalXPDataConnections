@@ -9,6 +9,7 @@ namespace ClinicalXPDataConnections.Meta
     public interface ILabDataAsync
     {
         public Task<List<LabPatient>> GetPatients(string? firstname, string? lastname, string? nhsno, string? postcode, DateTime? dob);
+        public Task<List<LabPatient>> GetPatientsByLabNo(string labNo);
         public Task<LabPatient> GetPatientDetails(int intID);
         public Task<List<LabLab>> GetCytoReportsList(int intID);
         public Task<LabLab> GetCytoReport(string labNo);
@@ -35,6 +36,17 @@ namespace ClinicalXPDataConnections.Meta
                                               && (dob == null || p.DOB == dob)
 
                                               select p;
+            return await patients.ToListAsync();
+        }
+
+        public async Task<List<LabPatient>> GetPatientsByLabNo(string labNo)
+        {
+            LabDNALab lab = await _labContext.labDNALab.FirstOrDefaultAsync(r => r.LABNO == labNo);
+
+            IQueryable<LabPatient> patients = from p in _labContext.labPatient
+                                              where p.INTID == lab.INTID
+                                              select p;
+
             return await patients.ToListAsync();
         }
 

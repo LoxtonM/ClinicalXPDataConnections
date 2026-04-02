@@ -17,6 +17,7 @@ namespace ClinicalXPDataConnections.Meta
         public Task<List<Patient>> GetPatientsInPedigree(string pedno);
         public Task<List<Patient>> GetPatientsWithoutCGUNumbers();
         public Task<List<EpicPatientDTO>> GetEpicPatientsWithReferralDetails();
+        public Task<List<Patient>> GetPatientsWithGPCode(string gpCode);
 
     }
     public class PatientDataAsync : IPatientDataAsync 
@@ -123,9 +124,11 @@ namespace ClinicalXPDataConnections.Meta
             return data;
         }
 
-       
+        public async Task<List<Patient>> GetPatientsWithGPCode(string gpCode)
+        {
+            IQueryable<Patient> patients = _clinContext.Patients.Where(p => p.GP_Code == gpCode);
 
-
-
+            return await patients.ToListAsync();
+        }
     }
 }
