@@ -65,7 +65,7 @@ namespace ClinicalXPDataConnections.Meta
             var patientReferralsList = _clinContext.Referrals.Where(r => r.RefType.Contains("Refer")
                                                                         && r.COMPLETE != "Complete"
                                                                         && r.logicaldelete == false
-                                                                        && r.AdminContactCode != null).OrderBy(r => r.WeeksFromReferral).ToList();
+                                                                        && r.AdminContact != null).OrderBy(r => r.WeeksFromReferral).ToList();
 
             return patientReferralsList;
         }

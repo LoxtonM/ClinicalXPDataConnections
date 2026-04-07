@@ -292,7 +292,7 @@ namespace ClinicalXPDataConnections.Models
         public bool logicaldelete { get; set; }
         public string? PATIENT_TYPE_CODE { get; set; }
         public string? GC_CODE { get; set; }
-        public string? AdminContactCode { get; set; }
+        //public string? AdminContactCode { get; set; }
         public int? WeeksFromReferral { get; set; }
         public int? DaysFromReferral { get; set; }
         public DateTime? BreachDate { get; set; }
