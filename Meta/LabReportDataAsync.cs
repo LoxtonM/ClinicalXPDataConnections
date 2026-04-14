@@ -30,13 +30,38 @@ namespace ClinicalXPDataConnections.Meta
         
         public async Task<List<LabPatient>> GetPatients(string? firstname, string? lastname, string? nhsno, string? postcode, DateTime? dob)
         {
-            IQueryable<LabPatient> patients = from p in _labContext.labPatient               //_labContext.labPatient;
-                                              where (firstname == null || p.FIRSTNAME.Contains(firstname))
+            IQueryable<LabPatient> patients = from p in _labContext.labPatient                                              
+                                              select p;
+            /*where (firstname == null || p.FIRSTNAME.Contains(firstname))
                                               && (lastname == null || p.LASTNAME.Contains(lastname))
                                               && (nhsno == null || p.SOCIAL_SECURITY == nhsno)
-                                              && (dob == null || p.DOB == dob)
+                                              && (dob == null || p.DOB == dob)*/
 
-                                              select p;
+            if(firstname != null)
+            {
+                patients = patients.Where(p => p.FIRSTNAME.Contains(firstname));
+            }
+
+            if(lastname != null)
+            {
+                patients = patients.Where(p => p.LASTNAME.Contains(lastname));
+            }
+
+            if(nhsno != null)
+            {
+                patients = patients.Where(p => p.SOCIAL_SECURITY == nhsno);
+            }
+
+            if(dob != null)
+            {
+                patients = patients.Where(p => p.DOB == dob);
+            }
+
+            if(postcode != null)
+            {
+                patients = patients.Where(p => p.ZIP.Contains(postcode));
+            }
+
             return await patients.ToListAsync();
         }
 

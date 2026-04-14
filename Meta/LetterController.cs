@@ -61,7 +61,7 @@ namespace ClinicalXPDataConnections.Meta
 
             _lvm.staffMember = _staffUser.GetStaffMemberDetails(user);
             _lvm.dictatedLetter = _dictatedLetterData.GetDictatedLetterDetails(dID);
-            string ourAddress = _docContext.DocumentsContent.FirstOrDefault(d => d.OurAddress != null).OurAddress;
+            string ourAddress = _docContext.DocumentsContent.FirstOrDefault(d => d.DocCode == "DOT").OurAddress;
             //creates a new PDF document
             MigraDoc.DocumentObjectModel.Document document = new MigraDoc.DocumentObjectModel.Document();
 
