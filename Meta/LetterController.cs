@@ -149,12 +149,13 @@ namespace ClinicalXPDataConnections.Meta
             contentSummary.AddFormattedText(letterContentBold, TextFormat.Bold);
             spacer = section.AddParagraph();
 
-            string letterContent = RemoveHTML(_lvm.dictatedLetter.LetterContent);
+            string letterContent = _lvm.dictatedLetter.LetterContent;
 
-            //letterContent = letterContent.Replace("newline", System.Environment.NewLine);
+            if (letterContent.Contains("</"))
+            {
+                letterContent = RemoveHTML(letterContent);
+            }
 
-
-            //Paragraph contentLetterContent = section.AddParagraph(letterContent);
             Paragraph contentLetterContent = section.AddParagraph();
             contentLetterContent.Format.Font.Size = 10;
 
@@ -2450,13 +2451,14 @@ namespace ClinicalXPDataConnections.Meta
         string RemoveHTML(string text)
         {
             //text = text.Replace("<div>", "");
-            text = text.Replace("<div><br></div>", "newlinenewlinenewlinenewline");
-            text = text.Replace("</div>", "newlinenewline");
+            text = text.Replace("<div><br></div>", "newline");
+            text = text.Replace("</div>", "newline");
             text = text.Replace(System.Environment.NewLine, "newline");
-            text = text.Replace("<div>&nbsp;</div>", "newlinenewlinenewlinenewline");
+            text = text.Replace("<div>&nbsp;</div>", "newline");
             text = text.Replace("newlinenewlinenewlinenewlinenewlinenewlinenewlinenewline", System.Environment.NewLine + System.Environment.NewLine); //don't fucking ask!!!
             text = text.Replace("newlinenewlinenewlinenewlinenewlinenewline", System.Environment.NewLine + System.Environment.NewLine);
-            text = text.Replace("newlinenewlinenewlinenewline", System.Environment.NewLine);// + System.Environment.NewLine);            
+            text = text.Replace("newlinenewlinenewlinenewline", System.Environment.NewLine + System.Environment.NewLine);
+            text = text.Replace("newlinenewlinenewline", System.Environment.NewLine); //because there are SOOOOO many different ways of getting line breaks!!
             text = text.Replace("newlinenewline", System.Environment.NewLine);
             text = text.Replace("newline", " ");
             text = text.Replace("&nbsp;", " ");
