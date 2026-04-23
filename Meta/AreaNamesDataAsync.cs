@@ -8,6 +8,7 @@ namespace ClinicalXPDataConnections.Meta
     {
         public Task<AreaNames> GetAreaNameDetailsByID(int id);
         public Task<AreaNames> GetAreaNameDetailsByCode(string areaCode);
+        public Task<AreaNames> GetAreaNameDetailsByAreaName(string areaName);
         public Task<List<AreaNames>> GetAreaNames();
     }
     public class AreaNamesDataAsync : IAreaNamesDataAsync
@@ -29,6 +30,13 @@ namespace ClinicalXPDataConnections.Meta
         public async Task<AreaNames> GetAreaNameDetailsByCode(string areaCode)
         {
             AreaNames areaNames = await _clinContext.AreaNames.FirstOrDefaultAsync(a => a.AreaCode == areaCode);
+
+            return areaNames;
+        }
+
+        public async Task<AreaNames> GetAreaNameDetailsByAreaName(string areaName) //because obviously CGU_DB uses the name, not the unique identifier (which isn't recorded against the patient)
+        {
+            AreaNames areaNames = await _clinContext.AreaNames.FirstOrDefaultAsync(a => a.AreaName == areaName);
 
             return areaNames;
         }
