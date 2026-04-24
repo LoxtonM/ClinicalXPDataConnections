@@ -41,6 +41,9 @@ namespace ClinicalXPDataConnections.Models
         public string? OurEmailAddress { get; set; }
         public string? cc1 { get; set; }
         public string? cc2 { get; set; }
+        public string? cc3 { get; set; }
+        public string? cc4 { get; set; }
+        public string? cc5 { get; set; }
         public bool hasPhenotipsPPQ { get; set; }
 
     }
