@@ -18,6 +18,7 @@ namespace ClinicalXPDataConnections.Meta
         public Task<List<ExternalCliniciansAndFacilities>> GetExternalCliniciansByType(string type);
         public Task<List<ExternalCliniciansAndFacilities>> GetGPsByPracticeCode(string practiceCode);
         public Task<List<ExternalCliniciansAndFacilities>> GetCliniciansByHospital(string hospital);
+        public Task<List<EpicClinicLink>> GetEpicClinicLinks();
     }
 
     public class ExternalClinicianDataAsync : IExternalClinicianDataAsync
@@ -127,6 +128,13 @@ namespace ClinicalXPDataConnections.Meta
             IQueryable<ExternalCliniciansAndFacilities> clins = _clinContext.ExternalCliniciansAndFacilities.Where(c => c.FACILITY != null);
             clins = clins.Where(c => c.FACILITY.Equals(hospital));
             return await clins.ToListAsync();
+        }
+
+        public async Task<List<EpicClinicLink>> GetEpicClinicLinks()
+        {
+            IQueryable<EpicClinicLink> clinCodes = _clinContext.GetEpicClinicLinks.Where(c => c.UpdateSts == 1 && c.ClinicianID == null && c.ClinicID == null);
+            return await clinCodes.ToListAsync();
+
         }
 
 

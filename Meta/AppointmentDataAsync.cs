@@ -18,6 +18,9 @@ namespace ClinicalXPDataConnections.Meta
         public Task<List<Appointment>> GetAppointmentsByMonth(string staffCode, int month, int year);
         public Task<List<Appointment>> GetAppointmentListByReferral(int refID);
         public Task<List<Appointment>> GetAppointmentListByPatient(int mpi);
+        public Task<List<EpicClinicLink>> GetEpicClinicCodeStatus(string clinicCode);
+        public Task<DownstreamApptReference> GetEpicClinicCode(int mpi);
+        public Task<List<string>> GetEpicClinicCodes(int mpi);
 
     }
     public class AppointmentDataAsync : IAppointmentDataAsync
@@ -27,7 +30,7 @@ namespace ClinicalXPDataConnections.Meta
         {
             _context = context;
         }
-       
+
 
         public async Task<Appointment> GetAppointmentDetails(int refID)
         {
@@ -42,9 +45,9 @@ namespace ClinicalXPDataConnections.Meta
         }
 
         public async Task<List<Appointment>> GetAppointments(DateTime dFrom, DateTime dTo, string? clinician, string? clinic)
-        {            
-            IQueryable<Appointment> appts = _context.Clinics.Where(a => a.BOOKED_DATE >= dFrom & 
-                    a.BOOKED_DATE <= dTo & a.Attendance != "Declined" & a.Attendance != "Cancelled by professional" 
+        {
+            IQueryable<Appointment> appts = _context.Clinics.Where(a => a.BOOKED_DATE >= dFrom &
+                    a.BOOKED_DATE <= dTo & a.Attendance != "Declined" & a.Attendance != "Cancelled by professional"
                     & a.Attendance != "Cancelled by patient" && a.MPI != 67066);
 
             if (clinician != null)
@@ -54,16 +57,16 @@ namespace ClinicalXPDataConnections.Meta
             if (clinic != null)
             {
                 appts = appts.Where(l => l.FACILITY == clinic);
-            }            
+            }
 
             appts = appts.OrderByDescending(a => a.RefID); //to do the latest first, so that the first one appears on top
-            
+
             return await appts.ToListAsync();
         }
 
         public async Task<List<Appointment>> GetAppointmentsForADay(DateTime clinicDate, string? clinician = null, string? clinic = null)
         {
-            IQueryable<Appointment> appts = _context.Clinics.Where(a => a.BOOKED_DATE == clinicDate 
+            IQueryable<Appointment> appts = _context.Clinics.Where(a => a.BOOKED_DATE == clinicDate
             & a.Attendance != "Declined" & a.Attendance != "Cancelled by professional"
                     & a.Attendance != "Cancelled by patient");
 
@@ -75,7 +78,7 @@ namespace ClinicalXPDataConnections.Meta
             {
                 appts = appts.Where(l => l.FACILITY == clinic);
             }
-            
+
             return await appts.ToListAsync();
         }
 
@@ -86,7 +89,7 @@ namespace ClinicalXPDataConnections.Meta
                     & a.Attendance != "Cancelled by patient");
 
             appts = appts.Where(l => l.FACILITY.Contains("BWH"));
-                                 
+
             return await appts.ToListAsync();
         }
 
@@ -96,7 +99,7 @@ namespace ClinicalXPDataConnections.Meta
 
             IQueryable<Appointment> appts = _context.Clinics.Where(a => a.BOOKED_DATE == appt.BOOKED_DATE & a.BOOKED_TIME == appt.BOOKED_TIME &
             a.STAFF_CODE_1 == appt.STAFF_CODE_1 & a.FACILITY == appt.FACILITY & a.Attendance == "NOT RECORDED").OrderBy(a => a.RefID);
-            
+
             return await appts.ToListAsync();
         }
 
@@ -131,7 +134,7 @@ namespace ClinicalXPDataConnections.Meta
         {
             var apt = _context.Clinics.Where(a => (a.STAFF_CODE_1 == staffCode ||
                                                     a.STAFF_CODE_2 == staffCode ||
-                                                    a.STAFF_CODE_3 == staffCode                                                    )
+                                                    a.STAFF_CODE_3 == staffCode)
                                                     & a.Clinic == clinic);
 
             apt = apt.Where(a => a.BOOKED_DATE > startDate);
@@ -167,6 +170,29 @@ namespace ClinicalXPDataConnections.Meta
             var apt = _context.Clinics.Where(a => a.MPI == mpi);
 
             return await apt.ToListAsync();
+        }
+
+        public async Task<List<EpicClinicLink>> GetEpicClinicCodeStatus(string clinicCode)
+        {
+            var updateStatus =  _context.GetEpicClinicLinks.Where(a => a.EpicClinicID == clinicCode);
+            return await updateStatus.ToListAsync();
+        }
+
+        public async Task<DownstreamApptReference> GetEpicClinicCode(int mpi)
+        {
+            var clinicCode = await _context.DownstreamApptReference.Where(a => a.MPI == mpi && a.EpicClinicCode != null).FirstOrDefaultAsync();
+            return clinicCode;
+        }
+
+        public async Task<List<string>> GetEpicClinicCodes(int mpi)
+        {
+            var clinicCodes = await _context.DownstreamApptReference
+                .Where(a => a.MPI == mpi && a.EpicClinicCode != null)
+                .Select(a => a.EpicClinicCode)
+                .Distinct()
+                .ToListAsync();
+
+            return clinicCodes;
         }
     }
 }

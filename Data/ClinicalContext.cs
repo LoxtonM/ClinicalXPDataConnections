@@ -82,5 +82,7 @@ namespace ClinicalXPDataConnections.Data
         public DbSet<DeletedReferral> DeletedReferrals { get; set; }
         public DbSet<EpicPatientDTO> EpicPatientDTO { get; set; }
         public DbSet<DownstreamReferral> DownstreamReferrals { get; set; }
+        public DbSet<EpicClinicLink> GetEpicClinicLinks { get; set; }
+        public DbSet<DownstreamApptReference> DownstreamApptReference { get; set; }
     }
 }

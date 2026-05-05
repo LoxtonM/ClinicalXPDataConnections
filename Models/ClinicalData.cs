@@ -11,7 +11,7 @@ namespace ClinicalXPDataConnections.Models
     {
         public int MPI { get; set; }
         public string cgu_no { get; set; }
-        public string firstname { get; set; }        
+        public string firstname { get; set; }
         public string lastname { get; set; }
         public DateTime REFERRAL_DATE { get; set; }
         public int Triaged { get; set; }
@@ -27,7 +27,7 @@ namespace ClinicalXPDataConnections.Models
         public int? ToBeSeenByCons { get; set; }
     }
 
-    [Table("ViewPatientDemographicDetails", Schema="dbo")] //Patient demographic data
+    [Table("ViewPatientDemographicDetails", Schema = "dbo")] //Patient demographic data
     public class Patient
     {
         [Key]
@@ -35,13 +35,13 @@ namespace ClinicalXPDataConnections.Models
         public int INTID { get; set; }
         public int WMFACSID { get; set; }
         public string? Title { get; set; }
-        [Display(Name ="Date of Birth")]
+        [Display(Name = "Date of Birth")]
         [DataType(DataType.Date)]
         public DateTime? DOB { get; set; }
         [Display(Name = "Date of Death")]
         [DataType(DataType.Date)]
         public DateTime? DECEASED_DATE { get; set; }
-        public Int16 DECEASED {  get; set; }
+        public Int16 DECEASED { get; set; }
         [Display(Name = "Forename")]
         public string? FIRSTNAME { get; set; }
         public string? PtForename2 { get; set; }
@@ -67,7 +67,7 @@ namespace ClinicalXPDataConnections.Models
         public string? PtAreaName { get; set; }
         public string? TEL { get; set; }
         public string? WORKTEL { get; set; }
-        public string? PtTelMobile { get; set; }               
+        public string? PtTelMobile { get; set; }
         public string? EmailCommsConsent { get; set; }
         public string? EmailAddress { get; set; }
         public string? EmailAddressUnconfirmed { get; set; }
@@ -96,7 +96,7 @@ namespace ClinicalXPDataConnections.Models
         [Key]
         public string PEDNO { get; set; }
         public string? PEDIGREE_NAME { get; set; }
-        public int File_Dctm_Sts {  get; set; }
+        public int File_Dctm_Sts { get; set; }
         public string? DCTM_Folder_ID { get; set; }
         public int? PhenotipsStatus { get; set; }
         public int? BatchNumber { get; set; }
@@ -138,7 +138,7 @@ namespace ClinicalXPDataConnections.Models
         public string? RelAdd3 { get; set; }
         public string? RelAdd4 { get; set; }
         public string? RelAdd5 { get; set; }
-        public string? RelPC1 { get; set; }    
+        public string? RelPC1 { get; set; }
         public string? RelSalutation { get; set; }
         public string? RelSurnamePrevious { get; set; }
         public string? RelTel { get; set; }
@@ -172,8 +172,8 @@ namespace ClinicalXPDataConnections.Models
         public int TumourID { get; set; }
         public int RelsID { get; set; }
         //public int WMFACSID { get; set; }
-        public string? Diagnosis {  get; set; }
-        public string? AgeDiag {  get; set; }
+        public string? Diagnosis { get; set; }
+        public string? AgeDiag { get; set; }
         public string? Hospital { get; set; }
         public string? CRegCode { get; set; }
         [Column("Consent?")] //because some silly person named the column in the SQL table with a question mark!!
@@ -189,20 +189,20 @@ namespace ClinicalXPDataConnections.Models
         public DateTime? DateReq { get; set; }
         [DataType(DataType.Date)]
         public DateTime? DateRec { get; set; }
-        public string? Cons {  get; set; }
+        public string? Cons { get; set; }
         public string? ReqBy { get; set; }
         public string? HistologyNumber { get; set; }
-        public string? Grade {  get; set; }
+        public string? Grade { get; set; }
         public string? Dukes { get; set; }
-        public string? Notes {  get; set; }
+        public string? Notes { get; set; }
     }
 
-    [Table("ViewPatientAppointmentDetails", Schema="dbo")] //Appointment data
+    [Table("ViewPatientAppointmentDetails", Schema = "dbo")] //Appointment data
     public class Appointment
     {
         [Key]
         public int RefID { get; set; }
-        public int MPI { get; set; }        
+        public int MPI { get; set; }
         public string? FamilyName { get; set; }
         public string? NHSNo { get; set; }
         public string FamilyNumber { get; set; }
@@ -212,7 +212,7 @@ namespace ClinicalXPDataConnections.Models
         [Display(Name = "Booked Time")]
         [DataType(DataType.Time)]
         public DateTime? BOOKED_TIME { get; set; }
-        [Display(Name ="Appt With")]
+        [Display(Name = "Appt With")]
         public string STAFF_CODE_1 { get; set; }
         public string? STAFF_CODE_2 { get; set; }
         public string? STAFF_CODE_3 { get; set; }
@@ -262,14 +262,14 @@ namespace ClinicalXPDataConnections.Models
         public string? Comments { get; set; }
     }
 
-    [Table("ViewPatientReferralDetails", Schema ="dbo")] //Referral data
+    [Table("ViewPatientReferralDetails", Schema = "dbo")] //Referral data
     public class Referral
     {
         [Key]
         public int refid { get; set; }
         public int MPI { get; set; }
-        public string? CGU_No {  get; set; }
-        public string? NHSNo {  get; set; }
+        public string? CGU_No { get; set; }
+        public string? NHSNo { get; set; }
         public string? FIRSTNAME { get; set; }
         public string? LASTNAME { get; set; }
         public string CLINICNO { get; set; }
@@ -297,8 +297,8 @@ namespace ClinicalXPDataConnections.Models
         public int? WeeksFromReferral { get; set; }
         public int? DaysFromReferral { get; set; }
         public DateTime? BreachDate { get; set; }
-        public string? Status_Admin {  get; set; }
-        public string? Clics {  get; set; }
+        public string? Status_Admin { get; set; }
+        public string? Clics { get; set; }
         public string? PREGNANCY { get; set; }
         public string? UBRN { get; set; }
         public string? RefReasonCode { get; set; }
@@ -320,7 +320,7 @@ namespace ClinicalXPDataConnections.Models
         public string? REASON_FOR_BREACH { get; set; }
     }
 
-    [Table("MasterActivityTable", Schema="dbo")] //Any activity
+    [Table("MasterActivityTable", Schema = "dbo")] //Any activity
     public class ActivityItem
     {
         [Key]
@@ -337,7 +337,7 @@ namespace ClinicalXPDataConnections.Models
         public DateTime? DATE_SCHEDULED { get; set; }
         public DateTime? ClockStartDate { get; set; }
         public DateTime? ClockStopDate { get; set; }
-        public string? COUNSELED { get; set; }        
+        public string? COUNSELED { get; set; }
         public DateTime? ARRIVAL_TIME { get; set; }
         public string? SEEN_BY { get; set; }
         public string? SEEN_BY2 { get; set; }
@@ -351,7 +351,7 @@ namespace ClinicalXPDataConnections.Models
         public DateTime? BOOKED_DATE { get; set; }
         [Display(Name = "Booked Time")]
         [DataType(DataType.Time)]
-        public DateTime? BOOKED_TIME { get; set; }        
+        public DateTime? BOOKED_TIME { get; set; }
         public string? STAFF_CODE_1 { get; set; }
         [Display(Name = "Appointment Type")]
         public string? TYPE { get; set; }
@@ -363,7 +363,7 @@ namespace ClinicalXPDataConnections.Models
         public string? PATHWAY { get; set; }
         public string? REF_PHYS { get; set; }
         public string? REF_FAC { get; set; }
-        public string? COMPLETE {  get; set; }
+        public string? COMPLETE { get; set; }
         public string? REASON_FOR_REFERRAL { get; set; }
     }
 
@@ -390,7 +390,7 @@ namespace ClinicalXPDataConnections.Models
     public class Triage
     {
         [Key]
-        public int ICPID { get; set; }        
+        public int ICPID { get; set; }
         public int RefID { get; set; }
         public int MPI { get; set; }
         public string? ReferralPathway { get; set; }
@@ -403,7 +403,7 @@ namespace ClinicalXPDataConnections.Models
         public bool? GCToTriage { get; set; }
         public bool? ConsToTriage { get; set; }
         public bool? GCTriaged { get; set; }
-        public bool? ConsTriaged { get; set; }        
+        public bool? ConsTriaged { get; set; }
         [DataType(DataType.Date)]
         public DateTime? RefDate { get; set; }
         public string? LoginDetails { get; set; }
@@ -421,7 +421,7 @@ namespace ClinicalXPDataConnections.Models
     {
         [Key]
         public int ReviewID { get; set; }
-        public int MPI {  get; set; }
+        public int MPI { get; set; }
         public string CGU_No { get; set; }
         public string? Title { get; set; }
         public string? FIRSTNAME { get; set; }
@@ -459,7 +459,7 @@ namespace ClinicalXPDataConnections.Models
         public int ICP_General_ID { get; set; }
         public int ICPID { get; set; }
         public int? TreatPath { get; set; }
-        public int? TreatPath2 { get; set; }        
+        public int? TreatPath2 { get; set; }
         public bool? ConsWLForSPR { get; set; }
         public string? ConsWLClinician { get; set; }
         public string? ConsWLClinic { get; set; }
@@ -478,7 +478,7 @@ namespace ClinicalXPDataConnections.Models
         public int ICPID { get; set; }
         public int RefID { get; set; }
         public int MPI { get; set; }
-        public string? CGU_No {  get; set; }
+        public string? CGU_No { get; set; }
         public string? FIRSTNAME { get; set; }
         public string? LASTNAME { get; set; }
         public DateTime? REFERRAL_DATE { get; set; }
@@ -491,7 +491,7 @@ namespace ClinicalXPDataConnections.Models
         //public string ActRefInfo { get; set; }
         public string? ActOnRefBy { get; set; }
         //public int FHFNotRet { get; set; }
-        public string? ActRefInfo {  get; set; }
+        public string? ActRefInfo { get; set; }
         public DateTime? ActOnRefDate { get; set; }
         public bool FHFRev { get; set; }
         public bool PedRev { get; set; }
@@ -525,7 +525,7 @@ namespace ClinicalXPDataConnections.Models
         public Int16 NON_ACTIVE { get; set; }
         public bool HasQRCode { get; set; }
         public string? QRCodeURL { get; set; }
-    }        
+    }
 
     [Table("STAFF", Schema = "dbo")] //Staff members
     public class StaffMember
@@ -563,7 +563,7 @@ namespace ClinicalXPDataConnections.Models
         public string FIRSTNAME { get; set; }
         public string LASTNAME { get; set; }
         public string? DISEASE_CODE { get; set; }
-        public string? DESCRIPTION { get; set; }        
+        public string? DESCRIPTION { get; set; }
         public string? STATUS { get; set; }
         public string? MAIN_SUB { get; set; }
         public string? NAME { get; set; }
@@ -609,7 +609,7 @@ namespace ClinicalXPDataConnections.Models
         public DateTime? EffectiveToDate { get; set; }
         public string AlertType { get; set; }
         public string? Comments { get; set; }
-    }      
+    }
 
     [Table("MasterFacilityTable", Schema = "dbo")] //External clinical facilities
     public class ExternalFacility
@@ -639,7 +639,7 @@ namespace ClinicalXPDataConnections.Models
         public string? FACILITY { get; set; }
         public Int16? NON_ACTIVE { get; set; }
         public Int16? Is_Gp { get; set; }
-    }    
+    }
 
     [Table("ListRelation", Schema = "dbo")]
     public class Relation
@@ -683,7 +683,7 @@ namespace ClinicalXPDataConnections.Models
         public string CLASS { get; set; }
         public string DESCRIPTION { get; set; }
         public bool IsActive { get; set; }
-    }  
+    }
 
     [Table("Notifications")]
     public class Notification
@@ -699,7 +699,7 @@ namespace ClinicalXPDataConnections.Models
     public class ExternalCliniciansAndFacilities
     {
         [Key]
-        public string MasterClinicianCode { get; set; } 
+        public string MasterClinicianCode { get; set; }
         public string? TITLE { get; set; }
         public string? FIRST_NAME { get; set; }
         public string? LAST_NAME { get; set; }
@@ -815,7 +815,7 @@ namespace ClinicalXPDataConnections.Models
         [DataType(DataType.Date)]
         public DateTime? RiskDate { get; set; }
         public string? RiskCode { get; set; }
-        public string? RiskName {  get; set; }
+        public string? RiskName { get; set; }
         public string? RiskClinCode { get; set; }
         public string? RiskComments { get; set; }
         public Int16? IncludeLetter { get; set; }
@@ -1141,12 +1141,12 @@ namespace ClinicalXPDataConnections.Models
         public DateTime? DateRec { get; set; }
         public string? Status { get; set; }
         [Column("Consent?")]
-        public string? Consent { get; set; } 
+        public string? Consent { get; set; }
         public string? InfoReq { get; set; }
         public string WhyNot { get; set; }
         public string? Confirmed { get; set; }
         public string Conf { get; set; }
-        public double? ConfDiagAge { get; set; } 
+        public double? ConfDiagAge { get; set; }
         public string? ConfDiagDate { get; set; }
         public string? Site { get; set; }
         public string? Lat { get; set; }
@@ -1225,11 +1225,11 @@ namespace ClinicalXPDataConnections.Models
     [Table("DeletedReferrals", Schema = "dbo")]
     public class DeletedReferral
     {
-        public int DeletedRefId { get; set; } 
+        public int DeletedRefId { get; set; }
         public int Mpi { get; set; }
         public int RefId { get; set; }
         public string DeleteReason { get; set; }
-        public short DeleteStatus { get; set; } 
+        public short DeleteStatus { get; set; }
     }
 
     public class ReferralDeleteStatusDto
@@ -1252,7 +1252,7 @@ namespace ClinicalXPDataConnections.Models
         public DateTime? REFERRAL_DATE { get; set; }
     }
 
-    [Table("DownstreamReferralStagingTable", Schema = "dbo")] 
+    [Table("DownstreamReferralStagingTable", Schema = "dbo")]
     public class DownstreamReferral
     {
         [Key]
@@ -1261,5 +1261,32 @@ namespace ClinicalXPDataConnections.Models
         public string? Pathway { get; set; }
     }
 
+    [Table("EpicClinicLinkTable", Schema = "dbo")]
+    public class EpicClinicLink
+    {
+        [Key]
+        public int ID { get; set; }
+        public string EpicClinicID { get; set; }
+        public string? ClinicianID { get; set; }
+        public string? ClinicID { get; set; }
+        public bool IsActive { get; set; }
+        public string? EpicDescription { get; set; }
+        public int UpdateSts { get; set; }
 
+
+    }
+
+    [Table("DownstreamApptReferenceTable", Schema = "dbo")]
+    public class DownstreamApptReference
+    {
+        [Key]
+        public int ID { get; set; }
+        public int MPI { get; set; }
+        public string? ExternalApptID { get; set; }
+        public int? RefID { get; set; }
+        public string? LinkedRefID { get; set; }
+        public string? PatientID { get; set; }
+        public string? EpicClinicCode { get; set; }
+    }
+    
 }
