@@ -413,6 +413,7 @@ namespace ClinicalXPDataConnections.Models
         public bool? ConsWLForSPR { get; set; }
         public string? ConsultantName { get; set; }
         public string? GCName { get; set; }
+        public string? IndicationNotes { get; set; }
     }
 
     [Table("ViewPatientReviews", Schema = "dbo")] //Requested reviews
@@ -484,6 +485,7 @@ namespace ClinicalXPDataConnections.Models
         //public int ICPID { get; set; }
         public int? ActOnRef { get; set; }
         public string? ReviewedBy { get; set; }
+        public string? ReviewedByName { get; set; }
         public DateTime? ReviewedDate { get; set; }
         public int? ReviewedOption { get; set; }
         //public string ActRefInfo { get; set; }
@@ -1216,6 +1218,7 @@ namespace ClinicalXPDataConnections.Models
         public bool ISREFERRAL { get; set; }
         public bool ISAPPT { get; set; }
         public bool ISSTUDY { get; set; }
+        public bool CVBillable { get; set; }
     }
 
     [Keyless]
