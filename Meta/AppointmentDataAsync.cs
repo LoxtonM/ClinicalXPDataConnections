@@ -21,7 +21,7 @@ namespace ClinicalXPDataConnections.Meta
         public Task<List<EpicClinicLink>> GetEpicClinicCodeStatus(string clinicCode);
         public Task<DownstreamApptReference> GetEpicClinicCode(int mpi);
         public Task<List<string>> GetEpicClinicCodes(int mpi);
-
+        public Task<string?> GetEpicClinicLocationName(string epicClinicCode);
     }
     public class AppointmentDataAsync : IAppointmentDataAsync
     {
@@ -187,12 +187,22 @@ namespace ClinicalXPDataConnections.Meta
         public async Task<List<string>> GetEpicClinicCodes(int mpi)
         {
             var clinicCodes = await _context.DownstreamApptReference
-                .Where(a => a.MPI == mpi && a.EpicClinicCode != null)
+                .Where(a => a.MPI == mpi && a.EpicClinicCode != null )
                 .Select(a => a.EpicClinicCode)
                 .Distinct()
                 .ToListAsync();
 
             return clinicCodes;
         }
+
+        public async Task<string?> GetEpicClinicLocationName(string epicClinicCode)
+        {
+            var appt = await _context.DownstreamApptReference
+                .FirstOrDefaultAsync(a => a.EpicClinicCode == epicClinicCode && a.Location != null);
+
+            return appt?.Location;
+        }
+
+        //
     }
 }
