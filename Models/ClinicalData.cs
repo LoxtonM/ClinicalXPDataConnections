@@ -511,6 +511,8 @@ namespace ClinicalXPDataConnections.Models
         public string? ToBeReviewedby { get; set; }
         public string? Status_Admin { get; set; }
         public string? COMPLETE { get; set; }
+        public DateTime? ClockStartDate { get; set; }
+        public DateTime? ClockStopDate { get; set; }
         public bool LogicalDelete { get; set; }
     }
 

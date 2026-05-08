@@ -18,12 +18,19 @@ namespace ClinicalXPDataConnections.Meta
             _clinContext = context;
         }
         
-        public async Task<List<Caseload>> GetCaseloadList(string staffCode) //Get caseload for clinician
+        public async Task<List<Caseload>> GetCaseloadList(string? staffCode) //Get caseload for clinician
         {
             IQueryable<Caseload> caseload = from c in _clinContext.Caseload
                            where c.StaffCode == staffCode
                            orderby c.BookedDate, c.BookedTime                           
                            select c;
+
+            /*
+            if(staffCode != null && staffCode != "")
+            {
+                caseload = caseload.Where(c => c.StaffCode == staffCode);
+            } //can't do this, it's too slow!
+            */
 
             return await caseload.ToListAsync();
         }
