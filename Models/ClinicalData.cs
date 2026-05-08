@@ -1284,6 +1284,7 @@ namespace ClinicalXPDataConnections.Models
         public string? LinkedRefID { get; set; }
         public string? PatientID { get; set; }
         public string? EpicClinicCode { get; set; }
+        public string? Location { get; set; }
     }
     
 }
