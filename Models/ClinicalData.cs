@@ -413,6 +413,7 @@ namespace ClinicalXPDataConnections.Models
         public bool? ConsWLForSPR { get; set; }
         public string? ConsultantName { get; set; }
         public string? GCName { get; set; }
+        public string? AdminContactName { get; set; }
         public string? IndicationNotes { get; set; }
     }
 
