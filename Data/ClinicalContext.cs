@@ -84,5 +84,6 @@ namespace ClinicalXPDataConnections.Data
         public DbSet<DownstreamReferral> DownstreamReferrals { get; set; }
         public DbSet<EpicClinicLink> GetEpicClinicLinks { get; set; }
         public DbSet<DownstreamApptReference> DownstreamApptReference { get; set; }
+        public DbSet<VhrAudit> VhrAudits { get; set; }
     }
 }
