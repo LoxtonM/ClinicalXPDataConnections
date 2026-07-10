@@ -324,6 +324,8 @@ namespace ClinicalXPDataConnections.Models
         public string? PtAreaName { get; set; }
         public string? Pathway_Subset { get; set; }
         public string? REASON_FOR_BREACH { get; set; }
+        public string? EPIC_Patient_ID { get; set; }
+        public int? EPIC_Referral_ID { get; set; }
     }
 
     [Table("MasterActivityTable", Schema = "dbo")] //Any activity
