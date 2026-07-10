@@ -1361,4 +1361,18 @@ namespace ClinicalXPDataConnections.Models
         public string Code { get; set; }
         public string Name { get; set; }
     }
+
+    [Keyless]
+    [Table("View_VHR_Audit", Schema = "dbo")]
+    public class VhrAudit
+    {
+        public string CGU_No { get; set; }
+        public string FIRSTNAME { get; set; }
+        public string LASTNAME { get; set; }
+        public DateTime DOB { get; set; }
+        public string SOCIAL_SECURITY { get; set; }
+        public DateTime DiaryDate { get; set; }
+        public string DocCode { get; set; }
+        public string BreastScreeningService { get; set; }
+    }
 }
