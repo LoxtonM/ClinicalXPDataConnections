@@ -6,7 +6,7 @@ namespace ClinicalXPDataConnections.Meta
 {
     public interface IRelativeDiarySourceDataAsync
     {
-        public Task<List<RelativeDiarySource>> GetRelativeDiarySourceList();
+        public Task<List<RelativeDiarySource>> GetRelativeDiarySourceList();        
     }
     public class RelativeDiarySourceDataAsync : IRelativeDiarySourceDataAsync
     {
@@ -22,6 +22,6 @@ namespace ClinicalXPDataConnections.Meta
                 
             
             return await diarySourceList.ToListAsync();            
-        }
+        }        
     }
 }

@@ -9,6 +9,7 @@ namespace ClinicalXPDataConnections.Meta
     {
         public Task<List<RelativeDiary>> GetRelativeDiaryList(int relID);
         public Task<RelativeDiary> GetRelativeDiaryDetails(int diaryID);
+        public Task<RelativeDiary> GetLatestDiaryByDocCode(int relID, string docCode);
     }
     public class RelativeDiaryDataAsync : IRelativeDiaryDataAsync
     {
@@ -31,6 +32,16 @@ namespace ClinicalXPDataConnections.Meta
             RelativeDiary rd = await _context.RelativesDiary.FirstOrDefaultAsync(d => d.DiaryID == diaryID);
 
             return rd;
+        }
+
+        public async Task<RelativeDiary> GetLatestDiaryByDocCode(int relID, string docCode)
+        {
+            RelativeDiary latestDiary = await _context.RelativesDiary
+                        .Where(d => d.RelsID == relID && d.DocCode == docCode)
+                        .OrderByDescending(d => d.DiaryDate)
+                        .FirstOrDefaultAsync();
+            
+            return latestDiary;
         }
     }
 }

@@ -20,7 +20,7 @@ namespace ClinicalXPDataConnections.Meta
 
         public async Task<List<DiaryClinician>> GetDiaryClinicians()
         {
-            IQueryable<DiaryClinician> clinicians = _clinicalContext.DiaryClinician;
+            IQueryable<DiaryClinician> clinicians = _clinicalContext.DiaryClinician.Where(d => d.Name != null);
 
             return await clinicians.ToListAsync();
         }
