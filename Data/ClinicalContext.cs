@@ -77,13 +77,15 @@ namespace ClinicalXPDataConnections.Data
         public DbSet<TriageTotal> TriageTotal { get; set; }
         public DbSet<ReferralReason> referralReasons { get; set; }
         public DbSet<PhenotipsPatient> PhenotipsPatient { get; set; }
-
         public DbSet<ActivityType> ActivityType { get; set; }
         public DbSet<DeletedReferral> DeletedReferrals { get; set; }
         public DbSet<EpicPatientDTO> EpicPatientDTO { get; set; }
         public DbSet<DownstreamReferral> DownstreamReferrals { get; set; }
         public DbSet<EpicClinicLink> GetEpicClinicLinks { get; set; }
         public DbSet<DownstreamApptReference> DownstreamApptReference { get; set; }
-        public DbSet<VhrAudit> VhrAudits { get; set; }
+        public DbSet<PatientRisk> PatientRisk { get; set; }
+        public DbSet<RelativeDiarySource> RelativeDiarySource { get; set; }
+        public DbSet<DiaryAction> DiaryAction { get; set; }
+        public DbSet<DiaryClinician> DiaryClinician { get; set; }        
     }
 }

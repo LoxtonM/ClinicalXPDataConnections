@@ -21,6 +21,7 @@ namespace ClinicalXPDataConnections.Meta
         public Task<ICPCancer> GetCancerICPDetailsByICPID(int? icpID);
         public Task<int> GetGeneralICPCountByICPID(int id);
         public Task<int> GetCancerICPCountByICPID(int id);
+        public Task<List<ICP>> GetICPListForPatient(int mpi);
     }
     public class TriageDataAsync : ITriageDataAsync
     {
@@ -150,6 +151,16 @@ namespace ClinicalXPDataConnections.Meta
                        select i;
 
             return await item.CountAsync();
+        }
+
+        public async Task<List<ICP>> GetICPListForPatient(int mpi)
+        {
+            IQueryable<ICP> icps = from i in _clinContext.ICP
+                                   where i.MPI == mpi
+                                   orderby i.REFID descending
+                                   select i;
+            
+            return await icps.ToListAsync();
         }
     }
 }

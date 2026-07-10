@@ -12,6 +12,7 @@ namespace ClinicalXPDataConnections.Meta
         public Task<List<Relative>> GetRelativeDetailsByName(string forename, string surname);
         public Task<List<Relation>> GetRelationsList();
         public Task<List<Gender>> GetGenderList();
+        public Task<List<Relative>> GetRelativesListForFamily(int id);
     }
     public class RelativeDataAsync : IRelativeDataAsync
     {
@@ -107,6 +108,23 @@ namespace ClinicalXPDataConnections.Meta
                        select i;
 
             return await item.ToListAsync();
+        }
+
+        public async Task<List<Relative>> GetRelativesListForFamily(int id) //Get list of relatives of patient by MPI
+        {
+            Patient patient = await _clinContext.Patients.FirstOrDefaultAsync(i => i.MPI == id);
+            List<Relative> relativeList = new List<Relative>();
+            List<Patient> patientsInPedigree = _clinContext.Patients.Where(p => p.PEDNO.Trim() == patient.PEDNO.Trim()).ToList();
+
+            foreach (var pat in patientsInPedigree)
+            {
+                foreach (var rel in _clinContext.Relatives.Where(r => r.WMFACSID == pat.WMFACSID))
+                {
+                    relativeList.Add(rel);
+                }
+            }
+
+            return relativeList;
         }
     }
 }

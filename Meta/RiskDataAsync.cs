@@ -11,6 +11,7 @@ namespace ClinicalXPDataConnections.Meta
         public Task<List<Risk>> GetRiskListForPatient(int mpi);
         public Task<Risk> GetRiskDetails(int riskID);
         public Task<List<Risk>> GetRiskListByRefID(int refID);        
+        public Task<List<PatientRisk>> GetPatientRiskList(int mpi);
     }
     public class RiskDataAsync : IRiskDataAsync
     {
@@ -52,6 +53,13 @@ namespace ClinicalXPDataConnections.Meta
         {
             IQueryable<Risk> risk = _clinContext.Risk.Where(c => c.RefID == refID && c.IncludeLetter != 0);
             
+            return await risk.ToListAsync();
+        }
+
+        public async Task<List<PatientRisk>> GetPatientRiskList(int mpi) //I know this is REALLY badly named. But it's the only way I can fix the duplication without fucking everything else up.
+        {
+            IQueryable<PatientRisk> risk = _clinContext.PatientRisk.Where(c => c.MPI == mpi && c.IncludeLetter != 0);
+
             return await risk.ToListAsync();
         }
     }
