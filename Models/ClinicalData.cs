@@ -638,6 +638,8 @@ namespace ClinicalXPDataConnections.Models
         public string? ZIP { get; set; }
         public Int16? NONACTIVE { get; set; }
         public Int16? IS_GP_SURGERY { get; set; }
+        public string? EmailAddress { get; set; }
+        public bool isEmailOnly { get; set; }
     }
 
     [Table("MasterClinicianTable", Schema = "dbo")] //External clinicians
@@ -727,6 +729,8 @@ namespace ClinicalXPDataConnections.Models
         public string? DISTRICT { get; set; }
         public string? CITY { get; set; }
         public string? ZIP { get; set; }
+        public string? EmailAddress { get; set; }
+        public bool isEmailOnly { get; set; }
     }
 
     [Table("view_PAT_TITLE_as_ListTitle", Schema = "dbo")]
