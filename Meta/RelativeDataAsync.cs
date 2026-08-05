@@ -13,6 +13,8 @@ namespace ClinicalXPDataConnections.Meta
         public Task<List<Relation>> GetRelationsList();
         public Task<List<Gender>> GetGenderList();
         public Task<List<Relative>> GetRelativesListForFamily(int id);
+        public Task<Relative> GetRelativeByWMFACSID(int wmfacsId);
+        public Task<Relative> GetRelativebyDemographics(int wmfacsId, string forename, string surname);
     }
     public class RelativeDataAsync : IRelativeDataAsync
     {
@@ -125,6 +127,19 @@ namespace ClinicalXPDataConnections.Meta
             }
 
             return relativeList;
+        }
+
+        public async Task<Relative> GetRelativeByWMFACSID(int wmfacsId)
+        {
+            var relative = await _clinContext.Relatives.FirstOrDefaultAsync(r => r.WMFACSID == wmfacsId && r.Self == true);
+            return relative;
+
+        }
+
+        public async Task<Relative> GetRelativebyDemographics(int wmfacsId, string forename, string surname)
+        {
+            var relative = await _clinContext.Relatives.FirstOrDefaultAsync(r => r.WMFACSID == wmfacsId && r.RelForename1 == forename && r.RelSurname == surname);
+            return relative;
         }
     }
 }

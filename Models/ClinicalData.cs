@@ -147,6 +147,7 @@ namespace ClinicalXPDataConnections.Models
         public string? Notes { get; set; }
         public string? RelOTher { get; set; }
         public string? MatPat { get; set; }
+        public bool Self {  get; set; }
     }
 
     [Table("RelativesDiary", Schema = "dbo")]
@@ -1376,5 +1377,7 @@ namespace ClinicalXPDataConnections.Models
         public DateTime DiaryDate { get; set; }
         public string DocCode { get; set; }
         public string BreastScreeningService { get; set; }
+        public DateTime? Ref_Sent { get; set; }
+        public DateTime? DiaryRec { get; set; }
     }
 }
