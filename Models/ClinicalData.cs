@@ -781,6 +781,7 @@ namespace ClinicalXPDataConnections.Models
         public DateTime? ApprovedDate { get; set; }
         public string? ApprovedBy { get; set; }
         public bool IsUrgent { get; set; }
+        public bool UseLargeFont { get; set; }
     }
 
     [Table("DictatedLettersPatients", Schema = "dbo")] //Patients added to DOT
