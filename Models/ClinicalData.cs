@@ -147,6 +147,12 @@ namespace ClinicalXPDataConnections.Models
         public string? Notes { get; set; }
         public string? RelOTher { get; set; }
         public string? MatPat { get; set; }
+        public string? Registry { get; set; }
+        public string? Site { get; set; }
+        public string? Morph { get; set; }
+        public string? Lat { get; set; }
+        public string? ConfDiagDate { get; set; } //yes, this is actually a string, for some reason
+        public double? ConfDiagAge { get; set; }
     }
 
     [Table("RelativesDiary", Schema = "dbo")]
@@ -1365,5 +1371,33 @@ namespace ClinicalXPDataConnections.Models
         [Key]
         public string Code { get; set; }
         public string? Name { get; set; }
+    }
+
+    [Table("ListScreeningServiceDetails", Schema = "dbo")]
+    public class ScreeningService
+    {
+        [Key]
+        public string ScreeningOfficeCode { get; set; }
+        public string BreastScreeningService { get; set; }
+        public string Contact { get; set; }
+        public string Telephone { get; set; }
+        public string Add1 { get; set; }
+        public string Add2 { get; set; }
+        public string Add3 { get; set; }
+        public string Add4 { get; set; }
+        public string? Add5 { get; set; }
+        public string? Add6 { get; set; }
+        public string? Add7 { get; set; }
+        public string? Add8 { get; set; }
+        public string? Add9 { get; set; }
+        public string? Add10 { get; set; }
+    }
+
+    [Table("ListScreeningServiceGPCodes", Schema = "dbo")]
+    public class ScreeningServiceGPCode
+    {
+        [Key]
+        public string GPCode { get; set; }
+        public string ScreeningOfficeCode { get; set; }
     }
 }

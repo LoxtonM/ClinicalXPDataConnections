@@ -8,6 +8,8 @@ namespace ClinicalXPDataConnections.Meta
     public interface IRelativeDataAsync
     {
         public Task<List<Relative>> GetRelativesList(int id);
+        public Task<List<Relative>> GetRelativesListForPatient(int wmfacsid);
+        public Task<List<Relative>> GetRelativesListForFamily(string pedno);
         public Task<Relative> GetRelativeDetails(int relID);
         public Task<List<Relative>> GetRelativeDetailsByName(string forename, string surname);
         public Task<List<Relation>> GetRelationsList();
@@ -78,6 +80,39 @@ namespace ClinicalXPDataConnections.Meta
             }
 
             return relative;
+        }
+
+        public async Task<List<Relative>> GetRelativesListForPatient(int wmfacsid)
+        {
+            List<Relative> relative = new List<Relative>();
+
+            relative = await _clinContext.Relatives
+                                         .Where(r => r.WMFACSID == wmfacsid)
+                                         .ToListAsync();
+
+            return relative;
+        }
+
+        public async Task<List<Relative>> GetRelativesListForFamily(string pedno)
+        {
+            List<Patient> patients = await _clinContext.Patients.Where(p => p.PEDNO.Trim() == pedno.Trim()).ToListAsync();
+
+            List<Relative> relativeList = new List<Relative>();
+
+            foreach(var pat in patients)
+            {
+                List<Relative> patRels = await _clinContext.Relatives.Where(r => r.WMFACSID == pat.WMFACSID).ToListAsync();
+
+                foreach (var rel in patRels)
+                {
+                    if (!relativeList.Any(r => r.relsid == rel.relsid)) //only add if not already in the list
+                    {
+                        relativeList.Add(rel);
+                    }
+                }
+            }
+
+            return relativeList;
         }
 
         public async Task<Relative> GetRelativeDetails(int relID)
