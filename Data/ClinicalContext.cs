@@ -89,5 +89,10 @@ namespace ClinicalXPDataConnections.Data
         public DbSet<DiaryClinician> DiaryClinician { get; set; }        
         public DbSet<ScreeningService> ScreeningService { get; set; }
         public DbSet<ScreeningServiceGPCode> ScreeningServiceGPCode { get; set; }
+        public DbSet<SocialServicePathway> SocialServicePathway { get; set; }
+        public DbSet<SocialServicePathwayOutcome> SocialServicePathwayOutcome { get; set; }
+        public DbSet<SocialServicePathwayStatus> SocialServicePathwayStatus { get; set; }
+        public DbSet<SocialService> SocialService { get; set; }
+        public DbSet<SocialWorker> SocialWorker { get; set; }
     }
 }

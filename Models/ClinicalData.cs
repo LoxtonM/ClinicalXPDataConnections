@@ -56,6 +56,7 @@ namespace ClinicalXPDataConnections.Models
 
         [Display(Name = "NHS Number")]
         public string? SOCIAL_SECURITY { get; set; }
+        public string? NHSNumber { get; set; }
         public string? SEX { get; set; }
         public string? ADDRESS1 { get; set; }
         public string? ADDRESS2 { get; set; }
@@ -779,6 +780,7 @@ namespace ClinicalXPDataConnections.Models
         [DataType(DataType.Date)]
         public DateTime? DateDictated { get; set; }
         public DateTime? CreatedDate { get; set; }
+        public string? CreatedBy { get; set; }
         public string? SecTeam { get; set; }
         public string? Consultant { get; set; }
         public string? GeneticCounsellor { get; set; }
@@ -1400,4 +1402,70 @@ namespace ClinicalXPDataConnections.Models
         public string GPCode { get; set; }
         public string ScreeningOfficeCode { get; set; }
     }
+
+    [Table("ViewSocialServicePathways", Schema = "dbo")]
+    public class SocialServicePathway
+    {
+        [Key]
+        public int SSPID { get; set; }
+        public int MPI { get; set; }
+        public int ICPID { get; set; }
+        public bool IsActive { get; set; }
+        public string CGU_No { get; set; }
+        public string PatientName { get; set; }
+        public string? SSPStatus { get; set; }
+        public string? Outcome { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public string? UpdatedBy { get; set; }
+        public DateTime? UpdatedDate { get; set; }
+        public DateTime? DateInformationReq { get; set; }
+        public DateTime? DateInformationReqFU { get; set; }
+        public DateTime? DateInformationReceived { get; set; }
+        public string? SocialWorkerID { get; set; }
+        public string? ParentalResponsibility { get; set; }
+        public string? OtherOutcomeDetails { get; set; }
+        public string?  SocialWorker { get; set; }
+        public string? SocialServiceDept { get; set; }
+    }
+
+    [Table("ListSocialServicePathwayOutcomes", Schema = "dbo")]
+    public class SocialServicePathwayOutcome
+    {
+        [Key]
+        public int ID { get; set; }
+        public string Outcome { get; set; }
+    }
+
+    [Table("ListSSPStatus", Schema = "dbo")]
+    public class SocialServicePathwayStatus
+    {
+        [Key]
+        public int SSPStatusID { get; set; }
+        public string SSPStatus { get; set; }
+    }
+
+    [Table("ListSocialServices", Schema = "dbo")]
+    public class SocialService
+    {
+        [Key]
+        public string SocialServicesID { get; set; }
+        public string Name { get; set; }
+        public string Address1 { get; set; }
+        public string? Address2 { get; set; }
+        public string? Address3 { get; set; }
+        public string? Address4 { get; set; }
+        public string? PostCode { get; set; }
+    }
+
+    [Table("ListSocialWorkers", Schema = "dbo")]
+    public class SocialWorker
+    {
+        [Key]
+        public string SocialWorkerID { get; set; }
+        public string? Title { get; set; }
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
+        public string SocialServicesID { get; set; }
+        }
 }
