@@ -1506,6 +1506,7 @@ namespace ClinicalXPDataConnections.Models
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public string SocialServicesID { get; set; }
+        public string SocialServicesDept { get; set; }
     }
 
     [Table("ListScreeningServiceDetails", Schema = "dbo")]
