@@ -86,6 +86,9 @@ namespace ClinicalXPDataConnections.Data
         public DbSet<PatientRisk> PatientRisk { get; set; }
         public DbSet<RelativeDiarySource> RelativeDiarySource { get; set; }
         public DbSet<DiaryAction> DiaryAction { get; set; }
-        public DbSet<DiaryClinician> DiaryClinician { get; set; }        
+        public DbSet<DiaryClinician> DiaryClinician { get; set; }
+        public DbSet<VhrAudit> VhrAudits { get; set; }
+        public DbSet<ListScreeningServiceGPCodes> ListScreeningServiceGPCodes { get; set; }
+        public DbSet<ListScreeningServiceDetails> ListScreeningServiceDetails { get; set; }
     }
 }

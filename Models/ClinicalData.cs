@@ -147,6 +147,7 @@ namespace ClinicalXPDataConnections.Models
         public string? Notes { get; set; }
         public string? RelOTher { get; set; }
         public string? MatPat { get; set; }
+        public bool Self { get; set; }
     }
 
     [Table("RelativesDiary", Schema = "dbo")]
@@ -324,6 +325,8 @@ namespace ClinicalXPDataConnections.Models
         public string? PtAreaName { get; set; }
         public string? Pathway_Subset { get; set; }
         public string? REASON_FOR_BREACH { get; set; }
+        public string? EPIC_Patient_ID { get; set; }
+        public int? EPIC_Referral_ID { get; set; }
     }
 
     [Table("MasterActivityTable", Schema = "dbo")] //Any activity
@@ -1365,4 +1368,42 @@ namespace ClinicalXPDataConnections.Models
         public string Code { get; set; }
         public string? Name { get; set; }
     }
+
+    [Keyless]
+    [Table("View_VHR_Audit", Schema = "dbo")]
+    public class VhrAudit
+    {
+
+        public int DiaryID { get; set; }
+        public string CGU_No { get; set; }
+        public string FIRSTNAME { get; set; }
+        public string LASTNAME { get; set; }
+        public DateTime DOB { get; set; }
+        public string SOCIAL_SECURITY { get; set; }
+        public DateTime? DiaryDate { get; set; }
+        public string DocCode { get; set; }
+        public string BreastScreeningService { get; set; }
+        //public DateTime? Ref_Sent { get; set; }
+        public DateTime? DiaryRec { get; set; }
+        public int? WMFACSID { get; set; }
+        public string? DiaryAction { get; set; }
+        public string? NAME { get; set; }
+    }
+
+    [Keyless]
+    [Table("ListScreeningServiceGPCodes", Schema = "dbo")]
+    public class ListScreeningServiceGPCodes
+    {
+        public string ScreeningOfficeCode { get; set; }
+        public string GPCode { get; set; }
+    }
+
+    [Keyless]
+    [Table("ListScreeningServiceDetails", Schema = "dbo")]
+    public class ListScreeningServiceDetails
+    {
+        public string ScreeningOfficeCode { get; set; }
+        public string BreastScreeningService { get; set; }
+    }
+
 }
