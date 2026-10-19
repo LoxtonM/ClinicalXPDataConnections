@@ -150,6 +150,12 @@ namespace ClinicalXPDataConnections.Models
         public string? RelOTher { get; set; }
         public string? MatPat { get; set; }
         public bool Self { get; set; }
+        public string? ConfDiagDate { get; set; }
+        public double? ConfDiagAge { get; set; }
+        public string? Registry { get; set; }
+        public string? Site { get; set; }
+        public string? Lat { get; set; }
+        public string? Morph { get; set; }
     }
 
     [Table("RelativesDiary", Schema = "dbo")]
