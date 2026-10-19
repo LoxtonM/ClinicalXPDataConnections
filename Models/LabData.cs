@@ -124,5 +124,6 @@ namespace ClinicalXPDataConnections.Models
         public string? REPORT_STATUS { get; set; }
         public DateTime? REPORT_DATE { get; set; }
         public DateTime? DATEREQUESTED { get; set; }
+        public DateTime? DATE_OBTAINED { get; set; }
     }
 }

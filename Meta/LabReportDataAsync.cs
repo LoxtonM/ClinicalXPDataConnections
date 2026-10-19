@@ -146,7 +146,8 @@ namespace ClinicalXPDataConnections.Meta
                                   DIAGNOSIS_REPORT = lr.r.DIAGNOSIS_REPORT,
                                   REPORT_STATUS = lr.r.REPORT_STATUS,
                                   DATEREQUESTED = i.DATEREQUESTED,
-                                  REPORT_DATE = lr.r.REPORT_DATE
+                                  REPORT_DATE = lr.r.REPORT_DATE,
+                                  DATE_OBTAINED = lr.l.DATE_OBTAINED
                               })
                         .OrderBy(x => x.LABNO)
                         .ToListAsync();

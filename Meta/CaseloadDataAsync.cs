@@ -7,7 +7,8 @@ namespace ClinicalXPDataConnections.Meta
 {
     public interface ICaseloadDataAsync
     {
-        public Task<List<Caseload>> GetCaseloadList(string staffCode);        
+        public Task<List<Caseload>> GetCaseloadList(string staffCode);
+        public Task<List<Caseload>> GetCaseloadListByType(string? clType);
     }
     public class CaseloadDataAsync : ICaseloadDataAsync
     {
@@ -23,14 +24,24 @@ namespace ClinicalXPDataConnections.Meta
             IQueryable<Caseload> caseload = from c in _clinContext.Caseload
                            where c.StaffCode == staffCode
                            orderby c.BookedDate, c.BookedTime                           
-                           select c;
+                           select c;            
 
-            /*
-            if(staffCode != null && staffCode != "")
+            return await caseload.ToListAsync();
+        }
+
+        public async Task<List<Caseload>> GetCaseloadListByType(string? clType) //Get caseload for clinician
+        {
+            IQueryable<Caseload> caseload = from c in _clinContext.Caseload                                            
+                                            select c;
+
+            if (clType == "clinic")
             {
-                caseload = caseload.Where(c => c.StaffCode == staffCode);
-            } //can't do this, it's too slow!
-            */
+                caseload = caseload.Where(c => c.State == "To be seen");
+            }
+            else
+            {
+                caseload = caseload.Where(c => c.Type.ToUpper() == clType.ToUpper());
+            }
 
             return await caseload.ToListAsync();
         }

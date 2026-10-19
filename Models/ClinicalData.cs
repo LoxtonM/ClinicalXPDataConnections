@@ -56,6 +56,7 @@ namespace ClinicalXPDataConnections.Models
 
         [Display(Name = "NHS Number")]
         public string? SOCIAL_SECURITY { get; set; }
+        public string? NHSNumber { get; set; }
         public string? SEX { get; set; }
         public string? ADDRESS1 { get; set; }
         public string? ADDRESS2 { get; set; }
@@ -776,6 +777,7 @@ namespace ClinicalXPDataConnections.Models
         [DataType(DataType.Date)]
         public DateTime? DateDictated { get; set; }
         public DateTime? CreatedDate { get; set; }
+        public string? CreatedBy { get; set; }
         public string? SecTeam { get; set; }
         public string? Consultant { get; set; }
         public string? GeneticCounsellor { get; set; }
@@ -784,6 +786,7 @@ namespace ClinicalXPDataConnections.Models
         public DateTime? ApprovedDate { get; set; }
         public string? ApprovedBy { get; set; }
         public bool IsUrgent { get; set; }
+        public bool UseLargeFont { get; set; }
     }
 
     [Table("DictatedLettersPatients", Schema = "dbo")] //Patients added to DOT
