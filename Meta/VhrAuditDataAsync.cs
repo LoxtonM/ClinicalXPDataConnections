@@ -43,8 +43,8 @@ namespace ClinicalXPDataConnections.Meta
             {
                 return null;
             }
-            return await (from gp in _clinContext.ListScreeningServiceGPCodes.AsNoTracking()
-                          join s in _clinContext.ListScreeningServiceDetails.AsNoTracking()
+            return await (from gp in _clinContext.ScreeningServiceGPCode.AsNoTracking()
+                          join s in _clinContext.ScreeningService.AsNoTracking()
                             on gp.ScreeningOfficeCode equals s.ScreeningOfficeCode
                           where gp.GPCode == gpFacility
                           select s.BreastScreeningService)
