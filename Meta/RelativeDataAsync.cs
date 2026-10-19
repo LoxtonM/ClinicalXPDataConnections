@@ -14,7 +14,7 @@ namespace ClinicalXPDataConnections.Meta
         public Task<List<Gender>> GetGenderList();
         public Task<List<Relative>> GetRelativesListForFamily(int id);
         public Task<Relative> GetRelativeByWMFACSID(int wmfacsId);
-        public Task<Relative> GetRelativebyDemographics(int wmfacsId, string forename, string surname);
+        public Task<Relative> GetRelativebyDemographics(int wmfacsId, string forename, string surname, DateTime DOB);
     }
     public class RelativeDataAsync : IRelativeDataAsync
     {
@@ -136,9 +136,18 @@ namespace ClinicalXPDataConnections.Meta
 
         }
 
-        public async Task<Relative> GetRelativebyDemographics(int wmfacsId, string forename, string surname)
+        public async Task<VhrAudit> GetVHRAuditDetails(int WMFACSID)
         {
-            var relative = await _clinContext.Relatives.FirstOrDefaultAsync(r => r.WMFACSID == wmfacsId && r.RelForename1 == forename && r.RelSurname == surname);
+            return await _clinContext.VhrAudits.AsNoTracking()
+                .Where(i => i.WMFACSID == WMFACSID && i.DiaryRec == null)
+                .OrderByDescending(i => i.DiaryID)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<Relative> GetRelativebyDemographics(int wmfacsId, string forename, string surname, DateTime DOB)
+        {
+            var relative = await _clinContext.Relatives.FirstOrDefaultAsync(r => r.WMFACSID == wmfacsId && r.RelForename1 == forename &&
+            r.RelSurname == surname && r.DOB == DOB);
             return relative;
         }
     }
