@@ -20,6 +20,7 @@ namespace ClinicalXPDataConnections.Meta
         public Task<List<EpicPatientDTO>> GetEpicPatientsWithReferralDetails();
         public Task<List<Patient>> GetPatientsWithGPCode(string gpCode);
 
+
     }
     public class PatientDataAsync : IPatientDataAsync 
     {

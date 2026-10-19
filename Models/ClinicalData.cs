@@ -148,12 +148,7 @@ namespace ClinicalXPDataConnections.Models
         public string? Notes { get; set; }
         public string? RelOTher { get; set; }
         public string? MatPat { get; set; }
-        public string? Registry { get; set; }
-        public string? Site { get; set; }
-        public string? Morph { get; set; }
-        public string? Lat { get; set; }
-        public string? ConfDiagDate { get; set; } //yes, this is actually a string, for some reason
-        public double? ConfDiagAge { get; set; }
+        public bool Self { get; set; }
     }
 
     [Table("RelativesDiary", Schema = "dbo")]
@@ -331,6 +326,8 @@ namespace ClinicalXPDataConnections.Models
         public string? PtAreaName { get; set; }
         public string? Pathway_Subset { get; set; }
         public string? REASON_FOR_BREACH { get; set; }
+        public string? EPIC_Patient_ID { get; set; }
+        public int? EPIC_Referral_ID { get; set; }
     }
 
     [Table("MasterActivityTable", Schema = "dbo")] //Any activity
@@ -1375,97 +1372,41 @@ namespace ClinicalXPDataConnections.Models
         public string? Name { get; set; }
     }
 
-    [Table("ListScreeningServiceDetails", Schema = "dbo")]
-    public class ScreeningService
+    [Keyless]
+    [Table("View_VHR_Audit", Schema = "dbo")]
+    public class VhrAudit
     {
-        [Key]
+
+        public int DiaryID { get; set; }
+        public string CGU_No { get; set; }
+        public string FIRSTNAME { get; set; }
+        public string LASTNAME { get; set; }
+        public DateTime DOB { get; set; }
+        public string SOCIAL_SECURITY { get; set; }
+        public DateTime? DiaryDate { get; set; }
+        public string DocCode { get; set; }
+        public string BreastScreeningService { get; set; }
+        //public DateTime? Ref_Sent { get; set; }
+        public DateTime? DiaryRec { get; set; }
+        public int? WMFACSID { get; set; }
+        public string? DiaryAction { get; set; }
+        public string? NAME { get; set; }
+    }
+
+    [Keyless]
+    [Table("ListScreeningServiceGPCodes", Schema = "dbo")]
+    public class ListScreeningServiceGPCodes
+    {
+        public string ScreeningOfficeCode { get; set; }
+        public string GPCode { get; set; }
+    }
+
+    [Keyless]
+    [Table("ListScreeningServiceDetails", Schema = "dbo")]
+    public class ListScreeningServiceDetails
+    {
         public string ScreeningOfficeCode { get; set; }
         public string BreastScreeningService { get; set; }
-        public string Contact { get; set; }
-        public string Telephone { get; set; }
-        public string Add1 { get; set; }
-        public string Add2 { get; set; }
-        public string Add3 { get; set; }
-        public string Add4 { get; set; }
-        public string? Add5 { get; set; }
-        public string? Add6 { get; set; }
-        public string? Add7 { get; set; }
-        public string? Add8 { get; set; }
-        public string? Add9 { get; set; }
-        public string? Add10 { get; set; }
     }
 
-    [Table("ListScreeningServiceGPCodes", Schema = "dbo")]
-    public class ScreeningServiceGPCode
-    {
-        [Key]
-        public string GPCode { get; set; }
-        public string ScreeningOfficeCode { get; set; }
-    }
-
-    [Table("ViewSocialServicePathways", Schema = "dbo")]
-    public class SocialServicePathway
-    {
-        [Key]
-        public int SSPID { get; set; }
-        public int MPI { get; set; }
-        public int ICPID { get; set; }
-        public bool IsActive { get; set; }
-        public string CGU_No { get; set; }
-        public string PatientName { get; set; }
-        public string? SSPStatus { get; set; }
-        public string? Outcome { get; set; }
-        public string CreatedBy { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public string? UpdatedBy { get; set; }
-        public DateTime? UpdatedDate { get; set; }
-        public DateTime? DateInformationReq { get; set; }
-        public DateTime? DateInformationReqFU { get; set; }
-        public DateTime? DateInformationReceived { get; set; }
-        public string? SocialWorkerID { get; set; }
-        public string? ParentalResponsibility { get; set; }
-        public string? OtherOutcomeDetails { get; set; }
-        public string?  SocialWorker { get; set; }
-        public string? SocialServiceDept { get; set; }
-    }
-
-    [Table("ListSocialServicePathwayOutcomes", Schema = "dbo")]
-    public class SocialServicePathwayOutcome
-    {
-        [Key]
-        public int ID { get; set; }
-        public string Outcome { get; set; }
-    }
-
-    [Table("ListSSPStatus", Schema = "dbo")]
-    public class SocialServicePathwayStatus
-    {
-        [Key]
-        public int SSPStatusID { get; set; }
-        public string SSPStatus { get; set; }
-    }
-
-    [Table("ListSocialServices", Schema = "dbo")]
-    public class SocialService
-    {
-        [Key]
-        public string SocialServicesID { get; set; }
-        public string Name { get; set; }
-        public string Address1 { get; set; }
-        public string? Address2 { get; set; }
-        public string? Address3 { get; set; }
-        public string? Address4 { get; set; }
-        public string? PostCode { get; set; }
-    }
-
-    [Table("ListSocialWorkers", Schema = "dbo")]
-    public class SocialWorker
-    {
-        [Key]
-        public string SocialWorkerID { get; set; }
-        public string? Title { get; set; }
-        public string? FirstName { get; set; }
-        public string? LastName { get; set; }
-        public string SocialServicesID { get; set; }
-        }
 }
