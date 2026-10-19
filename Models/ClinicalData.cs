@@ -1422,15 +1422,15 @@ namespace ClinicalXPDataConnections.Models
 
     [Keyless]
     [Table("ListScreeningServiceGPCodes", Schema = "dbo")]
-    public class ListScreeningServiceGPCodes
+    public class ScreeningServiceGPCode
     {
         public string ScreeningOfficeCode { get; set; }
         public string GPCode { get; set; }
     }
 
     [Keyless]
-    [Table("ListScreeningServiceDetails", Schema = "dbo")]
-    public class ListScreeningServiceDetails
+    [Table("ViewSocialServicePathways", Schema = "dbo")]
+    public class SocialServicePathway
     {
         [Key]
         public int SSPID { get; set; }
