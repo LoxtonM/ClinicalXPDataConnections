@@ -148,12 +148,7 @@ namespace ClinicalXPDataConnections.Models
         public string? Notes { get; set; }
         public string? RelOTher { get; set; }
         public string? MatPat { get; set; }
-        public string? Registry { get; set; }
-        public string? Site { get; set; }
-        public string? Morph { get; set; }
-        public string? Lat { get; set; }
-        public string? ConfDiagDate { get; set; } //yes, this is actually a string, for some reason
-        public double? ConfDiagAge { get; set; }
+        public bool Self { get; set; }
     }
 
     [Table("RelativesDiary", Schema = "dbo")]
@@ -331,6 +326,8 @@ namespace ClinicalXPDataConnections.Models
         public string? PtAreaName { get; set; }
         public string? Pathway_Subset { get; set; }
         public string? REASON_FOR_BREACH { get; set; }
+        public string? EPIC_Patient_ID { get; set; }
+        public int? EPIC_Referral_ID { get; set; }
     }
 
     [Table("MasterActivityTable", Schema = "dbo")] //Any activity
@@ -1402,36 +1399,38 @@ namespace ClinicalXPDataConnections.Models
         public string? Name { get; set; }
     }
 
-    [Table("ListScreeningServiceDetails", Schema = "dbo")]
-    public class ScreeningService
+    [Keyless]
+    [Table("View_VHR_Audit", Schema = "dbo")]
+    public class VhrAudit
     {
-        [Key]
-        public string ScreeningOfficeCode { get; set; }
+
+        public int DiaryID { get; set; }
+        public string CGU_No { get; set; }
+        public string FIRSTNAME { get; set; }
+        public string LASTNAME { get; set; }
+        public DateTime DOB { get; set; }
+        public string SOCIAL_SECURITY { get; set; }
+        public DateTime? DiaryDate { get; set; }
+        public string DocCode { get; set; }
         public string BreastScreeningService { get; set; }
-        public string Contact { get; set; }
-        public string Telephone { get; set; }
-        public string Add1 { get; set; }
-        public string Add2 { get; set; }
-        public string Add3 { get; set; }
-        public string Add4 { get; set; }
-        public string? Add5 { get; set; }
-        public string? Add6 { get; set; }
-        public string? Add7 { get; set; }
-        public string? Add8 { get; set; }
-        public string? Add9 { get; set; }
-        public string? Add10 { get; set; }
+        //public DateTime? Ref_Sent { get; set; }
+        public DateTime? DiaryRec { get; set; }
+        public int? WMFACSID { get; set; }
+        public string? DiaryAction { get; set; }
+        public string? NAME { get; set; }
     }
 
+    [Keyless]
     [Table("ListScreeningServiceGPCodes", Schema = "dbo")]
-    public class ScreeningServiceGPCode
+    public class ListScreeningServiceGPCodes
     {
-        [Key]
-        public string GPCode { get; set; }
         public string ScreeningOfficeCode { get; set; }
+        public string GPCode { get; set; }
     }
 
-    [Table("ViewSocialServicePathways", Schema = "dbo")]
-    public class SocialServicePathway
+    [Keyless]
+    [Table("ListScreeningServiceDetails", Schema = "dbo")]
+    public class ListScreeningServiceDetails
     {
         [Key]
         public int SSPID { get; set; }
@@ -1497,7 +1496,7 @@ namespace ClinicalXPDataConnections.Models
         public string? PostCode { get; set; }
     }
 
-    [Table("ViewSocialWorkers", Schema = "dbo")]
+    [Table("ListSocialWorkers", Schema = "dbo")]
     public class SocialWorker
     {
         [Key]
@@ -1505,15 +1504,6 @@ namespace ClinicalXPDataConnections.Models
         public string? Title { get; set; }
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
-        public string? SocialServicesID { get; set; }
-        public string? ContactNumber { get; set; }
-        public string? JobTitle { get; set; }
-        public string? SocialServicesDept { get; set; }
-        public string? Address1 { get; set; }
-        public string? Address2 { get; set; }
-        public string? Address3 { get; set; }
-        public string? Address4 { get; set; }
-        public string? Address5 { get; set; }
-        public string? PostCode { get; set; }
-    }
+        public string SocialServicesID { get; set; }
+        }
 }
