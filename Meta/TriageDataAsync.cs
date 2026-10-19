@@ -78,7 +78,7 @@ namespace ClinicalXPDataConnections.Meta
             string staffCode = user.STAFF_CODE;
 
             IQueryable<ICPCancer> icps = from i in _clinContext.ICPCancer
-                       where i.ActOnRefBy != null && i.FinalReviewed == null && (i.GC_CODE == staffCode || i.ToBeReviewedby.ToUpper() == username.ToUpper())
+                       where i.ActOnRefBy != null && i.FinalReviewed == null && (i.GC_CODE.ToUpper() == staffCode.ToUpper() || i.ToBeReviewedby.ToUpper() == username.ToUpper())
                       && i.Status_Admin == "Review"
                       && i.COMPLETE == "Active"
                         orderby i.REFERRAL_DATE

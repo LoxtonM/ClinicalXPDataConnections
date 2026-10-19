@@ -94,5 +94,8 @@ namespace ClinicalXPDataConnections.Data
         public DbSet<SocialServicePathwayStatus> SocialServicePathwayStatus { get; set; }
         public DbSet<SocialService> SocialService { get; set; }
         public DbSet<SocialWorker> SocialWorker { get; set; }
+        public DbSet<Studies> Studies { get; set; }
+        public DbSet<StudyStatus> StudyStatus { get; set; }
+
     }
 }

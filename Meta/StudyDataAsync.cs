@@ -7,28 +7,46 @@ namespace ClinicalXPDataConnections.Meta
 {
     public interface IStudyDataAsync
     {
-        public Task<List<Study>> GetStudiesList(int mpi);
-        
+        public Task<List<Study>> GetStudiesForPatient(int mpi);
+        public Task<Study> GetStudyDetails(int studyId);
+        public Task<List<Studies>> GetStudyList();
+        public Task<List<StudyStatus>> GetStudyStatusList();
     }
     public class StudyDataAsync : IStudyDataAsync
     {
-        private readonly ClinicalContext _clinContext;
-        
+        private readonly ClinicalContext _clinicalContext;
+
         public StudyDataAsync(ClinicalContext context)
         {
-            _clinContext = context;            
+            _clinicalContext = context;
         }
-
-        public async Task<List<Study>> GetStudiesList(int mpi)
+        public async Task<List<Study>> GetStudiesForPatient(int mpi)
         {
-            IQueryable<Study> item = from i in _clinContext.Study
-                                     where i.MPI == mpi
-                                         select i;
+            IQueryable<Study> studies = _clinicalContext.Study
+                .Where(s => s.MPI == mpi);
 
-            return await item.ToListAsync();
+            return await studies.ToListAsync();
         }
 
-        
+        public async Task<Study> GetStudyDetails(int studyId)
+        {
+            Study study = await _clinicalContext.Study.FirstOrDefaultAsync(s => s.StudyRecID == studyId);
 
+            return study;
+        }
+
+        public async Task<List<Studies>> GetStudyList()
+        {
+            IQueryable<Studies> studies = _clinicalContext.Studies;
+
+            return await studies.ToListAsync();
+        }
+
+        public async Task<List<StudyStatus>> GetStudyStatusList()
+        {
+            IQueryable<StudyStatus> studyStatuses = _clinicalContext.StudyStatus;
+
+            return await studyStatuses.ToListAsync();
+        }
     }
 }

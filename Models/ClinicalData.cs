@@ -378,6 +378,7 @@ namespace ClinicalXPDataConnections.Models
         public string? REF_FAC { get; set; }
         public string? COMPLETE { get; set; }
         public string? REASON_FOR_REFERRAL { get; set; }
+        public bool logicaldelete { get; set; }
     }
 
     [Table("ViewPatientDiaryDetails", Schema = "dbo")]
@@ -1142,9 +1143,35 @@ namespace ClinicalXPDataConnections.Models
         public string? IdentifiedClinCode { get; set; }
         public string? IdentifiedClinician { get; set; }
         public string? Recruited { get; set; }
+        public string? RecruitedCode { get; set; }
         public DateTime? RecruitedDate { get; set; }
         public string? Status { get; set; }
+        public string PatientName { get; set; }
+        public string CGU_No { get; set; }
+    }
 
+    [Table("ListStudies", Schema = "dbo")]
+    public class Studies
+    {
+        [Key]
+        public string StudyCode { get; set; }
+        public string Study { get; set; }
+        public bool? Current { get; set; } //of course there's nulls
+        public string? LocalContact { get; set; }
+        public string? NationalContact { get; set; }
+        public string? Include { get; set; }
+        public string? Exclude { get; set; }
+        public string? Comments { get; set; }
+    }
+
+    [Table("ListStatusStudies", Schema = "shire_user")] //because obviously it's in a different schema for some reason!
+    public class StudyStatus
+    {
+        [Key]
+        public string StudyStatusCode { get; set; }
+        public string StudyStatusDescr { get; set; }
+        public int DisplayOrder { get; set; }
+        public bool InUse { get; set; }
     }
 
     [Table("ViewTestingEligibility", Schema = "dbo")] //Testing eligibility
@@ -1413,7 +1440,9 @@ namespace ClinicalXPDataConnections.Models
         public bool IsActive { get; set; }
         public string CGU_No { get; set; }
         public string PatientName { get; set; }
+        public int SSPStatusID { get; set; }
         public string? SSPStatus { get; set; }
+        public int? OutcomeID { get; set; }
         public string? Outcome { get; set; }
         public string CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
@@ -1427,6 +1456,16 @@ namespace ClinicalXPDataConnections.Models
         public string? OtherOutcomeDetails { get; set; }
         public string?  SocialWorker { get; set; }
         public string? SocialServiceDept { get; set; }
+        public string? SocialWorkerTitle { get; set; }
+        public string? SocialWorkerFirstName { get; set; }
+        public string? SocialWorkerLastName { get; set; }
+        public string? SocialWorkerJobTitle { get; set; }
+        public string? Address1 { get; set; }
+        public string? Address2 { get; set; }
+        public string? Address3 { get; set; }
+        public string? Address4 { get; set; }
+        public string? Address5 { get; set; }
+        public string? PostCode { get; set; }
     }
 
     [Table("ListSocialServicePathwayOutcomes", Schema = "dbo")]
@@ -1451,14 +1490,14 @@ namespace ClinicalXPDataConnections.Models
         [Key]
         public string SocialServicesID { get; set; }
         public string Name { get; set; }
-        public string Address1 { get; set; }
+        public string? Address1 { get; set; }
         public string? Address2 { get; set; }
         public string? Address3 { get; set; }
         public string? Address4 { get; set; }
         public string? PostCode { get; set; }
     }
 
-    [Table("ListSocialWorkers", Schema = "dbo")]
+    [Table("ViewSocialWorkers", Schema = "dbo")]
     public class SocialWorker
     {
         [Key]
@@ -1466,6 +1505,15 @@ namespace ClinicalXPDataConnections.Models
         public string? Title { get; set; }
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
-        public string SocialServicesID { get; set; }
-        }
+        public string? SocialServicesID { get; set; }
+        public string? ContactNumber { get; set; }
+        public string? JobTitle { get; set; }
+        public string? SocialServicesDept { get; set; }
+        public string? Address1 { get; set; }
+        public string? Address2 { get; set; }
+        public string? Address3 { get; set; }
+        public string? Address4 { get; set; }
+        public string? Address5 { get; set; }
+        public string? PostCode { get; set; }
+    }
 }

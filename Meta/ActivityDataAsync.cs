@@ -32,6 +32,7 @@ namespace ClinicalXPDataConnections.Meta
         {
             IQueryable<ActivityItem> cl = from c in _clinContext.ActivityItems
                                           where c.MPI == mpi
+                                          && c.logicaldelete == false
                                           orderby c.DATE_SCHEDULED
                                           select c;
             
